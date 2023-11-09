@@ -2,7 +2,7 @@
 
 Welcome to the ProEduEdge E-Learning Platform front-end repository. This repository houses the user interface, client-side code, and design elements of the ProEduEdge platform.
 
-![ProEduEdge Logo](link-to-your-logo.png)
+![ProEduEdge Logo](./src/assets/logo-white.png)
 
 ## Table of Contents
 
