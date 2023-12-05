@@ -1,14 +1,12 @@
 import React from 'react';
-import './index.css';
 import ReactDOM from 'react-dom/client';
+import {NextUIProvider} from '@nextui-org/react';
 import App from './App.tsx';
-import PrimeReact, {PrimeReactProvider} from 'primereact/api';
-import './assets/theme/theme.css';
-PrimeReact.ripple = true;
+import './index.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<PrimeReactProvider>
+		<NextUIProvider>
 			<App />
-		</PrimeReactProvider>
+		</NextUIProvider>
 	</React.StrictMode>
 );
