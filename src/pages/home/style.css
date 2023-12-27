@@ -1,0 +1,9 @@
+#about{
+    padding: 10rem 0;
+}
+.bg-light-me{
+    background: var(--bg-light);
+}
+#courseList, #pricing{
+    background: #fff;
+}
