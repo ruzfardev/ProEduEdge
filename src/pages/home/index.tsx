@@ -41,7 +41,7 @@ export const HomePage: React.FC = () => {
 				</div>
 				<div className="flex justify-between items-center mt-24 flex-wrap gap-2">
 					<div className="flex flex-col justify-start w-6/12 md:mx-auto ">
-						<h1 className="text-5xl font-extralight  text-yellow-500">
+						<h1 className="text-5xl font-extralight  text-amber-400">
 							Learn A Skill. Build Your Portfolio.
 							<strong className="font-extrabold">Get Hired!</strong>
 						</h1>
@@ -54,9 +54,8 @@ export const HomePage: React.FC = () => {
 						</p>
 						<Button
 							radius="full"
-							variant="shadow"
-							color="warning"
-							className="mt-8 text-white px-10 py-7"
+							size="lg"
+							className="text-white bg-gradient-to-tr from-amber-500 to-amber-400 mt-4 px-12"
 						>
 							Discover Courses
 						</Button>
@@ -114,7 +113,7 @@ export const HomePage: React.FC = () => {
 			<section id="pricing" className="py-20 ">
 				<div className="md:w-8/12 w-7/12 mx-auto flex gap-4 items-center">
 					<div className="md:w-5/12 text-left flex flex-col gap-3 justify-start items-start py-8">
-						<h2 className="text-5xl font-bold text-yellow-500 mb-2">
+						<h2 className="text-5xl font-bold text-amber-400 mb-2">
 							Our Pricing Plans
 						</h2>
 						<p className="text-gray-600 mb-8">
@@ -125,7 +124,7 @@ export const HomePage: React.FC = () => {
 						<Button
 							radius="full"
 							size="lg"
-							className="text-white bg-gradient-to-tr from-yellow-600 to-yellow-500"
+							className="text-white bg-gradient-to-tr from-amber-500 to-amber-400"
 						>
 							Start Free Trial
 						</Button>
@@ -136,7 +135,7 @@ export const HomePage: React.FC = () => {
 								<div className="text-xl mb-2">Basic</div>
 								<p className="text-gray-700 text-base">
 									$
-									<span className="text-8xl font-extrabold text-yellow-500">
+									<span className="text-8xl font-extrabold text-amber-400">
 										15
 									</span>
 									<span className="text-tiny text-gray-500">/Monthly</span>
@@ -148,22 +147,22 @@ export const HomePage: React.FC = () => {
 								</p>
 								<ul className="list-none space-y-2">
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> Unlimited
+										<FaCircleCheck className="text-amber-400" /> Unlimited
 										Download
 									</li>
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> Offline
+										<FaCircleCheck className="text-amber-400" /> Offline
 										Accessibility
 									</li>
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> 24/7 Supports
+										<FaCircleCheck className="text-amber-400" /> 24/7 Supports
 									</li>
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> Jobs
+										<FaCircleCheck className="text-amber-400" /> Jobs
 										Opportunity
 									</li>
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> 2.0%
+										<FaCircleCheck className="text-amber-400" /> 2.0%
 										Transaction Fee
 									</li>
 								</ul>
@@ -175,9 +174,7 @@ export const HomePage: React.FC = () => {
 								<div className=" text-xl mb-2">Premium</div>
 								<p className="text-gray-700 text-base">
 									$
-									<span className="text-8xl font-bold text-yellow-500">
-										120
-									</span>
+									<span className="text-8xl font-bold text-amber-400">120</span>
 									<span className="text-tiny text-gray-500">/Annually</span>
 								</p>
 								<p className="text-gray-600 text-sm my-4">
@@ -187,22 +184,22 @@ export const HomePage: React.FC = () => {
 								</p>
 								<ul className="list-none space-y-2">
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> Unlimited
+										<FaCircleCheck className="text-amber-400" /> Unlimited
 										Download
 									</li>
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> Offline
+										<FaCircleCheck className="text-amber-400" /> Offline
 										Accessibility
 									</li>
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> 24/7 Supports
+										<FaCircleCheck className="text-amber-400" /> 24/7 Supports
 									</li>
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> Jobs
+										<FaCircleCheck className="text-amber-400" /> Jobs
 										Opportunity
 									</li>
 									<li className="flex gap-2 items-center text-gray-500 font-light text-sm">
-										<FaCircleCheck className="text-yellow-500" /> 2.0%
+										<FaCircleCheck className="text-amber-400" /> 2.0%
 										Transaction Fee
 									</li>
 								</ul>

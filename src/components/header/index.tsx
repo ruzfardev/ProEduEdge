@@ -44,7 +44,7 @@ export const Header: FC = () => {
 								: 'relative inline-flex items-center tap-highlight-transparent\n' +
 								  '\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
 								  '\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
-								  '\t\t\t\t\t\ttext-medium text-yellow-500 no-underline hover:opacity-80 active:text-yellow-500 active:opacity-disabled transition-opacity'
+								  '\t\t\t\t\t\ttext-medium text-amber-400 no-underline hover:opacity-80 active:text-amber-400 active:opacity-disabled transition-opacity'
 						}
 						to={'/'}
 					>
@@ -59,7 +59,7 @@ export const Header: FC = () => {
 								: 'relative inline-flex items-center tap-highlight-transparent\n' +
 								  '\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
 								  '\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
-								  '\t\t\t\t\t\ttext-medium text-yellow-500 no-underline hover:opacity-80 active:text-yellow-500 active:opacity-disabled transition-opacity'
+								  '\t\t\t\t\t\ttext-medium text-amber-400 no-underline hover:opacity-80 active:text-amber-400 active:opacity-disabled transition-opacity'
 						}
 						to={'/courses'}
 					>
@@ -74,7 +74,7 @@ export const Header: FC = () => {
 								: 'relative inline-flex items-center tap-highlight-transparent\n' +
 								  '\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
 								  '\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
-								  '\t\t\t\t\t\ttext-medium text-yellow-500 no-underline hover:opacity-80 active:text-yellow-500 active:opacity-disabled transition-opacity'
+								  '\t\t\t\t\t\ttext-medium text-amber-400 no-underline hover:opacity-80 active:text-amber-400 active:opacity-disabled transition-opacity'
 						}
 						to={'/about'}
 					>
@@ -89,7 +89,7 @@ export const Header: FC = () => {
 								: 'relative inline-flex items-center tap-highlight-transparent\n' +
 								  '\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
 								  '\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
-								  '\t\t\t\t\t\ttext-medium text-yellow-500 no-underline hover:opacity-80 active:text-yellow-500 active:opacity-disabled transition-opacity'
+								  '\t\t\t\t\t\ttext-medium text-amber-400 no-underline hover:opacity-80 active:text-amber-400 active:opacity-disabled transition-opacity'
 						}
 						to={'/contact'}
 					>
@@ -102,7 +102,7 @@ export const Header: FC = () => {
 					<Button
 						as={Link}
 						color="warning"
-						href="#"
+						href="/register"
 						variant="bordered"
 						radius="full"
 					>
@@ -114,7 +114,7 @@ export const Header: FC = () => {
 						as={Link}
 						color="warning"
 						className="text-white"
-						href="#"
+						href="/login"
 						radius="full"
 					>
 						Log In

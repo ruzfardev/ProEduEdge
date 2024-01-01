@@ -69,17 +69,14 @@ export const Footer: FC = () => {
 					<div>
 						<h6 className="text-gray-400 font-bold uppercase">Contact Us</h6>
 						<ul className="mt-4 space-y-2 font-light text-tiny">
-							<li>(+55) 254.254.254</li>
+							<li>+99 080 070 4224</li>
 							<li>
-								<a
-									href="mailto:info@semajafrica.com"
-									className="hover:underline"
-								>
-									info@semajafrica.com
+								<a href="00011888@wiut.uz" className="hover:underline">
+									00011888@wiut.uz
 								</a>
 							</li>
-							<li>Helios Tower 75 Tam Trinh Hoang</li>
-							<li>Mai - Ha Noi - Viet Nam</li>
+							<li>Tashkent, Uzbekistan</li>
+							<li>Mirzo Ulugbek district, 4th block, 32</li>
 						</ul>
 					</div>
 				</div>
@@ -87,7 +84,7 @@ export const Footer: FC = () => {
 
 			<div className="text-gray-400 bg-black text-sm text-center py-4">
 				<div className="flex justify-center items-center">
-					<p>All Right Reserved | GOGE AFRICA 2019</p>
+					<p>All Right Reserved | ProEduEdge &copy; 2023</p>
 					<div className="ml-4 space-x-4">
 						<a href="#" className="hover:underline">
 							Terms and Conditions

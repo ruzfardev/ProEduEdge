@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "quote": "Education is the most powerful weapon which you can use to change the world.",
+    "author": "Nelson Mandela"
+  },
+  {
+    "id": 2,
+    "quote": "The roots of education are bitter, but the fruit is sweet.",
+    "author": "Aristotle"
+  },
+  {
+    "id": 3,
+    "quote": "Education is not the filling of a pail, but the lighting of a fire.",
+    "author": "William Butler Yeats"
+  },
+  {
+    "id": 4,
+    "quote": "The only person who is educated is the one who has learned how to learn...and change.",
+    "author": "Carl Rogers"
+  },
+  {
+    "id": 5,
+    "quote": "Education is the passport to the future, for tomorrow belongs to those who prepare for it today.",
+    "author": "Malcolm X"
+  },
+  {
+    "id": 6,
+    "quote": "The function of education is to teach one to think intensively and to think critically. Intelligence plus character—that is the goal of true education.",
+    "author": "Martin Luther King Jr."
+  },
+  {
+    "id": 7,
+    "quote": "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+    "author": "Mahatma Gandhi"
+  },
+  {
+    "id": 8,
+    "quote": "Education is not preparation for life; education is life itself.",
+    "author": "John Dewey"
+  },
+  {
+    "id": 9,
+    "quote": "The more that you read, the more things you will know. The more that you learn, the more places you'll go.",
+    "author": "Dr. Seuss"
+  },
+  {
+    "id": 10,
+    "quote": "An investment in knowledge pays the best interest.",
+    "author": "Benjamin Franklin"
+  }
+]
