@@ -1,114 +1,162 @@
 [
-  {
-    "id": 1,
-    "title": "Fundamentals of Graphic Design",
-    "category": "GraphicDesign",
-    "price": 100.00,
-    "banner": "https://source.unsplash.com/random?sig=1"
-  },
-  {
-    "id": 2,
-    "title": "Introduction to Python",
-    "category": "ComputerScience",
-    "price": 50.00,
-    "banner": "https://source.unsplash.com/random?sig=2"
-  },
-  {
-    "id": 3,
-    "title": "Project Management Principles",
-    "category": "BusinessManagement",
-    "price": 75.00,
-    "banner": "https://source.unsplash.com/random?sig=3"
-  },
-  {
-    "id": 4,
-    "title": "Advanced Photography",
-    "category": "Photography",
-    "price": 85.00,
-    "banner": "https://source.unsplash.com/random?sig=4"
-  },
-  {
-    "id": 5,
-    "title": "Learning Spanish for Beginners",
-    "category": "LanguageLearning",
-    "price": 45.00,
-    "banner": "https://source.unsplash.com/random?sig=5"
-  },
-  {
-    "id": 6,
-    "title": "Creative Writing Workshop",
-    "category": "Literature",
-    "price": 60.00,
-    "banner": "https://source.unsplash.com/random?sig=6"
-  },
-  {
-    "id": 7,
-    "title": "Basics of Digital Marketing",
-    "category": "Marketing",
-    "price": 70.00,
-    "banner": "https://source.unsplash.com/random?sig=7"
-  },
-  {
-    "id": 8,
-    "title": "Web Development from Scratch",
-    "category": "WebDevelopment",
-    "price": 120.00,
-    "banner": "https://source.unsplash.com/random?sig=8"
-  },
-  {
-    "id": 9,
-    "title": "Beginner's Guide to Meditation",
-    "category": "Wellness",
-    "price": 30.00,
-    "banner": "https://source.unsplash.com/random?sig=9"
-  },
-  {
-    "id": 10,
-    "title": "Interior Design Basics",
-    "category": "InteriorDesign",
-    "price": 110.00,
-    "banner": "https://source.unsplash.com/random?sig=10"
-  },
-  {
-    "id": 11,
-    "title": "Mastering Excel for Business",
-    "category": "BusinessSkills",
-    "price": 65.00,
-    "banner": "https://source.unsplash.com/random?sig=11"
-  },
-  {
-    "id": 12,
-    "title": "Social Media Marketing 101",
-    "category": "SocialMedia",
-    "price": 55.00,
-    "banner": "https://source.unsplash.com/random?sig=12"
-  },
-  {
-    "id": 13,
-    "title": "Introduction to Blockchain Technology",
-    "category": "FinTech",
-    "price": 150.00,
-    "banner": "https://source.unsplash.com/random?sig=13"
-  },
-  {
-    "id": 14,
-    "title": "Yoga for Stress Relief",
-    "category": "HealthAndFitness",
-    "price": 40.00,
-    "banner": "https://source.unsplash.com/random?sig=14"
-  },
-  {
-    "id": 15,
-    "title": "The Art of Public Speaking",
-    "category": "PersonalDevelopment",
-    "price": 90.00,
-    "banner": "https://source.unsplash.com/random?sig=15"
-  },
-  {
-    "id": 16,
-    "title": "Investing for Beginners",
-    "category": "Investment",
-    "price": 99.99,
-    "banner": "https://source.unsplash.com/random?sig=16"
-  }
+	{
+		"id": 1,
+		"title": "Graphic Design Fundamentals",
+		"category": "GraphicDesign",
+		"price": 100.0,
+		"banner": "https://source.unsplash.com/random?sig=1",
+		"description": "Learn the core principles of graphic design in this comprehensive course. Suitable for beginners.",
+		"duration": "5h 45min",
+		"author": "John Doe"
+	},
+	{
+		"id": 2,
+		"title": "Python Programming Introduction",
+		"category": "ComputerScience",
+		"price": 50.0,
+		"banner": "https://source.unsplash.com/random?sig=2",
+		"description": "Discover the basics of Python programming with this beginner-friendly course. No coding experience required.",
+		"duration": "4h 30min",
+		"author": "Jane Smith"
+	},
+	{
+		"id": 3,
+		"title": "Principles of Project Management",
+		"category": "BusinessManagement",
+		"price": 75.0,
+		"banner": "https://source.unsplash.com/random?sig=3",
+		"description": "Explore fundamental project management principles, including planning, execution, and team management.",
+		"duration": "6h 15min",
+		"author": "Michael Johnson"
+	},
+	{
+		"id": 4,
+		"title": "Advanced Photography Techniques",
+		"category": "Photography",
+		"price": 85.0,
+		"banner": "https://source.unsplash.com/random?sig=4",
+		"description": "Take your photography skills to the next level with advanced techniques and creative styles.",
+		"duration": "7h 20min",
+		"author": "Sarah Williams"
+	},
+	{
+		"id": 5,
+		"title": "Spanish Language Learning for Beginners",
+		"category": "LanguageLearning",
+		"price": 45.0,
+		"banner": "https://source.unsplash.com/random?sig=5",
+		"description": "Start your journey into the Spanish language with essential vocabulary and grammar for beginners.",
+		"duration": "3h 55min",
+		"author": "Carlos Rodriguez"
+	},
+	{
+		"id": 6,
+		"title": "Creative Writing Workshop",
+		"category": "Literature",
+		"price": 60.0,
+		"banner": "https://source.unsplash.com/random?sig=6",
+		"description": "Unlock your creativity through an interactive creative writing workshop. Explore various writing styles and techniques.",
+		"duration": "5h 10min",
+		"author": "Emily Turner"
+	},
+	{
+		"id": 7,
+		"title": "Digital Marketing Basics",
+		"category": "Marketing",
+		"price": 70.0,
+		"banner": "https://source.unsplash.com/random?sig=7",
+		"description": "Learn foundational concepts of digital marketing, including SEO, social media, and online advertising.",
+		"duration": "4h 50min",
+		"author": "David Clark"
+	},
+	{
+		"id": 8,
+		"title": "Web Development from Scratch",
+		"category": "WebDevelopment",
+		"price": 120.0,
+		"banner": "https://source.unsplash.com/random?sig=8",
+		"description": "Build websites from the ground up with this comprehensive web development course. Covers HTML, CSS, and JavaScript.",
+		"duration": "8h 30min",
+		"author": "Jessica Turner"
+	},
+	{
+		"id": 9,
+		"title": "Beginner's Guide to Meditation",
+		"category": "Wellness",
+		"price": 30.0,
+		"banner": "https://source.unsplash.com/random?sig=9",
+		"description": "Discover the art of meditation and reduce stress in your life with this beginner's guide to mindfulness.",
+		"duration": "2h 15min",
+		"author": "Amanda Davis"
+	},
+	{
+		"id": 10,
+		"title": "Interior Design Basics",
+		"category": "InteriorDesign",
+		"price": 110.0,
+		"banner": "https://source.unsplash.com/random?sig=10",
+		"description": "Explore fundamental principles of interior design, including space planning and color theory.",
+		"duration": "6h 40min",
+		"author": "Mark Wilson"
+	},
+	{
+		"id": 11,
+		"title": "Excel Mastery for Business",
+		"category": "BusinessSkills",
+		"price": 65.0,
+		"banner": "https://source.unsplash.com/random?sig=11",
+		"description": "Enhance your business skills with advanced Excel functions and data analysis techniques.",
+		"duration": "5h 55min",
+		"author": "Laura Anderson"
+	},
+	{
+		"id": 12,
+		"title": "Social Media Marketing Fundamentals",
+		"category": "SocialMedia",
+		"price": 55.0,
+		"banner": "https://source.unsplash.com/random?sig=12",
+		"description": "Get started with social media marketing and harness the power of platforms like Facebook, Instagram, and Twitter.",
+		"duration": "4h 15min",
+		"author": "Daniel Martinez"
+	},
+	{
+		"id": 13,
+		"title": "Introduction to Blockchain Technology",
+		"category": "FinTech",
+		"price": 150.0,
+		"banner": "https://source.unsplash.com/random?sig=13",
+		"description": "Explore the basics of blockchain technology and its applications in the world of finance and beyond.",
+		"duration": "7h 5min",
+		"author": "Sophia Lee"
+	},
+	{
+		"id": 14,
+		"title": "Yoga for Stress Relief",
+		"category": "HealthAndFitness",
+		"price": 40.0,
+		"banner": "https://source.unsplash.com/random?sig=14",
+		"description": "Relieve stress and improve your well-being with this yoga course designed for all levels.",
+		"duration": "3h 30min",
+		"author": "Alexandra Johnson"
+	},
+	{
+		"id": 15,
+		"title": "The Art of Public Speaking",
+		"category": "PersonalDevelopment",
+		"price": 90.0,
+		"banner": "https://source.unsplash.com/random?sig=15",
+		"description": "Enhance your public speaking skills and gain confidence with this comprehensive course.",
+		"duration": "5h 25min",
+		"author": "Robert Turner"
+	},
+	{
+		"id": 16,
+		"title": "Investing for Beginners",
+		"category": "Investment",
+		"price": 99.99,
+		"banner": "https://source.unsplash.com/random?sig=16",
+		"description": "Get started with investing and learn the basics of stocks, bonds, and financial markets.",
+		"duration": "4h 40min",
+		"author": "William Davis"
+	}
 ]
