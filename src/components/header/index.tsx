@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {
 	Button,
+	Image,
 	Link,
 	Navbar,
 	NavbarBrand,
@@ -11,7 +12,7 @@ import {
 	NavbarMenuToggle,
 } from '@nextui-org/react';
 import {NavLink} from 'react-router-dom';
-
+import logo from '../../assets/images/logo-black.png';
 export const Header: FC = () => {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 	const menuItems = [
@@ -33,7 +34,10 @@ export const Header: FC = () => {
 					aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
 					className="sm:hidden"
 				/>
-				<NavbarBrand>PROEDUEDGE </NavbarBrand>
+				<NavbarBrand className="flex h-[40px]  items-center gap-2">
+					{/*<Image src={logo} alt="logo" />*/}
+					ProEduEdge
+				</NavbarBrand>
 			</NavbarContent>
 			<NavbarContent className="hidden sm:flex gap-4" justify="center">
 				<NavbarItem>
@@ -116,6 +120,7 @@ export const Header: FC = () => {
 						className="text-white"
 						href="/login"
 						radius="full"
+						variant="shadow"
 					>
 						Log In
 					</Button>
