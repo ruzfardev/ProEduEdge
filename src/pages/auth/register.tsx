@@ -1,26 +1,93 @@
+import React, {FC, useEffect, useState} from 'react';
 import {WrapperAuth} from './wrapper.tsx';
-import {FC, useState} from 'react';
 import {Button, Input, Select, SelectItem} from '@nextui-org/react';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
+import {SubmitHandler, Controller, useForm, set} from 'react-hook-form';
 import {Link} from 'react-router-dom';
 import {FilePond} from 'react-filepond';
 import {FilePondFile} from 'filepond';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks/index.ts';
+import {registerUser, selectUser} from '../../redux/features/auth/userSlice.ts';
 import './style.scss';
+import {IUser} from '../../redux/models/index.ts';
+import {api} from '../../api/index.ts';
 
 export const Register: FC = () => {
+	const {control, handleSubmit, setValue} = useForm<IUser>({
+		mode: 'onSubmit',
+		defaultValues: {
+			firstName: '',
+			lastName: '',
+			email: '',
+			password: '',
+			avatarUrl: '',
+		},
+	});
+	const dispatch = useAppDispatch();
+	const user = useAppSelector(selectUser);
 	const [avatar, setAvatar] = useState<FilePondFile[]>();
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisibility = () => setIsVisible(!isVisible);
+	useEffect(() => {}, [user]);
+
+	const handleUserRegister: SubmitHandler<IUser> = (data: IUser) => {
+		try {
+			if (data.avatarUrl === '') {
+				// set the first letter of first name and last name to avatarUrl
+				const firstLetterFirstName = data.firstName[0];
+				const firstLetterLastName = data.lastName[0];
+				const avatarUrl = `${firstLetterFirstName}${firstLetterLastName}`;
+				setValue('avatarUrl', avatarUrl);
+				dispatch(registerUser({...data}));
+			} else {
+				dispatch(registerUser({...data}));
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<WrapperAuth>
-			<form className="w-8/12 mx-auto">
+			<form
+				onSubmit={handleSubmit(handleUserRegister)}
+				className="w-8/12 mx-auto"
+			>
 				<h2 className="text-4xl font-bold text-center text-amber-400 mb-8">
 					Register
 				</h2>
 				<div>
 					<FilePond
+						name="avatar"
 						acceptedFileTypes={['image/*']}
 						oninit={() => {}}
+						server={{
+							process: (
+								fieldName,
+								file,
+								metadata,
+								load,
+								error,
+								progress,
+								abort
+							) => {
+								const formData = new FormData();
+								formData.append('file', file, file.name);
+								api
+									.post('/upload-avatar', formData, {
+										headers: {
+											'Content-Type': 'multipart/form-data',
+										},
+									})
+									.then((res) => {
+										setValue('avatarUrl', res.data.blob.url);
+										load(res.data.blob.url);
+									})
+									.catch((err) => {
+										console.log(err);
+									});
+							},
+						}}
+						labelFileProcessingError={'Error processing file.'}
 						allowProcess={true}
 						allowMultiple={false}
 						onupdatefiles={setAvatar}
@@ -33,70 +100,137 @@ export const Register: FC = () => {
 				</div>
 
 				<div className="flex flex-col gap-4">
-					<Input
-						type="text"
-						id="firstName"
-						name="firstName"
-						label="First Name"
-						radius="full"
-						color="warning"
-						labelPlacement="inside"
-					/>
-					<Input
-						type="text"
-						id="lastName"
-						name="lastName"
-						label="Last Name"
-						radius="full"
-						color="warning"
-						labelPlacement="inside"
-					/>
-					<Input
-						type="text"
-						id="email"
+					<div className="flex flex-row gap-4">
+						<Controller
+							control={control}
+							rules={{
+								required: 'First Name is required. Minimum 6 characters',
+								minLength: {
+									value: 6,
+									message: 'First Name is required. Minimum 6 characters',
+								},
+							}}
+							name="firstName"
+							render={({field, fieldState}) => (
+								<Input
+									{...field}
+									type="text"
+									isInvalid={fieldState.invalid}
+									errorMessage={fieldState.error?.message}
+									id="firstName"
+									label="First Name"
+									radius="full"
+									color="warning"
+									labelPlacement="inside"
+								/>
+							)}
+						/>
+						<Controller
+							control={control}
+							name="lastName"
+							rules={{
+								required: 'Last Name is required. Minimum 6 characters',
+								minLength: 6,
+							}}
+							render={({field, fieldState}) => (
+								<Input
+									{...field}
+									isInvalid={fieldState.invalid}
+									errorMessage={fieldState.error?.message}
+									type="text"
+									id="lastName"
+									label="Last Name"
+									radius="full"
+									color="warning"
+									labelPlacement="inside"
+								/>
+							)}
+						/>
+					</div>
+					<Controller
+						control={control}
 						name="email"
-						label="Email"
-						radius="full"
-						color="warning"
-						labelPlacement="inside"
+						rules={{
+							required: 'Email is required.',
+						}}
+						render={({field, fieldState}) => (
+							<Input
+								{...field}
+								isInvalid={fieldState.invalid}
+								errorMessage={fieldState.error?.message}
+								type="email"
+								id="email"
+								label="Email"
+								radius="full"
+								color="warning"
+								labelPlacement="inside"
+							/>
+						)}
 					/>
-					<Input
-						endContent={
-							<button
-								className="focus:outline-none"
-								type="button"
-								onClick={toggleVisibility}
-							>
-								{isVisible ? (
-									<FaEye className="text-2xl text-default-400 pointer-events-none" />
-								) : (
-									<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
-								)}
-							</button>
-						}
-						type={isVisible ? 'text' : 'password'}
-						id="password"
+					<Controller
+						control={control}
 						name="password"
-						label="Password"
-						radius="full"
-						color="warning"
-						labelPlacement="inside"
+						rules={{
+							required: 'Password is required.',
+							minLength: 6,
+						}}
+						render={({field, fieldState}) => (
+							<Input
+								{...field}
+								isInvalid={fieldState.invalid}
+								errorMessage={fieldState.error?.message}
+								endContent={
+									<button
+										className="focus:outline-none"
+										type="button"
+										onClick={toggleVisibility}
+									>
+										{isVisible ? (
+											<FaEye className="text-2xl text-default-400 pointer-events-none" />
+										) : (
+											<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+										)}
+									</button>
+								}
+								type={isVisible ? 'text' : 'password'}
+								label="Password"
+								radius="full"
+								color="warning"
+								labelPlacement="inside"
+							/>
+						)}
 					/>
-					<Select
-						key="role"
-						radius="full"
-						label="Role"
-						labelPlacement="inside"
-						className="max-w-[100%]"
-						color="warning"
-					>
-						<SelectItem key="student" value="student">
-							Student
-						</SelectItem>
-						<SelectItem key="teacher" value="teacher">
-							Teacher
-						</SelectItem>
-					</Select>
+					<Controller
+						control={control}
+						name="role"
+						rules={{
+							required: 'Role is required.',
+						}}
+						render={({field, fieldState}) => (
+							<Select
+								{...field}
+								isInvalid={fieldState.invalid}
+								errorMessage={fieldState.error?.message}
+								radius="full"
+								label="Role"
+								labelPlacement="inside"
+								className="max-w-[100%]"
+								color="warning"
+								multiple={false}
+								selectedKeys={field.value ? [field.value] : []}
+								onChange={(e) => {
+									field.onChange(e.target.value);
+								}}
+							>
+								<SelectItem key="student" value="student">
+									Student
+								</SelectItem>
+								<SelectItem key="teacher" value="teacher">
+									Teacher
+								</SelectItem>
+							</Select>
+						)}
+					/>
 					<p className="text-gray-600 mt-4 float-right">
 						Already have an account?{' '}
 						<Link className="text-amber-400" to="/login">
@@ -112,7 +246,7 @@ export const Register: FC = () => {
 								shadow-amber-400
 								bg-amber-400 w-full hover:bg-amber-500 text-white font-bold py-2 px-4"
 					>
-						Sign Up
+						{user?.status === 'loading' ? 'Loading...' : 'Register'}
 					</Button>
 				</div>
 			</form>

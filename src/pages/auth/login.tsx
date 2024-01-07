@@ -3,47 +3,100 @@ import {Button, Input} from '@nextui-org/react';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import {WrapperAuth} from './wrapper.tsx';
 import {Link} from 'react-router-dom';
+import {useForm, Controller, SubmitHandler} from 'react-hook-form';
+import {ILogin} from '../../redux/models/index.ts';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks/index.ts';
+import {
+	getError,
+	loginUser,
+	selectUser,
+} from '../../redux/features/auth/userSlice.ts';
 export const Login: FC = () => {
+	const {control, handleSubmit} = useForm<ILogin>({
+		mode: 'onSubmit',
+		defaultValues: {
+			email: '',
+			password: '',
+		},
+	});
+	const dispatch = useAppDispatch();
+	const err = useAppSelector(getError);
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisibility = () => setIsVisible(!isVisible);
+
+	const handleUserLogin: SubmitHandler<ILogin> = (data: ILogin) => {
+		try {
+			dispatch(loginUser({...data}));
+			setTimeout(() => {
+				console.log(err);
+			}, 4000);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<>
 			<WrapperAuth>
-				<form className="w-8/12 mx-auto">
+				<form
+					onSubmit={handleSubmit(handleUserLogin)}
+					className="w-8/12 mx-auto"
+				>
 					<h2 className="text-4xl font-bold text-center text-amber-400 mb-8">
 						Login
 					</h2>
 					<div className="flex flex-col gap-4">
-						<Input
-							type="text"
-							id="name"
-							name="name"
-							label="Name"
-							radius="full"
-							color="warning"
-							labelPlacement="inside"
+						<Controller
+							control={control}
+							name="email"
+							rules={{
+								required: 'Email is required.',
+							}}
+							render={({field, fieldState}) => (
+								<Input
+									{...field}
+									isInvalid={fieldState.invalid}
+									errorMessage={fieldState.error?.message}
+									type="email"
+									id="email"
+									label="Email"
+									radius="full"
+									color="warning"
+									labelPlacement="inside"
+								/>
+							)}
 						/>
-						<Input
-							endContent={
-								<button
-									className="focus:outline-none"
-									type="button"
-									onClick={toggleVisibility}
-								>
-									{isVisible ? (
-										<FaEye className="text-2xl text-default-400 pointer-events-none" />
-									) : (
-										<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
-									)}
-								</button>
-							}
-							type={isVisible ? 'text' : 'password'}
-							id="password"
+						<Controller
+							control={control}
 							name="password"
-							label="Password"
-							radius="full"
-							color="warning"
-							labelPlacement="inside"
+							rules={{
+								required: 'Password is required.',
+								minLength: 6,
+							}}
+							render={({field, fieldState}) => (
+								<Input
+									{...field}
+									isInvalid={fieldState.invalid}
+									errorMessage={fieldState.error?.message}
+									endContent={
+										<button
+											className="focus:outline-none"
+											type="button"
+											onClick={toggleVisibility}
+										>
+											{isVisible ? (
+												<FaEye className="text-2xl text-default-400 pointer-events-none" />
+											) : (
+												<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+											)}
+										</button>
+									}
+									type={isVisible ? 'text' : 'password'}
+									label="Password"
+									radius="full"
+									color="warning"
+									labelPlacement="inside"
+								/>
+							)}
 						/>
 						<p className="text-gray-600 mt-4 float-right">
 							Don't have an account?{' '}
