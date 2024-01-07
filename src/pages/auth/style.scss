@@ -1,0 +1,19 @@
+.filepond--wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.filepond--root {
+	width: 120px;
+	cursor: default;
+}
+
+.filepond--drop-label {
+	cursor: pointer;
+    // set linear gradient background user amber 400 and amber 600 colors from tailwindcss
+    background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+	label {
+		padding: 0 !important;
+	}
+}

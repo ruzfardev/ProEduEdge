@@ -15,6 +15,7 @@ export const CourseDetail: FC = () => {
 	const [selectedCourse, setSelectedCourse] = useState<any>();
 	const {id} = useParams();
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		const c = courses.find((item) => item.id == Number(id));
 		setSelectedCourse(c);
 	}, [id]);
@@ -48,7 +49,7 @@ export const CourseDetail: FC = () => {
 						Instructor
 					</h5>
 					<Avatar
-						className="bg-gradient-to-tr w-[80px] h-[80px] text-xl text-white from-amber-500 to-amber-400"
+						className="bg-gradient-to-tr w-[80px] h-[80px] text-medium text-white from-amber-500 to-amber-400"
 						name={courses[id].author}
 						radius="full"
 						size="lg"

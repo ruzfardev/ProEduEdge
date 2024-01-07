@@ -1,30 +1,14 @@
 import {WrapperAuth} from './wrapper.tsx';
 import {FC, useState} from 'react';
-import {Button, cn, Input, Radio, Select, SelectItem} from '@nextui-org/react';
+import {Button, Input, Select, SelectItem} from '@nextui-org/react';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import {Link} from 'react-router-dom';
+import {FilePond} from 'react-filepond';
+import {FilePondFile} from 'filepond';
+import './style.scss';
 
-// @ts-ignore
-export const CustomRadio = (props) => {
-	const {children, ...otherProps} = props;
-
-	return (
-		<Radio
-			{...otherProps}
-			color="warning"
-			classNames={{
-				base: cn(
-					'w-full inline-flex m-0 bg-amber-50 hover:bg-amber-100 items-center justify-between',
-					'flex-row-reverse cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent',
-					'data-[selected=true]:border-warning'
-				),
-			}}
-		>
-			{children}
-		</Radio>
-	);
-};
 export const Register: FC = () => {
+	const [avatar, setAvatar] = useState<FilePondFile[]>();
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisibility = () => setIsVisible(!isVisible);
 	return (
@@ -33,9 +17,21 @@ export const Register: FC = () => {
 				<h2 className="text-4xl font-bold text-center text-amber-400 mb-8">
 					Register
 				</h2>
-				<p className="text-gray-600 mt-4 text-center mb-4">
-					Please create new account here{' '}
-				</p>
+				<div>
+					<FilePond
+						acceptedFileTypes={['image/*']}
+						oninit={() => {}}
+						allowProcess={true}
+						allowMultiple={false}
+						onupdatefiles={setAvatar}
+						labelIdle='<span class="filepond--label-action"><svg xmlns="http://www.w3.org/2000/svg" height="32" width="30" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/></svg></span>'
+						stylePanelLayout="compact circle"
+						allowDrop={false}
+						allowPaste={false}
+						credits={false}
+					/>
+				</div>
+
 				<div className="flex flex-col gap-4">
 					<Input
 						type="text"
