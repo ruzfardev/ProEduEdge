@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { ILogin, IUser, IUserState } from "../../models";
 import { api } from "../../../api";
+import { redirect } from "react-router";
 // User Thunk
 export const loginUser = createAsyncThunk(
     "user/login",
     async (login: ILogin) => {
         try {
             const response = await api.post("login", login);
-            console.log(response);
+            redirect("/home");
             return response.data;
         } catch (error:any) {
             return error.message;
@@ -75,6 +76,7 @@ export const userSlice = createSlice({
     });
 
 export const { login, logout } = userSlice.actions;
-export const selectUser = (state: any) => state.user.value;
+export const selectUser = (state: any) => state.user.user;
 export const getError = (state: any) => state.user.error;
+export const getStatus = (state: any) => state.user.status;
 export default userSlice.reducer;

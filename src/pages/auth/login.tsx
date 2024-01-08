@@ -1,13 +1,14 @@
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {Button, Input} from '@nextui-org/react';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import {WrapperAuth} from './wrapper.tsx';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
 import {ILogin} from '../../redux/models/index.ts';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks/index.ts';
 import {
 	getError,
+	getStatus,
 	loginUser,
 	selectUser,
 } from '../../redux/features/auth/userSlice.ts';
@@ -21,19 +22,22 @@ export const Login: FC = () => {
 	});
 	const dispatch = useAppDispatch();
 	const err = useAppSelector(getError);
+	const status = useAppSelector(getStatus);
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisibility = () => setIsVisible(!isVisible);
 
 	const handleUserLogin: SubmitHandler<ILogin> = (data: ILogin) => {
 		try {
 			dispatch(loginUser({...data}));
-			setTimeout(() => {
-				console.log(err);
-			}, 4000);
+			if (status === 'idle') {
+				navigate('/');
+			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
+	const navigate = useNavigate();
+	useEffect(() => {}, [err, status]);
 	return (
 		<>
 			<WrapperAuth>
@@ -113,7 +117,7 @@ export const Login: FC = () => {
 								shadow-amber-400
 								bg-amber-400 w-full hover:bg-amber-500 text-white font-bold py-2 px-4"
 						>
-							Sign In
+							{status === 'loading' ? 'Loading...' : 'Sign In'}
 						</Button>
 					</div>
 				</form>
