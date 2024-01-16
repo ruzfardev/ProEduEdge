@@ -1,7 +1,7 @@
 import {FC, useEffect, useState} from 'react';
 import {ContainerWrapper} from '../../components/container/container-wrapper.tsx';
 import {useParams} from 'react-router';
-import courses from '../../course.json';
+import courses from '../../mock/course.json';
 import {
 	FaCalendar,
 	FaClock,

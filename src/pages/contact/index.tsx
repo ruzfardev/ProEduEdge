@@ -47,7 +47,8 @@ export const ContactPage: FC = () => {
 									size="lg"
 									type="submit"
 									radius="full"
-									className="bg-amber-400 w-full hover:bg-amber-500 text-white font-bold py-2 px-4"
+									className="relative overflow-visible rounded-full hover:-translate-y-1 px-12 shadow-amber-400 shadow-md bg-amber-400 after:content-[''] after:absolute after:rounded-full after:inset-0 after:bg-amber-400 after:z-[-1] after:transition after:!duration-500 hover:after:scale-150 hover:after:opacity-0"
+									// className="bg-amber-400 w-full hover:bg-amber-500 text-white font-bold py-2 px-4"
 								>
 									Send
 								</Button>

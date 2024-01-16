@@ -1,9 +1,9 @@
 import {FC} from 'react';
 import {Tab, Tabs, Button} from '@nextui-org/react';
-import list from '../../course.json';
+import list from '../../mock/course.json';
 import {useNavigate} from 'react-router';
 import {PCard} from './card.tsx';
-
+import './style.css';
 export const CourseList: FC = () => {
 	const navigate = useNavigate();
 	const handleCourseClick = (id: number) => {
@@ -29,6 +29,7 @@ export const CourseList: FC = () => {
 			</h1>
 			<div className="md:w-8/12 w-7/12 px-6 mx-auto flex flex-col justify-center flex-wrap gap-4">
 				<Tabs
+					data-slot="vertical-tabs"
 					className="justify-center"
 					color="warning"
 					variant="underlined"

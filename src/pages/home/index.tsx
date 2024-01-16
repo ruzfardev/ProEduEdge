@@ -9,8 +9,8 @@ import svg5 from '../../assets/images/Rank.svg';
 import svg6 from '../../assets/images/Visits.svg';
 import {FaCircleCheck} from 'react-icons/fa6';
 import {Button, Image} from '@nextui-org/react';
-import './style.css';
 import {CourseList} from '../../components/courseList';
+import './style.css';
 export const HomePage: React.FC = () => {
 	return (
 		<>

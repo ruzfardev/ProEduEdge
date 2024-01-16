@@ -1,0 +1,18 @@
+div[data-slot="vertical-tabs"] div[data-slot="tab-item"] {
+    background-color: blueviolet;
+    flex-direction: column !important;
+}
+.vertical-tab-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .my-vertical-tabs {
+    flex-direction: column;
+  }
+  
+  .tab-title {
+    /* Additional styling for each tab title */
+    color: #FFA500; /* Amber color for text */
+  }
+  

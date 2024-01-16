@@ -9,7 +9,7 @@ import {
 	Tabs,
 } from '@nextui-org/react';
 import {FaSearch} from 'react-icons/fa';
-import list from '../../course.json';
+import list from '../../mock/course.json';
 import {PCard} from '../../components/courseList/card.tsx';
 import {Outlet, useNavigate} from 'react-router';
 

@@ -1,6 +1,6 @@
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Autoplay, Pagination} from 'swiper/modules';
-import quotes from '../../quotes.json';
+import quotes from '../../mock/quotes.json';
 import {useRef} from 'react';
 export const RSwiper = () => {
 	const progressCircle = useRef(null);

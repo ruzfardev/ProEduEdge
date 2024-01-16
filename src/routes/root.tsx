@@ -11,6 +11,8 @@ import {CourseDetail} from '../pages/detail';
 import {ContactPage} from '../pages/contact';
 import {Login} from '../pages/auth/login';
 import {Register} from '../pages/auth/register';
+import {DashboardRoot} from '../pages/dashboard';
+import Dashboard from '../pages/dashboard/dashboard';
 
 export const RootRoute = () => {
 	return (
@@ -57,6 +59,37 @@ const router = createBrowserRouter([
 		path: '/register',
 		element: <Register />,
 		errorElement: <ErrorRoute />,
+	},
+	{
+		path: '/dashboard',
+		element: <DashboardRoot />,
+		errorElement: <ErrorRoute />,
+		children: [
+			{
+				path: '/dashboard',
+				element: <Dashboard />,
+			},
+			{
+				path: '/dashboard/profile',
+				element: <h1>Profile from dashboard</h1>,
+			},
+			{
+				path: '/dashboard/students',
+				element: <h1>Students from dashboard</h1>,
+			},
+			{
+				path: '/dashboard/courses',
+				element: <h1>Courses from dashboard</h1>,
+			},
+			{
+				path: '/dashboard/categories',
+				element: <h1>Categories from dashboard</h1>,
+			},
+			{
+				path: '/dashboard/settings',
+				element: <h1>Settings from dashboard</h1>,
+			},
+		],
 	},
 ]);
 
