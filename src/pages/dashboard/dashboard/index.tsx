@@ -1,8 +1,9 @@
-import {Card, cn} from '@nextui-org/react';
 import React from 'react';
-import {FaChalkboardTeacher, FaUser} from 'react-icons/fa';
+import {Card} from '@/components/ui';
+import {FaChalkboardTeacher} from 'react-icons/fa';
 import {FaMoneyBill1Wave, FaUserGroup} from 'react-icons/fa6';
-import CustomTable from '../../../components/table';
+import {CustomTable} from '../../../components/table';
+import {cn} from '@/lib/utils';
 // @ts-ignore
 export const IconWrapper = ({children, className}) => (
 	<div
@@ -17,9 +18,9 @@ export const IconWrapper = ({children, className}) => (
 
 export default function Dashboard() {
 	return (
-		<div className="flex flex-col flex-grow p-3">
+		<div className="flex  flex-col flex-grow p-3">
 			<div className="grid dashboard-cards  grid-cols-3 gap-4 ">
-				<Card className="p-5 cursor-pointer shadow">
+				<Card className="p-5 bg-white/10 backdrop-blur-lg cursor-pointer shadow">
 					<div className="grid justify-between grid-cols-2">
 						<div className="col-span-1 w-full h-full flex items-center justify-start">
 							<IconWrapper
@@ -37,7 +38,7 @@ export default function Dashboard() {
 						</div>
 					</div>
 				</Card>
-				<Card className="p-5 cursor-pointer shadow">
+				<Card className="p-5 bg-white/10 backdrop-blur-lg cursor-pointer shadow">
 					<div className="grid justify-between grid-cols-2">
 						<div className="col-span-1 w-full h-full flex items-center justify-start">
 							<IconWrapper
@@ -53,7 +54,7 @@ export default function Dashboard() {
 						</div>
 					</div>
 				</Card>
-				<Card className="p-5 cursor-pointer shadow">
+				<Card className="p-5 bg-white/10 backdrop-blur-lg cursor-pointer shadow">
 					<div className="grid justify-between grid-cols-2">
 						<div className="col-span-1 w-full h-full flex items-center justify-start">
 							<IconWrapper

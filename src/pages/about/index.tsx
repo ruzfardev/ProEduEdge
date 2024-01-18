@@ -1,7 +1,7 @@
 import {FC} from 'react';
 import about from '../../assets/images/about.svg';
 import about1 from '../../assets/images/about-1.svg';
-import {Button, Image} from '@nextui-org/react';
+import {Button} from '../../components/ui/button';
 import svg4 from '../../assets/images/Registered Students.svg';
 import svg from '../../assets/images/Helped Students.svg';
 import svg5 from '../../assets/images/Rank.svg';
@@ -12,7 +12,7 @@ export const AboutPage: FC = () => {
 		<>
 			<section>
 				<div className="container w-9/12 mx-auto px-6 p-10">
-					<h2 className="text-4xl font-bold text-center text-amber-400 mb-8">
+					<h2 className="text-4xl font-bold text-center text-orange-400 mb-8">
 						About Us
 					</h2>
 					<div className="flex items-center flex-wrap mb-20">
@@ -57,7 +57,7 @@ export const AboutPage: FC = () => {
 			<section className="px-12" style={{background: '#EFE4CF'}}>
 				<div className="md:w-10/12 w-9/12 px-6 mx-auto py-20 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 ">
 					<div className="flex flex-col justify-between items-center sm:px-10">
-						<Image className="py-5" src={svg4} width={120} height={120} />
+						<img className="py-5" src={svg4} width={120} height={120} />
 						<div>
 							<h3 className="text-5xl text-gray-700 font-semibold">10000+</h3>
 							<p className="text-gray-500 text-xs text-center">
@@ -66,7 +66,7 @@ export const AboutPage: FC = () => {
 						</div>
 					</div>
 					<div className="flex flex-col justify-between items-center sm:px-10">
-						<Image className="py-5" src={svg} width={120} height={120} />
+						<img className="py-5" src={svg} width={120} height={120} />
 						<div>
 							<h3 className="text-5xl text-gray-700 text-center font-semibold">
 								2168
@@ -77,7 +77,7 @@ export const AboutPage: FC = () => {
 						</div>
 					</div>
 					<div className="flex flex-col justify-between items-center sm:px-10">
-						<Image className="py-5" src={svg5} width={120} height={120} />
+						<img className="py-5" src={svg5} width={120} height={120} />
 						<div>
 							<h3 className="text-5xl text-gray-700 font-semibold">120+</h3>
 							<p className="text-gray-500 text-xs text-center">
@@ -86,7 +86,7 @@ export const AboutPage: FC = () => {
 						</div>
 					</div>
 					<div className="flex flex-col justify-between	 items-center sm:px-10">
-						<Image className="py-5" src={svg6} width={120} height={120} />
+						<img className="py-5" src={svg6} width={120} height={120} />
 						<div>
 							<h3 className="text-5xl text-gray-700  font-semibold text-center">
 								10000
@@ -104,10 +104,10 @@ export const AboutPage: FC = () => {
 			>
 				<div className="flex justify-center mt-10 ">
 					<Button
-						radius="full"
 						size="lg"
-						className="text-amber-400 bg-white px-12"
-						href="/contact"
+						className="text-orange-400 bg-white px-12 rounded-full
+						hover:bg-white hover:text-orange-400 shadow-md
+						"
 					>
 						Let’s Get Started
 					</Button>

@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import {Button, Input, Textarea} from '@nextui-org/react';
+import {Button, Input, Textarea, Label} from '../../components/ui';
 
 export const ContactPage: FC = () => {
 	return (
@@ -7,7 +7,7 @@ export const ContactPage: FC = () => {
 			<section id="contact">
 				<div className="container px-6 py-20 mx-auto">
 					<div className="flex flex-col text-center w-full mb-12">
-						<h2 className="text-4xl font-bold text-center text-amber-400 mb-8">
+						<h2 className="text-4xl font-bold text-center text-orange-400 mb-8">
 							Contact Us
 						</h2>
 						<p className="lg:w-2/3 mx-auto leading-relaxed text-base">
@@ -16,45 +16,30 @@ export const ContactPage: FC = () => {
 					</div>
 					<div className="lg:w-1/2 md:w-2/3 mx-auto">
 						<div className="flex flex-wrap gap-4 flex-col">
-							<Input
-								type="text"
-								id="name"
-								name="name"
-								label="Name"
-								radius="full"
-								color="warning"
-								labelPlacement="inside"
-							/>
-							<Input
-								type="email"
-								id="email"
-								name="email"
-								label="Email"
-								radius="full"
-								color="warning"
-								labelPlacement="inside"
-							/>
-							<Textarea
-								id="message"
-								name="message"
-								label="Message"
-								radius="full"
-								color="warning"
-								labelPlacement="inside"
-							/>
+							<div className="grid w-full items-center gap-1.5">
+								<Label htmlFor="email">Email</Label>
+								<Input type="text" id="name" placeholder="Name" />
+							</div>
+							<div className="grid w-full items-center gap-1.5">
+								<Label htmlFor="email">Email</Label>
+								<Input type="email" id="email" placeholder="Email" />
+							</div>
+							<div className="grid w-full items-center gap-1.5">
+								<Label htmlFor="email">Message</Label>
+								<Textarea id="message" name="message" color="warning" />
+							</div>
 							<div className="p-2 w-full">
 								<Button
 									size="lg"
 									type="submit"
-									radius="full"
-									className="relative overflow-visible rounded-full hover:-translate-y-1 px-12 shadow-amber-400 shadow-md bg-amber-400 after:content-[''] after:absolute after:rounded-full after:inset-0 after:bg-amber-400 after:z-[-1] after:transition after:!duration-500 hover:after:scale-150 hover:after:opacity-0"
-									// className="bg-amber-400 w-full hover:bg-amber-500 text-white font-bold py-2 px-4"
+									className="rounded-full w-full relative overflow-visible hover:-translate-y-1 px-12 shadow-orange-400 shadow-md bg-orange-400 after:content-[''] after:absolute after:rounded-full after:inset-0 after:bg-orange-400 after:z-[-1] after:transition after:!duration-500 hover:after:scale-150 hover:after:opacity-0"
+									// className="bg-orange-400 w-full hover:bg-orange-500 text-white font-bold py-2 px-4"
 								>
 									Send
 								</Button>
 							</div>
 							<div className="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
-								<a className="text-amber-500"></a>
+								<a className="text-orange-500"></a>
 							</div>
 						</div>
 					</div>

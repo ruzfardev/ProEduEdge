@@ -1,5 +1,5 @@
 import {FC, useState} from 'react';
-import {Button} from '@nextui-org/react';
+import {Button} from '../ui/button';
 
 interface ShowMoreTextProps {
 	text: string;
@@ -27,7 +27,7 @@ export const ShowMoreText: FC<ShowMoreTextProps> = ({
 	return (
 		<div>
 			<p className={className}>{textShown}</p>
-			<Button variant="light" onClick={toggleIsShown}>
+			<Button variant="outline" onClick={toggleIsShown}>
 				{isShown ? 'Show Less' : 'Show More'}
 			</Button>
 		</div>

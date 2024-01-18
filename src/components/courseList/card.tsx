@@ -1,62 +1,49 @@
-import {FC} from 'react';
-import {
-	Button,
-	Card,
-	CardBody,
-	CardFooter,
-	CardHeader,
-	Chip,
-	Image,
-} from '@nextui-org/react';
-
+import {FC, useState} from 'react';
+import {cn} from '@/lib/utils';
 interface Props {
 	id: number;
 	title: string;
 	banner: string;
 	price: number;
-	badge: string;
 	onCardClick: Function;
 }
 export const PCard: FC<Props> = (props) => {
-	const {onCardClick, id, title, price, banner, badge} = props;
+	const {onCardClick, id, title, price, banner} = props;
+	const [loadedImages, setLoadedImages] = useState<any>({});
+	const handleImageLoad = (id: number) => {
+		setLoadedImages((prev: any) => ({...prev, [id]: true}));
+	};
 	return (
-		<Card
-			shadow="md"
-			className="bg-yellow-500 text-white h-[250px]"
+		<div
+			onClick={() => onCardClick(id)}
+			className={cn(
+				'space-y-3 cursor-pointer hover:scale-105   transition-all'
+			)}
 			key={id}
-			isPressable
-			radius="md"
-			isFooterBlurred
-			isBlurred={true}
-			onPress={() => onCardClick(id)}
 		>
-			<CardHeader className="absolute z-40 top-1 flex-col items-start">
-				<Chip className="capitalize" color="warning" size="sm" variant="shadow">
-					{badge}
-				</Chip>
-				{/*<p className="text-tiny text-yellow-500 uppercase font-bold">{badge}</p>*/}
-			</CardHeader>
-			<CardBody className="overflow-visible p-0">
-				<Image
-					shadow="sm"
-					radius="none"
-					width="100%"
-					alt={title}
-					className="w-full object-cover h-[200px]"
-					src={banner}
+			<div className="overflow-hidden rounded-md">
+				{!loadedImages[id] && (
+					<div
+						className={cn(
+							'skeleton',
+							'portrait' === 'portrait' ? 'aspect-[4/2]' : 'aspect-square'
+						)}
+					></div>
+				)}
+				<img
+					src={`https://source.unsplash.com/random?sig=${id}`}
+					onLoad={() => handleImageLoad(id)}
+					className={cn(
+						'h-auto w-auto object-cover transition-all',
+						'portrait' === 'portrait' ? 'aspect-[4/2]' : 'aspect-square',
+						!loadedImages[id] && 'hidden'
+					)}
 				/>
-			</CardBody>
-			<CardFooter className="text-small justify-between">
-				<b className="float-left truncate w-9/12 ">{title}</b>
-				<Button
-					className="text-tiny text-white hover:text-gray-700"
-					variant="ghost"
-					radius="full"
-					size="sm"
-				>
-					{price} $
-				</Button>
-			</CardFooter>
-		</Card>
+			</div>
+			<div className="space-y-1 text-sm p-2 aspect-[10/2]">
+				<h3 className="font-medium leading-none">{title}</h3>
+				<p className="text-xs text-muted-foreground">{price} $</p>
+			</div>
+		</div>
 	);
 };

@@ -1,13 +1,15 @@
 import {
-	BreadcrumbItem,
-	Breadcrumbs,
-	Dropdown,
-	DropdownItem,
 	DropdownMenu,
-	DropdownTrigger,
-	Link,
-	User,
-} from '@nextui-org/react';
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	Avatar,
+	AvatarImage,
+	AvatarFallback,
+} from '@/components/ui';
 import {useLocation, useNavigate} from 'react-router-dom'; // Ensure you import from 'react-router-dom'
 
 export const DashboardHeader = () => {
@@ -28,48 +30,59 @@ export const DashboardHeader = () => {
 			const pathToCrumb = `/${array.slice(0, index + 1).join('/')}`;
 
 			// Create the breadcrumb item
-			const breadcrumbItem = (
-				<BreadcrumbItem
-					onPress={() => handleClick(pathToCrumb)}
-					className="capitalize"
-					key={index}
-				>
-					{crumb}
-				</BreadcrumbItem>
-			);
+			// const breadcrumbItem = (
+			// <BreadcrumbItem
+			// 	onPress={() => handleClick(pathToCrumb)}
+			// 	className="capitalize"
+			// 	key={index}
+			// >
+			// 	{crumb}
+			// </BreadcrumbItem>
+			// );
 
 			// Add the breadcrumb item to the accumulator
-			return [...acc, breadcrumbItem];
+			return [...acc];
 		}, []);
 
 	return (
-		<div className="flex-none flex items-center p-2">
-			<div className="w-full p-4 flex items-center justify-between border-small rounded-small bg-slate-50 border-default-200 dark:border-default-100">
-				{crumbs.length > 0 && (
-					<Breadcrumbs key="breadcrumbs">{crumbs}</Breadcrumbs>
-				)}
-				<Dropdown className="ml-auto" placement="bottom-start">
-					<DropdownTrigger>
-						<User
-							as="button"
-							avatarProps={{
-								isBordered: true,
-								src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
-							}}
-							className="transition-transform"
-							description="@tonyreichert"
-							name="Tony Reichert"
-						/>
-					</DropdownTrigger>
-					<DropdownMenu aria-label="User Actions" variant="flat">
-						<DropdownItem key="back-to-site">
-							<Link href="/">Back to Site</Link>
-						</DropdownItem>
-						<DropdownItem key="logout" color="danger">
-							Log Out
-						</DropdownItem>
-					</DropdownMenu>
-				</Dropdown>
+		<div className="flex-none bg-white/10 backdrop-blur-lg flex m-2 mb-0 items-center">
+			<div className="w-full p-4 flex items-center shadow-md justify-between border-small rounded-small border-default-200 dark:border-default-100">
+				<DropdownMenu>
+					<DropdownMenuTrigger
+						className="w-[14rem] ml-auto cursor-pointer"
+						asChild
+					>
+						<div className="py-1 px-5">
+							<div
+								className="flex items-center
+								 justify-start gap-2"
+							>
+								<Avatar>
+									<AvatarImage
+										src="https://i.pravatar.cc/500?img=32"
+										alt="Avatar"
+									/>
+									<AvatarFallback>JD</AvatarFallback>
+								</Avatar>
+								<div className="flex flex-col justify-center gap-1">
+									<span className="text-sm">John Doe</span>
+									<span className="text-sm text-orange-500">Intructor</span>
+								</div>
+							</div>
+						</div>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent className="w-56">
+						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuGroup>
+							<DropdownMenuItem>Profile</DropdownMenuItem>
+							<DropdownMenuItem>Dashboard</DropdownMenuItem>
+							<DropdownMenuItem>Settings</DropdownMenuItem>
+						</DropdownMenuGroup>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>Log out</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</div>
 		</div>
 	);

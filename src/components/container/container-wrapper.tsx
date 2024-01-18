@@ -1,17 +1,20 @@
 import React, {FC} from 'react';
-
+import {cn} from '@/lib/utils';
 interface ContainerWrapperProps {
 	children?: React.ReactNode;
 	title: string;
 	subtitle: string;
 	banner?: string;
+	className?: string;
 }
 export const ContainerWrapper: FC<ContainerWrapperProps> = ({
 	children,
 	title,
 	subtitle,
 	banner,
+	className,
 }) => {
+	console.log(className);
 	return (
 		<>
 			{banner ? (
@@ -23,7 +26,7 @@ export const ContainerWrapper: FC<ContainerWrapperProps> = ({
 						backgroundRepeat: 'no-repeat',
 						backgroundBlendMode: 'darken',
 					}}
-					className="relative  bg-gradient-to-tr from-amber-500 to-amber-400 flex flex-col text-white px-6 py-20"
+					className="relative  bg-gradient-to-tr from-orange-500 to-orange-400 flex flex-col text-white px-6 py-20"
 				>
 					<div className="z-40 w-9/12 mx-auto">
 						<div className="flex flex-col items-start w-8/12 leading-5 justify-start">
@@ -39,10 +42,15 @@ export const ContainerWrapper: FC<ContainerWrapperProps> = ({
 					)}
 				</section>
 			) : (
-				<section className="relative  bg-gradient-to-tr from-amber-500 to-amber-400 flex flex-col text-white px-6 py-20">
+				<section
+					className={cn(
+						'relative bg-gradient-to-tr from-orange-500 to-orange-400 flex flex-col text-white px-6 py-20',
+						className ? className : ''
+					)}
+				>
 					<div className="z-40 w-8/12 mx-auto">
-						<div className="flex flex-col items-start w-6/12 leading-5 justify-start">
-							<h1 className="text-5xl font-bold mb-6">{title}</h1>
+						<div className="flex flex-col items-center w-full leading-5 justify-center">
+							<h1 className="text-center text-5xl font-bold mb-6">{title}</h1>
 							<p className="text-xl mb-8">{subtitle}</p>
 							{children}
 						</div>

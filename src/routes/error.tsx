@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link, useRouteError} from 'react-router-dom';
-import {Button, Code} from '@nextui-org/react';
+import {Button, Alert, AlertTitle, AlertDescription} from '../components/ui';
 import errorImg from '../assets/images/error.svg';
+import {FaExclamation} from 'react-icons/fa';
 export const ErrorRoute: React.FC = () => {
 	let error = useRouteError();
 	return (
@@ -22,9 +23,13 @@ export const ErrorRoute: React.FC = () => {
 					</h1>
 
 					{error?.message ? (
-						<Code color="danger" size="lg">
-							Error: {error?.message?.toString()}
-						</Code>
+						<Alert variant="destructive">
+							<FaExclamation />
+							<AlertTitle>Error</AlertTitle>
+							<AlertDescription>
+								Error: {error?.message?.toString()}
+							</AlertDescription>
+						</Alert>
 					) : (
 						<p>
 							The page you are looking for might have been removed had its name
@@ -32,14 +37,10 @@ export const ErrorRoute: React.FC = () => {
 						</p>
 					)}
 					<Button
-						as={Link}
-						radius="full"
-						variant="shadow"
 						color="warning"
-						className="mt-8  text-white px-10 py-7"
-						href="/"
+						className="mt-8 rounded-full  text-white px-10 py-7"
 					>
-						Go to homepage
+						<Link to="/">Go to homepage</Link>
 					</Button>
 				</div>
 			</div>

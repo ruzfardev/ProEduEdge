@@ -1,155 +1,107 @@
-import {Button} from '@nextui-org/react';
-import {
-	FaRegComment,
-	FaRegUser,
-	FaUsers,
-	FaChalkboardTeacher,
-	FaCogs,
-	FaReply,
-} from 'react-icons/fa';
 import {useLocation, useNavigate} from 'react-router';
-import {FaDiceD6, FaVideo} from 'react-icons/fa6';
-import {useState} from 'react';
-export const ListboxWrapper = ({children}) => (
-	<div className="w-100 h-full border-small px-1 py-2 rounded-small bg-slate-50 border-default-200 dark:border-default-100">
-		{children}
-	</div>
-);
-
-const sidebarItems = [
-	{
-		sectionName: 'Main',
-		showDivider: false,
-		children: [
-			{
-				name: 'Dashboard',
-				icon: <FaDiceD6 />,
-				href: '/dashboard',
-				color: 'warning',
-			},
-			{
-				name: 'Profile',
-				icon: <FaRegUser />,
-				href: '/dashboard/profile',
-				color: 'warning',
-			},
-		],
-	},
-	{
-		sectionName: 'Management',
-		showDivider: false,
-		children: [
-			{
-				name: 'Students',
-				icon: <FaUsers />,
-				href: '/dashboard/students',
-				color: 'warning',
-			},
-			{
-				name: 'Courses',
-				icon: <FaChalkboardTeacher />,
-				href: '/dashboard/courses',
-				color: 'warning',
-			},
-			{
-				name: 'Categories',
-				// icon: <MdOutlineCategory />,
-				href: '/dashboard/categories',
-				color: 'warning',
-			},
-		],
-	},
-	{
-		sectionName: 'Settings',
-		showDivider: false,
-		children: [
-			{
-				name: 'Settings',
-				icon: <FaCogs />,
-				href: '/dashboard/settings',
-				color: 'warning',
-			},
-		],
-	},
-
-	{
-		sectionName: 'Media',
-		showDivider: true,
-		children: [
-			{
-				name: 'Discussions',
-				icon: <FaRegComment />,
-				href: '/dashboard/discussions',
-				color: 'warning',
-			},
-			{
-				name: 'Live Streams',
-				icon: <FaVideo />,
-				href: '/dashboard/live-streams',
-				color: 'warning',
-			},
-		],
-	},
-	{
-		sectionName: 'Logout',
-		showDivider: false,
-		children: [
-			{
-				name: 'Logout',
-				icon: <FaReply />,
-				href: '/logout',
-				color: 'danger',
-			},
-		],
-	},
-];
-export const DashboardSidebar = () => {
+import logo from '@/assets/images/logo-black.png';
+import {FC, useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {cn} from '@/lib/utils';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+	buttonVariants,
+	Button,
+} from '@/components/ui';
+interface SidebarProps {
+	isCollapsed: boolean;
+	items: {
+		sectionName: string;
+		showDivider: boolean;
+		children: {
+			name: string;
+			icon: JSX.Element;
+			href: string;
+			color: string;
+		}[];
+	}[];
+	children?: React.ReactNode;
+}
+export const DashboardSidebar: FC<SidebarProps> = ({
+	isCollapsed,
+	items: sidebarItems,
+	children,
+}) => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const [activePage, setActivePage] = useState(['Dashboard']);
-	const handleSidebarItemClick = (href: string, name: string) => {
+	const handleSidebarItemClick = (href: string) => {
 		navigate(href);
-		setActivePage([name]);
 	};
 	return (
-		<div className=" w-64 h-full flex flex-col p-2">
-			<ListboxWrapper>
-				<div className="flex flex-col items-center justify-center">
-					{sidebarItems.map((item, index) => {
-						return (
-							<div
-								className="flex flex-col items-center w-full p-2"
-								key={index}
-							>
-								<div className="text-tiny w-full text-left text-gray-400">
-									{item.sectionName}
-								</div>
-								{item.children.map((child, i) => {
+		<div
+			data-collapsed={isCollapsed}
+			className={cn(
+				isCollapsed ? 'w-14' : 'w-1/6',
+				'group flex bg-white/10 backdrop-blur-lg shadow-lg flex-col gap-4 py-2 px-1 data-[collapsed=true]:py-2 transition-width duration-300 ease-in-out'
+			)}
+		>
+			<nav className="flex flex-col h-full gap-1 group-[[data-collapsed=false]]:px-3">
+				<div className="flex h-[40px] w-full  items-center gap-2">
+					<strong className="sepia text-2xl font-bold">
+						<Link to="/">
+							<img src={logo} alt="logo" className="w-full sepia h-full" />
+						</Link>
+					</strong>
+				</div>
+				<div className="flex mb-auto justify-self-start mt-4 flex-col group-[[data-collapsed=true]]:items-center gap-2">
+					{sidebarItems.map((item, index) =>
+						isCollapsed
+							? item.children.map((child, i) => {
+									return (
+										<Tooltip key={child.name} delayDuration={0}>
+											<TooltipTrigger asChild>
+												<Button
+													onClick={() => handleSidebarItemClick(child.href)}
+													key={child.name}
+													className="w-10 h-10"
+													variant={
+														location.pathname === child.href
+															? 'default'
+															: 'ghost'
+													}
+												>
+													<span>{child.icon}</span>
+												</Button>
+											</TooltipTrigger>
+											<TooltipContent
+												side="right"
+												className="flex items-center gap-4"
+											>
+												{child.name}
+											</TooltipContent>
+										</Tooltip>
+									);
+							  })
+							: item.children.map((child, i) => {
 									return (
 										<Button
-											variant="light"
-											color={child.color}
 											key={child.name}
-											className={`${
-												location.pathname === child.href
-													? 'text-amber-400'
-													: 'text-gray-800'
-											}  w-full  justify-start mb-1 hover:text-amber-400 hover:bg-amber-50`}
-											startContent={child.icon}
-											data-hover={location.pathname === child.href}
-											onClick={() =>
-												handleSidebarItemClick(child.href, child.name)
+											className="flex justify-start  h-10"
+											variant={
+												location.pathname === child.href ? 'default' : 'ghost'
 											}
 										>
-											{child.name}
+											<Link
+												className="flex items-center gap-3 w-full h-full justify-start"
+												to={child.href}
+											>
+												{child.icon}
+												{child.name}
+											</Link>
 										</Button>
 									);
-								})}
-							</div>
-						);
-					})}
+							  })
+					)}
 				</div>
-			</ListboxWrapper>
+				{children}
+			</nav>
 		</div>
 	);
 };
