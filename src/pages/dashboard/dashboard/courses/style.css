@@ -1,0 +1,20 @@
+.filepond--wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.filepond--root {
+	width: 120px;
+	cursor: default;
+}
+
+.filepond--drop-label {
+	cursor: pointer;
+	label {
+		padding: 0 !important;
+	}
+}
+.filepond--file{
+	margin-bottom: 10px !important;
+}

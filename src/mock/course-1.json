@@ -1,0 +1,82 @@
+[
+	{
+		"id": 1,
+		"title": "Course 1",
+		"status": "live",
+		"totalEarnings": 1000,
+		"totalStudents": 50,
+		"rating": 4.5
+	},
+	{
+		"id": 2,
+		"title": "Course 2",
+		"status": "pending",
+		"totalEarnings": 500,
+		"totalStudents": 20,
+		"rating": 3.8
+	},
+	{
+		"id": 3,
+		"title": "Course 3",
+		"status": "rejected",
+		"totalEarnings": 0,
+		"totalStudents": 0,
+		"rating": 0
+	},
+	{
+		"id": 4,
+		"title": "Course 4",
+		"status": "live",
+		"totalEarnings": 2000,
+		"totalStudents": 100,
+		"rating": 4.9
+	},
+	{
+		"id": 5,
+		"title": "Course 5",
+		"status": "live",
+		"totalEarnings": 1500,
+		"totalStudents": 75,
+		"rating": 4.7
+	},
+	{
+		"id": 6,
+		"title": "Course 6",
+		"status": "pending",
+		"totalEarnings": 250,
+		"totalStudents": 10,
+		"rating": 3.2
+	},
+	{
+		"id": 7,
+		"title": "Course 7",
+		"status": "live",
+		"totalEarnings": 3000,
+		"totalStudents": 200,
+		"rating": 4.8
+	},
+	{
+		"id": 8,
+		"title": "Course 8",
+		"status": "live",
+		"totalEarnings": 5000,
+		"totalStudents": 300,
+		"rating": 4.9
+	},
+	{
+		"id": 9,
+		"title": "Course 9",
+		"status": "rejected",
+		"totalEarnings": 0,
+		"totalStudents": 0,
+		"rating": 0
+	},
+	{
+		"id": 10,
+		"title": "Course 10",
+		"status": "live",
+		"totalEarnings": 4000,
+		"totalStudents": 250,
+		"rating": 4.6
+	}
+]

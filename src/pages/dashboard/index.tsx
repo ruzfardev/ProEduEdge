@@ -17,6 +17,7 @@ import {FaChalkboardTeacher, FaUsers} from 'react-icons/fa';
 import {useState} from 'react';
 import {Button} from '@/components/ui';
 import {cn} from '@/lib/utils';
+import {Toaster} from 'sonner';
 
 const sidebarItems = [
 	{
@@ -87,7 +88,7 @@ const sidebarItems = [
 			{
 				name: 'Live Streams',
 				icon: <VideoIcon />,
-				href: '/dashboard/live-streams',
+				href: '/dashboard/livestream',
 				color: 'warning',
 			},
 		],
@@ -99,7 +100,7 @@ const sidebarItems = [
 			{
 				name: 'Logout',
 				icon: <ExitIcon />,
-				href: '/',
+				href: '/login',
 				color: 'danger',
 			},
 		],
@@ -109,7 +110,8 @@ export const DashboardRoot = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	return (
 		<main className="relative flex h-screen">
-			<div className="absolute w-full h-full custom-gradient"></div>
+			<Toaster />
+			<div className="absolute w-full h-full custom-gradient custom-gradient-1"></div>
 			<div className="flex flex-row flex-nowrap h-full w-full">
 				<DashboardSidebar items={sidebarItems} isCollapsed={isCollapsed}>
 					<Button
@@ -123,11 +125,11 @@ export const DashboardRoot = () => {
 						{!isCollapsed ? <DoubleArrowLeftIcon /> : <DoubleArrowRightIcon />}
 					</Button>
 				</DashboardSidebar>
-				<div className="flex flex-col flex-grow">
+				<div className="flex flex-col z-40 flex-grow">
 					<DashboardHeader />
 
 					<div className="flex-grow p-2">
-						<div className="bg-white/10 backdrop-blur-lg shadow-lg rounded-small p-2 h-full">
+						<div className="bg-white/10 backdrop-blur-lg custom-shadow rounded-small p-5 h-full">
 							<Outlet />
 						</div>
 					</div>

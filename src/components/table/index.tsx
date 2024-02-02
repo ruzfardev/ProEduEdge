@@ -1,11 +1,5 @@
-'use client';
-
 import * as React from 'react';
-import {
-	CaretSortIcon,
-	ChevronDownIcon,
-	DotsHorizontalIcon,
-} from '@radix-ui/react-icons';
+import {ChevronDownIcon, DotsHorizontalIcon} from '@radix-ui/react-icons';
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -37,47 +31,37 @@ import {
 	Checkbox,
 	Button,
 } from '@/components/ui';
-const data: Payment[] = [
-	{
-		id: 'm5gr84i9',
-		amount: 316,
-		status: 'success',
-		email: 'ken99@yahoo.com',
-	},
-	{
-		id: '3u1reuv4',
-		amount: 242,
-		status: 'success',
-		email: 'Abe45@gmail.com',
-	},
-	{
-		id: 'derv1ws0',
-		amount: 837,
-		status: 'processing',
-		email: 'Monserrat44@gmail.com',
-	},
-	{
-		id: '5kma53ae',
-		amount: 874,
-		status: 'success',
-		email: 'Silas22@gmail.com',
-	},
-	{
-		id: 'bhqecj4p',
-		amount: 721,
-		status: 'failed',
-		email: 'carmella@hotmail.com',
-	},
-];
+const generateStudents = (): Student[] => {
+	const students: Student[] = [];
 
-export type Payment = {
-	id: string;
-	amount: number;
-	status: 'pending' | 'processing' | 'success' | 'failed';
-	email: string;
+	for (let i = 1; i <= 30; i++) {
+		const student: Student = {
+			id: `student-${i}`,
+			name: `Student ${i}`,
+			lastname: `Lastname ${i}`,
+			email: `student${i}@example.com`,
+			enrolledCourses: Math.floor(Math.random() * 10) + 1,
+			progress: Math.floor(Math.random() * 100) + 1,
+		};
+
+		students.push(student);
+	}
+
+	return students;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+const data: Student[] = generateStudents();
+
+export type Student = {
+	id: string;
+	name: string;
+	lastname: string;
+	email: string;
+	enrolledCourses: number;
+	progress: number;
+};
+
+export const columns: ColumnDef<Student>[] = [
 	{
 		id: 'select',
 		header: ({table}) => (
@@ -101,42 +85,47 @@ export const columns: ColumnDef<Payment>[] = [
 		enableHiding: false,
 	},
 	{
-		accessorKey: 'status',
-		header: 'Status',
-		cell: ({row}) => <div className="capitalize">{row.getValue('status')}</div>,
+		accessorKey: 'name',
+		header: 'Name',
+		cell: ({row}) => <div className="capitalize">{row.getValue('name')}</div>,
+	},
+	{
+		accessorKey: 'lastname',
+		header: 'Lastname',
+		cell: ({row}) => (
+			<div className="capitalize">{row.getValue('lastname')}</div>
+		),
 	},
 	{
 		accessorKey: 'email',
-		header: ({column}) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-				>
-					Email
-					<CaretSortIcon className="ml-2 h-4 w-4" />
-				</Button>
-			);
-		},
-		cell: ({row}) => <div className="lowercase">{row.getValue('email')}</div>,
+		header: 'Email',
+		cell: ({row}) => <div>{row.getValue('email')}</div>,
 	},
 	{
-		accessorKey: 'amount',
-		header: () => <div className="text-right">Amount</div>,
-		cell: ({row}) => {
-			const amount = parseFloat(row.getValue('amount'));
-
-			// Format the amount as a dollar amount
-			const formatted = new Intl.NumberFormat('en-US', {
-				style: 'currency',
-				currency: 'USD',
-			}).format(amount);
-
-			return <div className="text-right font-medium">{formatted}</div>;
-		},
+		accessorKey: 'enrolledCourses',
+		header: 'Enrolled Courses',
+		cell: ({row}) => <div>{row.getValue('enrolledCourses')}</div>,
+	},
+	{
+		accessorKey: 'progress',
+		header: 'Progress',
+		cell: ({row}) => (
+			<div className="flex items-center">
+				<div className="w-24 mr-2">
+					<div className="h-2 bg-gray-200 rounded-full">
+						<div
+							className="h-full bg-primary-500 rounded-full"
+							style={{width: `${row.getValue('progress')}%`}}
+						/>
+					</div>
+				</div>
+				<div>{row.getValue('progress')}%</div>
+			</div>
+		),
 	},
 	{
 		id: 'actions',
+		header: 'Actions',
 		enableHiding: false,
 		cell: ({row}) => {
 			const payment = row.original;
@@ -195,117 +184,47 @@ export function CustomTable() {
 	});
 
 	return (
-		<div className="w-full">
-			<div className="flex items-center py-4">
-				<Input
-					placeholder="Filter emails..."
-					value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-					onChange={(event) =>
-						table.getColumn('email')?.setFilterValue(event.target.value)
-					}
-					className="max-w-sm"
-				/>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="outline" className="ml-auto">
-							Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						{table
-							.getAllColumns()
-							.filter((column) => column.getCanHide())
-							.map((column) => {
-								return (
-									<DropdownMenuCheckboxItem
-										key={column.id}
-										className="capitalize"
-										checked={column.getIsVisible()}
-										onCheckedChange={(value) =>
-											column.toggleVisibility(!!value)
-										}
-									>
-										{column.id}
-									</DropdownMenuCheckboxItem>
-								);
-							})}
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</div>
-			<div className="rounded-md border">
-				<Table>
-					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
-									return (
-										<TableHead key={header.id}>
-											{header.isPlaceholder
-												? null
-												: flexRender(
-														header.column.columnDef.header,
-														header.getContext()
-												  )}
-										</TableHead>
-									);
-								})}
-							</TableRow>
-						))}
-					</TableHeader>
-					<TableBody>
-						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow
-									key={row.id}
-									data-state={row.getIsSelected() && 'selected'}
-								>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext()
-											)}
-										</TableCell>
-									))}
-								</TableRow>
-							))
-						) : (
-							<TableRow>
-								<TableCell
-									colSpan={columns.length}
-									className="h-24 text-center"
-								>
-									No results.
+		<Table>
+			<TableHeader>
+				{table.getHeaderGroups().map((headerGroup) => (
+					<TableRow key={headerGroup.id}>
+						{headerGroup.headers.map((header) => {
+							return (
+								<TableHead key={header.id}>
+									{header.isPlaceholder
+										? null
+										: flexRender(
+												header.column.columnDef.header,
+												header.getContext()
+										  )}
+								</TableHead>
+							);
+						})}
+					</TableRow>
+				))}
+			</TableHeader>
+			<TableBody>
+				{table.getRowModel().rows?.length ? (
+					table.getRowModel().rows.map((row) => (
+						<TableRow
+							key={row.id}
+							data-state={row.getIsSelected() && 'selected'}
+						>
+							{row.getVisibleCells().map((cell) => (
+								<TableCell key={cell.id}>
+									{flexRender(cell.column.columnDef.cell, cell.getContext())}
 								</TableCell>
-							</TableRow>
-						)}
-					</TableBody>
-				</Table>
-			</div>
-			<div className="flex items-center justify-end space-x-2 py-4">
-				<div className="flex-1 text-sm text-muted-foreground">
-					{table.getFilteredSelectedRowModel().rows.length} of{' '}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
-				</div>
-				<div className="space-x-2">
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.previousPage()}
-						disabled={!table.getCanPreviousPage()}
-					>
-						Previous
-					</Button>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.nextPage()}
-						disabled={!table.getCanNextPage()}
-					>
-						Next
-					</Button>
-				</div>
-			</div>
-		</div>
+							))}
+						</TableRow>
+					))
+				) : (
+					<TableRow>
+						<TableCell colSpan={columns.length} className="h-24 text-center">
+							No results.
+						</TableCell>
+					</TableRow>
+				)}
+			</TableBody>
+		</Table>
 	);
 }

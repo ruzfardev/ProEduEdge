@@ -13,10 +13,16 @@ import {Login} from '../pages/auth/login';
 import {Register} from '../pages/auth/register';
 import {DashboardRoot} from '../pages/dashboard';
 import Dashboard from '../pages/dashboard/dashboard';
+import {Profile} from '@/pages/dashboard/dashboard/profile';
+import {StudentList} from '@/pages/dashboard/dashboard/students';
+import {ManageCourses} from '@/pages/dashboard/dashboard/courses';
+import {AddCourse} from '@/pages/dashboard/dashboard/courses/addCourse';
+import {Toaster} from 'sonner';
 
 export const RootRoute = () => {
 	return (
 		<main>
+			<Toaster />
 			<Header />
 			<Outlet />
 			<Footer />
@@ -71,15 +77,19 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/dashboard/profile',
-				element: <h1>Profile from dashboard</h1>,
+				element: <Profile />,
 			},
 			{
 				path: '/dashboard/students',
-				element: <h1>Students from dashboard</h1>,
+				element: <StudentList />,
 			},
 			{
 				path: '/dashboard/courses',
-				element: <h1>Courses from dashboard</h1>,
+				element: <ManageCourses />,
+			},
+			{
+				path: '/dashboard/courses/add',
+				element: <AddCourse />,
 			},
 			{
 				path: '/dashboard/categories',
@@ -88,6 +98,14 @@ const router = createBrowserRouter([
 			{
 				path: '/dashboard/settings',
 				element: <h1>Settings from dashboard</h1>,
+			},
+			{
+				path: '/dashboard/discussions',
+				element: <div>Discussions from dashboard</div>,
+			},
+			{
+				path: '/dashboard/livestream',
+				element: <div>Live stream from dashboard</div>,
 			},
 		],
 	},

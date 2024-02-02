@@ -7,8 +7,8 @@ import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-	buttonVariants,
 	Button,
+	Separator,
 } from '@/components/ui';
 interface SidebarProps {
 	isCollapsed: boolean;
@@ -39,7 +39,7 @@ export const DashboardSidebar: FC<SidebarProps> = ({
 			data-collapsed={isCollapsed}
 			className={cn(
 				isCollapsed ? 'w-14' : 'w-1/6',
-				'group flex bg-white/10 backdrop-blur-lg shadow-lg flex-col gap-4 py-2 px-1 data-[collapsed=true]:py-2 transition-width duration-300 ease-in-out'
+				'group flex z-50 bg-white/10 backdrop-blur-lg custom-shadow flex-col gap-4 py-2 px-1 data-[collapsed=true]:py-2 transition-width duration-300 ease-in-out'
 			)}
 		>
 			<nav className="flex flex-col h-full gap-1 group-[[data-collapsed=false]]:px-3">
@@ -50,6 +50,7 @@ export const DashboardSidebar: FC<SidebarProps> = ({
 						</Link>
 					</strong>
 				</div>
+				<Separator orientation="horizontal" />
 				<div className="flex mb-auto justify-self-start mt-4 flex-col group-[[data-collapsed=true]]:items-center gap-2">
 					{sidebarItems.map((item, index) =>
 						isCollapsed
@@ -82,6 +83,7 @@ export const DashboardSidebar: FC<SidebarProps> = ({
 							: item.children.map((child, i) => {
 									return (
 										<Button
+											onClick={() => handleSidebarItemClick(child.href)}
 											key={child.name}
 											className="flex justify-start  h-10"
 											variant={

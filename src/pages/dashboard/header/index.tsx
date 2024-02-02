@@ -10,7 +10,7 @@ import {
 	AvatarImage,
 	AvatarFallback,
 } from '@/components/ui';
-import {useLocation, useNavigate} from 'react-router-dom'; // Ensure you import from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom';
 
 export const DashboardHeader = () => {
 	const location = useLocation();
@@ -45,8 +45,11 @@ export const DashboardHeader = () => {
 		}, []);
 
 	return (
-		<div className="flex-none bg-white/10 backdrop-blur-lg flex m-2 mb-0 items-center">
-			<div className="w-full p-4 flex items-center shadow-md justify-between border-small rounded-small border-default-200 dark:border-default-100">
+		<div className="flex-none custom-shadow bg-white/10 backdrop-blur-lg flex m-2 mb-0 items-center">
+			<div className="w-full p-4 flex items-center justify-between border-small rounded-small border-default-200">
+				<h2 className="text-2xl font-bold">
+					👋 Welcome, <span className="text-primary-500">John Doe</span>
+				</h2>
 				<DropdownMenu>
 					<DropdownMenuTrigger
 						className="w-[14rem] ml-auto cursor-pointer"
@@ -80,7 +83,13 @@ export const DashboardHeader = () => {
 							<DropdownMenuItem>Settings</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>Log out</DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() => {
+								navigate('/login');
+							}}
+						>
+							Log out
+						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>

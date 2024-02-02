@@ -1,7 +1,10 @@
+.filepond--root {
+	width: 100% !important;
+}
 .filepond--wrapper {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	display: unset !important;
+	border: 2px dashed #e5e7eb;
+	border-radius: 5px;
 }
 
 .filepond--root {
@@ -11,8 +14,14 @@
 
 .filepond--drop-label {
 	cursor: pointer;
-    background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-	label {
-		padding: 0 !important;
-	}
+    background: unset !important;
+	
+}
+.filepond--drop-label {
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	background: #fff !important;
+	border: none !important;
+	box-shadow: none !important;
 }

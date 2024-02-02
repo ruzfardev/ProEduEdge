@@ -38,7 +38,7 @@ export const Login: FC = () => {
 		try {
 			dispatch(loginUser({...data}));
 			if (status === 'idle') {
-				navigate('/');
+				navigate('/dashboard');
 			}
 		} catch (error) {
 			console.log(error);

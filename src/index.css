@@ -136,7 +136,19 @@ transform: rotate(-90deg);
   background: linear-gradient(to right, #f6f6f6 8%, #f0f0f0 18%, #f6f6f6 33%) fixed;
   background-size: 100vw 100%;
 }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.custom-shadow{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
 @keyframes shimmer {
   0% {
     background-position: -100vw 0;
