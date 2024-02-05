@@ -19,8 +19,3 @@ export interface IRegister {
     password: string;
     role: string;
 }
-export interface IUserState {
-    user: IUser;
-    status: "idle" | "loading" | "failed";
-    error: string | null;
-}

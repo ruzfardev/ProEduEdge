@@ -13,14 +13,15 @@ import {
 	AvatarImage,
 	Card,
 } from '@/components/ui';
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink, useNavigate} from 'react-router-dom';
 import logo from '../../assets/images/logo-black.png';
-import {useAppSelector} from '../../redux/hooks';
-import {selectUser} from '../../redux/features/auth/userSlice';
+import {useAppSelector} from '@/redux/hooks';
+import {StateType} from '@/redux/root-reducer';
 export const Header: FC = () => {
-	const user = useAppSelector(selectUser);
+	const navigate = useNavigate();
 	const [isScrolled, setIsScrolled] = useState(false);
-
+	const {user} = useAppSelector((state: StateType) => state.users);
+	const {data, errors, isLoading} = user;
 	const handleScroll = () => {
 		const offset = window.scrollY;
 		const headerHeight = 100; // Replace with the actual height of your header
@@ -48,6 +49,29 @@ export const Header: FC = () => {
 		'Help & Feedback',
 		'Log Out',
 	];
+
+	const handleMenuClick = (item: string) => {
+		switch (item) {
+			case 'profile':
+				navigate('/dashboard/profile');
+				break;
+			case 'dashboard':
+				console.log('Dashboard');
+				navigate('/dashboard');
+				break;
+			case 'settings':
+				navigate('/dashboard/settings');
+				console.log('Settings');
+				break;
+			case 'log-out':
+				// TODO: Implement logout functionality
+				navigate('/login');
+				console.log('Log out');
+				break;
+			default:
+				console.log('default');
+		}
+	};
 	return (
 		<nav
 			className={`py-3 z-50 nav w-full shadow-md mx-auto ${
@@ -126,7 +150,7 @@ export const Header: FC = () => {
 					</li>
 				</ul>
 				<div>
-					{!(Object.keys(user).length === 0) ? (
+					{data && !errors ? (
 						<DropdownMenu>
 							<DropdownMenuTrigger className="w-[14rem] cursor-pointer" asChild>
 								<div className="py-1 px-5">
@@ -135,15 +159,19 @@ export const Header: FC = () => {
 								 justify-start gap-2"
 									>
 										<Avatar>
-											<AvatarImage
-												src="https://i.pravatar.cc/500?img=32"
-												alt="Avatar"
-											/>
-											<AvatarFallback></AvatarFallback>
+											<AvatarImage src={data?.avatarUrl} alt="Avatar" />
+											<AvatarFallback className="border border-orange-500 bg-orange-500 text-white">
+												{data?.firstName[0]}
+												{data?.lastName[0]}
+											</AvatarFallback>
 										</Avatar>
 										<div className="flex flex-col justify-center gap-1">
-											<span className="text-sm">John Doe</span>
-											<span className="text-sm text-orange-500">Intructor</span>
+											<span className="text-sm">
+												{data?.firstName + ' ' + data?.lastName}
+											</span>
+											<span className="text-sm text-orange-500">
+												{data?.role.toUpperCase()}
+											</span>
 										</div>
 									</div>
 								</div>
@@ -152,12 +180,23 @@ export const Header: FC = () => {
 								<DropdownMenuLabel>My Account</DropdownMenuLabel>
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
-									<DropdownMenuItem>Profile</DropdownMenuItem>
-									<DropdownMenuItem>Dashboard</DropdownMenuItem>
-									<DropdownMenuItem>Settings</DropdownMenuItem>
+									<DropdownMenuItem onClick={() => handleMenuClick('profile')}>
+										Profile
+									</DropdownMenuItem>
+
+									<DropdownMenuItem
+										onAbort={() => handleMenuClick('dashboard')}
+									>
+										Dashboard
+									</DropdownMenuItem>
+									<DropdownMenuItem onClick={() => handleMenuClick('settings')}>
+										Settings
+									</DropdownMenuItem>
 								</DropdownMenuGroup>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem>Log out</DropdownMenuItem>
+								<DropdownMenuItem onClick={() => handleMenuClick('log-out')}>
+									Log out
+								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
 					) : (

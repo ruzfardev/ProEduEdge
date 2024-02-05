@@ -15,16 +15,16 @@ import {
 	SelectValue,
 	SelectGroup,
 } from '../../components/ui/index.ts';
-import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import {SubmitHandler, useForm, set} from 'react-hook-form';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {FilePond} from 'react-filepond';
 import {FilePondFile} from 'filepond';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks/index.ts';
-import {registerUser, selectUser} from '../../redux/features/auth/userSlice.ts';
-import './style.scss';
 import {IUser} from '../../redux/models/index.ts';
 import {api} from '../../api/index.ts';
+import {Toaster, toast} from 'sonner';
+import './style.scss';
+import {registerUserAction} from '@/redux/features/users/slice.ts';
 
 export const Register: FC = () => {
 	const form = useForm<IUser>({
@@ -38,12 +38,12 @@ export const Register: FC = () => {
 		},
 	});
 	const {control, handleSubmit, setValue} = form;
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const user = useAppSelector(selectUser);
+	const {
+		user: {isLoading, errors, data},
+	} = useAppSelector((state) => state.users);
 	const [avatar, setAvatar] = useState<FilePondFile[]>();
-	const [isVisible, setIsVisible] = useState(false);
-	const toggleVisibility = () => setIsVisible(!isVisible);
-	useEffect(() => {}, [user]);
 
 	const handleUserRegister: SubmitHandler<IUser> = (data: IUser) => {
 		try {
@@ -53,16 +53,27 @@ export const Register: FC = () => {
 				const firstLetterLastName = data.lastName[0];
 				const avatarUrl = `${firstLetterFirstName}${firstLetterLastName}`;
 				setValue('avatarUrl', avatarUrl);
-				dispatch(registerUser({...data}));
+				dispatch(registerUserAction(data));
 			} else {
-				dispatch(registerUser({...data}));
+				dispatch(registerUserAction(data));
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		if (data && !errors) {
+			toast.success('User registered successfully');
+			navigate('/dashboard');
+		}
+		if (errors) {
+			toast.error(errors);
+		}
+	}, [data, navigate]);
 	return (
 		<WrapperAuth>
+			<Toaster />
 			<Form {...form}>
 				<form
 					onSubmit={handleSubmit(handleUserRegister)}
@@ -116,6 +127,7 @@ export const Register: FC = () => {
 					</div>
 
 					<div className="flex flex-col gap-4">
+						{errors && <p className="text-red-500 text-center">{errors}</p>}
 						<div className="flex justify-between flex-row gap-1">
 							<FormField
 								control={form.control}
@@ -197,7 +209,7 @@ export const Register: FC = () => {
 									<FormControl>
 										<Input
 											{...field}
-											type={isVisible ? 'text' : 'password'}
+											type={'password'}
 											id="password"
 											placeholder="Password"
 											color="warning"
@@ -216,7 +228,12 @@ export const Register: FC = () => {
 							render={({field, fieldState}) => (
 								<FormItem>
 									<FormControl>
-										<Select>
+										<Select
+											{...field}
+											onValueChange={(value) => {
+												field.onChange(value);
+											}}
+										>
 											<SelectTrigger className="w-full">
 												<SelectValue placeholder="Select a role" />
 											</SelectTrigger>
@@ -243,7 +260,7 @@ export const Register: FC = () => {
 							</Link>
 						</p>
 						<Button size="lg" type="submit">
-							{user?.status === 'loading' ? 'Loading...' : 'Register'}
+							{isLoading ? 'Loading...' : 'Register'}
 						</Button>
 					</div>
 				</form>

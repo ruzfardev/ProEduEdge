@@ -11,9 +11,10 @@
 
 .filepond--drop-label {
 	cursor: pointer;
-	label {
-		padding: 0 !important;
-	}
+	
+}
+.filepond--drop-label label {
+	padding: 0 !important;
 }
 .filepond--file{
 	margin-bottom: 10px !important;

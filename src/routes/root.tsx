@@ -18,6 +18,7 @@ import {StudentList} from '@/pages/dashboard/dashboard/students';
 import {ManageCourses} from '@/pages/dashboard/dashboard/courses';
 import {AddCourse} from '@/pages/dashboard/dashboard/courses/addCourse';
 import {Toaster} from 'sonner';
+import {DiscussionChat} from '@/pages/dashboard/dashboard/discussions';
 
 export const RootRoute = () => {
 	return (
@@ -101,7 +102,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/dashboard/discussions',
-				element: <div>Discussions from dashboard</div>,
+				element: <DiscussionChat />,
 			},
 			{
 				path: '/dashboard/livestream',

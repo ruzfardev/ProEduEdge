@@ -14,11 +14,9 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {ILogin} from '../../redux/models/index.ts';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks/index.ts';
-import {
-	getError,
-	getStatus,
-	loginUser,
-} from '../../redux/features/auth/userSlice.ts';
+import {Toaster, toast} from 'sonner';
+import {StateType} from '@/redux/root-reducer.ts';
+import {loginUserAction} from '@/redux/features/users/slice.ts';
 export const Login: FC = () => {
 	const form = useForm<ILogin>({
 		mode: 'onSubmit',
@@ -28,27 +26,31 @@ export const Login: FC = () => {
 		},
 	});
 	const {control, handleSubmit} = form;
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const err = useAppSelector(getError);
-	const status = useAppSelector(getStatus);
+	const {user} = useAppSelector((state: StateType) => state.users);
+	const {data, errors, isLoading} = user;
 	const [isVisible, setIsVisible] = useState(false);
-	const toggleVisibility = () => setIsVisible(!isVisible);
 
 	const handleUserLogin: SubmitHandler<ILogin> = (data: ILogin) => {
 		try {
-			dispatch(loginUser({...data}));
-			if (status === 'idle') {
-				navigate('/dashboard');
-			}
+			dispatch(loginUserAction(data));
 		} catch (error) {
 			console.log(error);
 		}
 	};
-	const navigate = useNavigate();
-	useEffect(() => {}, [err, status]);
+	useEffect(() => {
+		if (!errors && data) {
+			navigate('/dashboard');
+		}
+		if (errors) {
+			toast.error(errors);
+		}
+	}, [data, navigate]);
 	return (
 		<>
 			<WrapperAuth>
+				<Toaster />
 				<Form {...form}>
 					<form
 						onSubmit={handleSubmit(handleUserLogin)}
@@ -57,6 +59,7 @@ export const Login: FC = () => {
 						<h2 className="text-4xl font-bold text-center text-orange-400 mb-8">
 							Login
 						</h2>
+						{errors && <p className="text-red-500 text-center">{errors}</p>}
 						<div className="flex flex-col gap-4">
 							<FormField
 								control={form.control}
@@ -113,7 +116,7 @@ export const Login: FC = () => {
 								</Link>
 							</p>
 							<Button size="lg" type="submit">
-								{status === 'loading' ? 'Loading...' : 'Sign In'}
+								{isLoading ? 'Loading...' : 'Sign In'}
 							</Button>
 						</div>
 					</form>
