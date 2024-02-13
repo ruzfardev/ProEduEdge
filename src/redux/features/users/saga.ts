@@ -9,7 +9,7 @@ function* loginUser(action: PayloadAction<ILogin>) {
 	try {
 		const response: UserType = yield call(login, action.payload);
 		yield put(loginUserSuccessAction(response));
-	} catch (error) {
+	} catch (error: any) {
 		yield put(loginUserErrorAction(error.message));
 	}
 }
@@ -18,7 +18,7 @@ function* registerUser(action: PayloadAction<IUser>) {
 	try {
 		const response: UserType = yield call(register, action.payload);
 		yield put(registerUserSuccessAction(response));
-	} catch (error) {
+	} catch (error: any) {
 		yield put(registerUserErrorAction(error.message));
 	}
 }

@@ -14,10 +14,12 @@ import {
 	VideoIcon,
 } from '@radix-ui/react-icons';
 import {FaChalkboardTeacher, FaUsers} from 'react-icons/fa';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Button} from '@/components/ui';
 import {cn} from '@/lib/utils';
 import {Toaster} from 'sonner';
+import {useAppDispatch} from '@/redux/hooks';
+import {getCategoriesAction} from '@/redux/features/course/slice';
 
 const sidebarItems = [
 	{
@@ -108,6 +110,11 @@ const sidebarItems = [
 ];
 export const DashboardRoot = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(getCategoriesAction());
+	}, [dispatch]);
 	return (
 		<main className="relative flex h-screen">
 			<Toaster />

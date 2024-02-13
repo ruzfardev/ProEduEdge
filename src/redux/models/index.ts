@@ -19,3 +19,14 @@ export interface IRegister {
     password: string;
     role: string;
 }
+
+export interface IMediaResponse {
+    status: string;
+    error: boolean;
+    blob: {
+        uri: string;
+        name: string;
+        contentType: string;
+        content: any;
+    };
+}

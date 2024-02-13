@@ -1,4 +1,3 @@
-import {api} from '@/api';
 import {
 	Button,
 	Form,
@@ -8,7 +7,6 @@ import {
 	FormLabel,
 	FormMessage,
 	Input,
-	Label,
 	Select,
 	SelectContent,
 	SelectItem,
@@ -18,15 +16,45 @@ import {
 	TabsContent,
 	Textarea,
 } from '@/components/ui';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FilePond} from 'react-filepond';
-import {set, useForm} from 'react-hook-form';
-import './style.css';
-import {ArrowLeftIcon, PlusIcon} from '@radix-ui/react-icons';
+import {useForm} from 'react-hook-form';
 import {AddSection} from './addSection';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {Course, CreateCourse} from '@/redux/features/course/types';
+import {FilePondInitialFile} from 'filepond';
+import {
+	createCourseAction,
+	uploadBannerAction,
+} from '@/redux/features/course/slice';
+import './style.css';
+import {uploadCourseBannerFx} from '@/api';
+import {Toaster, toast} from 'sonner';
+
 export const AddCourse = () => {
-	const form = useForm({});
-	const {control, handleSubmit} = form;
+	let pond = React.useRef(null);
+	const dispatch = useAppDispatch();
+
+	const [files, setFiles] = React.useState<FilePondInitialFile[]>([]);
+	const form = useForm<Course>({
+		mode: 'onChange',
+		defaultValues: {
+			title: '',
+			description: '',
+			categoryId: undefined,
+			price: 0,
+		},
+	});
+	const {
+		createCourse,
+		pending,
+		category: {data, errors, isLoading},
+	} = useAppSelector((state) => state.courses);
+	const {
+		control,
+		handleSubmit,
+		formState: {isValid},
+	} = form;
 	// course creation steps
 	// 1. Course Details
 	// 2. Course Content
@@ -48,73 +76,60 @@ export const AddCourse = () => {
 			active: false,
 		},
 	]);
-	const handleSteps = (id: number) => {
-		setSteps(
-			steps.map((step) =>
-				step.id === id
-					? {
-							...step,
-							active: true,
-					  }
-					: {
-							...step,
-							active: false,
-					  }
-			)
-		);
+	const handleSteps = (id: number): boolean => {
+		// before moving to the next step, validate the current step
+		// if the current step is not valid, don't move to the next step
+		// if the current step is valid, move to the next step
+		if (form.formState.isValid) {
+			setSteps(
+				steps.map((step) =>
+					step.id === id
+						? {
+								...step,
+								active: true,
+						  }
+						: {
+								...step,
+								active: false,
+						  }
+				)
+			);
+			return true;
+		} else {
+			// show form validation errors
+			form.trigger();
+			return false;
+		}
 	};
-	const handleCourseDetails = () => {
-		setSteps(
-			steps.map((step) =>
-				step.id === 1
-					? {
-							...step,
-							active: true,
-					  }
-					: {
-							...step,
-							active: false,
-					  }
-			)
-		);
+	const handleCourseDetails = (data: CreateCourse) => {
+		if (isValid) {
+			// TODO: get user ID from the store and add it as instructorId
+			// TODO: convert price, categoryId to number
+			const file = files[0].file;
+			const formData = new FormData();
+			formData.append('file', file);
+			dispatch(
+				uploadBannerAction({
+					data,
+					file,
+				})
+			);
+			toast('Uploading course banner');
+		}
 	};
+	// useEffect(() => {
+	// 	if (data && !errors) {
+	// 		toast.success('User registered successfully');
+	// 	}
+	// 	if (errors) {
+	// 		toast.error(errors);
+	// 	}
+	// }, [data]);
 	return (
 		<Tabs
 			className="h-full"
 			value={String(steps.find((step) => step.active)?.id)}
 		>
-			{/* <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
-				<li
-					className={`flex md:w-full items-center 
-			${steps[0].active ? 'text-orange-500  dark:text-gray-100' : ''}
-			${steps[1].active ? 'after:border-orange-500 dark:text-gray-100' : ''}
-			 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}
-				>
-					<span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-						Course
-						<span className="hidden sm:inline-flex sm:ms-2">Details</span>
-					</span>
-				</li>
-
-				<li
-					className={`flex
-			${steps[1].active ? 'text-orange-500 dark:text-gray-100' : ''} 
-			md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b  after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}
-				>
-					<span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-						<span className="me-2">Course </span>
-						<span className="hidden sm:inline-flex sm:ms-2">Content</span>
-					</span>
-				</li>
-				<li
-					className={`flex items-center ${
-						steps[2].active ? 'text-orange-500' : ''
-					}`}
-				>
-					<span className="me-2">Course</span>
-					Pricing
-				</li>
-			</ol> */}
 			<TabsContent value="1">
 				<Form {...form}>
 					<form
@@ -167,13 +182,19 @@ export const AddCourse = () => {
 							/>
 							<FormField
 								control={form.control}
-								name="category"
+								name="categoryId"
+								rules={{
+									required: 'Category is required.',
+								}}
 								render={({field}) => (
 									<FormItem>
 										<FormLabel>Category</FormLabel>
 										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
+											onValueChange={(value) => {
+												field.onChange(value);
+											}}
+											defaultValue={field.value ? field.value.toString() : ''}
+											disabled={isLoading}
 										>
 											<FormControl>
 												<SelectTrigger>
@@ -181,15 +202,14 @@ export const AddCourse = () => {
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectItem value="m@example.com">
-													m@example.com
-												</SelectItem>
-												<SelectItem value="m@google.com">
-													m@google.com
-												</SelectItem>
-												<SelectItem value="m@support.com">
-													m@support.com
-												</SelectItem>
+												{data?.map((category) => (
+													<SelectItem
+														key={category.id}
+														value={category.id.toString()}
+													>
+														{category.name}
+													</SelectItem>
+												))}
 											</SelectContent>
 										</Select>
 										<FormMessage />
@@ -199,6 +219,10 @@ export const AddCourse = () => {
 							<FormField
 								control={form.control}
 								name="price"
+								rules={{
+									required: 'Price is required.',
+									min: {value: 1, message: 'Price must be greater than 0'},
+								}}
 								render={({field}) => (
 									<FormItem>
 										<FormLabel>Price</FormLabel>
@@ -206,7 +230,7 @@ export const AddCourse = () => {
 											<Input
 												{...field}
 												placeholder="Enter your price"
-												type="text"
+												type="number"
 												id="price"
 												color="warning"
 											/>
@@ -217,41 +241,47 @@ export const AddCourse = () => {
 							/>
 							<FormLabel>Course Image</FormLabel>
 							<FilePond
-								name="banner"
+								name="file"
+								files={files}
+								ref={(ref) => {
+									pond = ref;
+								}}
+								required
+								imagePreviewHeight={400}
+								onupdatefiles={setFiles}
+								instantUpload={false}
+								server={{
+									process: (
+										fieldName,
+										file,
+										metadata,
+										load,
+										error,
+										progress,
+										abort
+									) => {
+										uploadCourseBannerFx(file)
+											.then((res) => {
+												console.log(res);
+												load(res);
+											})
+											.catch((err) => {
+												error('Error uploading file');
+											});
+
+										return {
+											abort: () => {
+												abort();
+											},
+										};
+									},
+								}}
 								acceptedFileTypes={['image/*']}
 								oninit={() => {}}
-								// server={{
-								// 	process: (
-								// 		fieldName,
-								// 		file,
-								// 		metadata,
-								// 		load,
-								// 		error,
-								// 		progress,
-								// 		abort
-								// 	) => {
-								// 		const formData = new FormData();
-								// 		formData.append('file', file, file.name);
-								// 		api
-								// 			.post('/upload-avatar', formData, {
-								// 				headers: {
-								// 					'Content-Type': 'multipart/form-data',
-								// 				},
-								// 			})
-								// 			.then((res) => {
-								// 				// setValue('avatarUrl', res.data.blob.url);
-								// 				load(res.data.blob.url);
-								// 			})
-								// 			.catch((err) => {
-								// 				console.log(err);
-								// 			});
-								// 	},
-								// }}
 								labelFileProcessingError={'Error processing file.'}
 								allowProcess={true}
-								allowMultiple={true}
-								// onupdatefiles={setAvatar}
-								// labelIdle='<span class="filepond--label-action"><svg xmlns="http://www.w3.org/2000/svg" height="32" width="30" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/></svg></span>'
+								allowReplace={true}
+								allowMultiple={false}
 								stylePanelLayout="compact"
 								allowDrop={false}
 								allowPaste={false}
@@ -263,12 +293,11 @@ export const AddCourse = () => {
 								</Button>
 								<Button
 									disabled={steps[2].active}
-									onClick={() => handleSteps(2)}
 									size="lg"
 									className="disabled:cursor-not-allowed"
-									type="button"
+									type="submit"
 								>
-									Next
+									Nextrrrr
 								</Button>
 							</div>
 						</div>
