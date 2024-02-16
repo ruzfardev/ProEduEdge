@@ -16,10 +16,12 @@ import {
 import {FaChalkboardTeacher, FaUsers} from 'react-icons/fa';
 import {useEffect, useState} from 'react';
 import {Button} from '@/components/ui';
-import {cn} from '@/lib/utils';
+import {LocalStorageManager, cn} from '@/lib/utils';
 import {Toaster} from 'sonner';
 import {useAppDispatch} from '@/redux/hooks';
 import {getCategoriesAction} from '@/redux/features/course/slice';
+import {UserType} from '@/redux/features/users/types';
+import {loginUserSuccessAction} from '@/redux/features/users/slice';
 
 const sidebarItems = [
 	{
@@ -111,8 +113,12 @@ const sidebarItems = [
 export const DashboardRoot = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const dispatch = useAppDispatch();
-
+	const l = LocalStorageManager.getInstance();
 	useEffect(() => {
+		if (l.getItem('user')) {
+			const user: UserType = l.getItem('user') !== '' ? l.getItem('user') : null;
+			dispatch(loginUserSuccessAction(user));
+		}
 		dispatch(getCategoriesAction());
 	}, [dispatch]);
 	return (

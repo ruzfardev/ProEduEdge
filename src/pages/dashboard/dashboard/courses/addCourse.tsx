@@ -51,6 +51,9 @@ export const AddCourse = () => {
 		category: {data, errors, isLoading},
 	} = useAppSelector((state) => state.courses);
 	const {
+		user: {data: userData},
+	} = useAppSelector((state) => state.users);
+	const {
 		control,
 		handleSubmit,
 		formState: {isValid},
@@ -103,11 +106,18 @@ export const AddCourse = () => {
 	};
 	const handleCourseDetails = (data: CreateCourse) => {
 		if (isValid) {
+			const instructorId = userData?.id ? userData?.id : null;
 			// TODO: get user ID from the store and add it as instructorId
 			// TODO: convert price, categoryId to number
 			const file = files[0].file;
 			const formData = new FormData();
 			formData.append('file', file);
+			data = {
+				...data,
+				instructorId,
+				price: Number(data.price),
+				categoryId: Number(data.categoryId),
+			};
 			dispatch(
 				uploadBannerAction({
 					data,

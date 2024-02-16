@@ -1,6 +1,6 @@
-import { getCategoriesFx, uploadCourseBannerFx } from '@/api';
+import { createCourseFx, getCategoriesFx, uploadCourseBannerFx } from '@/api';
 import {call, put, takeLatest} from 'redux-saga/effects';
-import { CategoryType, CreateCourse, GET_CATEGORIES, UPLOAD_BANNER, UPLOAD_BANNER_SUCCESS } from './types';
+import { CategoryType, Course, CreateCourse, GET_CATEGORIES, UPLOAD_BANNER, UPLOAD_BANNER_SUCCESS } from './types';
 import { getCategoriesErrorAction, getCategoriesSuccessAction, uploadBannerSuccessAction } from './slice';
 import { toast } from 'sonner';
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -28,7 +28,11 @@ function* uploadCourseBanner(action: PayloadAction<{file: File, data: CreateCour
 }
 
 function* createCourse(action: PayloadAction<CreateCourse>) {
-	console.log(action.payload);
+	try {
+		const response: Course = yield call(createCourseFx, action.payload);
+	} catch (error: any) {
+		
+	}
 }
 
 export function* watchCreateCourse() {

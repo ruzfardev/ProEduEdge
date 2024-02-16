@@ -1,3 +1,4 @@
+import { CreateCourse } from '@/redux/features/course/types';
 import {ILogin, IUser} from '@/redux/models';
 import axios from 'axios';
 
@@ -20,6 +21,7 @@ const handleApiError = (error: any) => {
 	}
 	throw new Error(errorMessage);
 };
+// Auth
 export const login = async (user: ILogin) => {
 	try {
 		const response = await api.post('login', user);
@@ -34,7 +36,6 @@ export const login = async (user: ILogin) => {
 		throw new Error(errorMessage);
 	}
 };
-
 export const register = async (user: IUser) => {
 	try {
 		const response = await api.post('register', user);
@@ -49,7 +50,7 @@ export const register = async (user: IUser) => {
 		throw new Error(errorMessage);
 	}
 };
-
+// Categories
 export const getCategoriesFx = async () => {
 	try {
 		const response = await api.get('get-categories');
@@ -64,6 +65,8 @@ export const getCategoriesFx = async () => {
 		throw new Error(errorMessage);
 	}
 };
+
+// Handling Media Files
 export const uploadCourseBannerFx = async (file: File) => {
 	try {
 		const formData = new FormData();
@@ -78,7 +81,6 @@ export const uploadCourseBannerFx = async (file: File) => {
 		handleApiError(error);
 	}
 };
-
 export const uploadCourseRecoursesFx = async (file: File) => {
     try {
         const formData = new FormData();
@@ -107,4 +109,14 @@ export const uploadCourseRecoursesMultipleFx = async (files: File[]) => {
     } catch (error: any) {
         handleApiError(error);
     }
+}
+
+// Handling Course Actions
+export const createCourseFx = async (data: CreateCourse) =>{
+	try {
+		const response = await api.post('create-course', data);
+		return response.data
+	} catch (error: any) {
+		handleApiError(error)
+	}
 }

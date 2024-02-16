@@ -4,10 +4,13 @@ import {UserType, LOGIN_USER, REGISTER_USER} from './types';
 import {loginUserErrorAction, loginUserSuccessAction, registerUserErrorAction, registerUserSuccessAction} from './slice';
 import {ILogin, IUser} from '@/redux/models';
 import {login, register} from '@/api';
+import { LocalStorageManager } from '@/lib/utils';
 
 function* loginUser(action: PayloadAction<ILogin>) {
 	try {
+		const l = LocalStorageManager.getInstance();
 		const response: UserType = yield call(login, action.payload);
+		l.setItem('user', JSON.stringify(response));
 		yield put(loginUserSuccessAction(response));
 	} catch (error: any) {
 		yield put(loginUserErrorAction(error.message));
@@ -16,7 +19,9 @@ function* loginUser(action: PayloadAction<ILogin>) {
 
 function* registerUser(action: PayloadAction<IUser>) {
 	try {
+		const l = LocalStorageManager.getInstance();
 		const response: UserType = yield call(register, action.payload);
+		l.setItem('user', JSON.stringify(response));
 		yield put(registerUserSuccessAction(response));
 	} catch (error: any) {
 		yield put(registerUserErrorAction(error.message));
