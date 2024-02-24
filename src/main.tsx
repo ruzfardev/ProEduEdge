@@ -15,7 +15,6 @@ import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import './index.css';
 import {TooltipProvider} from './components/ui/tooltip.tsx';
-
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

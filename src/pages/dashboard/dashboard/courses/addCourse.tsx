@@ -30,6 +30,7 @@ import {
 import './style.css';
 import {uploadCourseBannerFx} from '@/api';
 import {Toaster, toast} from 'sonner';
+import {getBlobUrlWithSasToken} from '@/lib/utils';
 
 export const AddCourse = () => {
 	let pond = React.useRef(null);
@@ -107,8 +108,6 @@ export const AddCourse = () => {
 	const handleCourseDetails = (data: CreateCourse) => {
 		if (isValid) {
 			const instructorId = userData?.id ? userData?.id : null;
-			// TODO: get user ID from the store and add it as instructorId
-			// TODO: convert price, categoryId to number
 			const file = files[0].file;
 			const formData = new FormData();
 			formData.append('file', file);
@@ -124,27 +123,16 @@ export const AddCourse = () => {
 					file,
 				})
 			);
-			toast('Uploading course banner');
 		}
 	};
-	// useEffect(() => {
-	// 	if (data && !errors) {
-	// 		toast.success('User registered successfully');
-	// 	}
-	// 	if (errors) {
-	// 		toast.error(errors);
-	// 	}
-	// }, [data]);
 	return (
-		<Tabs
-			className="h-full"
-			value={String(steps.find((step) => step.active)?.id)}
-		>
-			<TabsContent value="1">
+		<div className="w-10/12 mx-auto max-h-[calc(100vh-10rem)] no-scrollbar overflow-y-auto">
+			<div className="h-full">
+				<h4 className="text-2xl font-bold text-center">Add Course</h4>
 				<Form {...form}>
 					<form
 						onSubmit={handleSubmit(handleCourseDetails)}
-						className="w-8/12 mx-auto"
+						className="w-full p-3"
 					>
 						<div className="flex flex-col mt-4 gap-4">
 							<FormField
@@ -297,26 +285,20 @@ export const AddCourse = () => {
 								allowPaste={false}
 								credits={false}
 							/>
-							<div className="flex justify-between z-50">
-								<Button disabled={steps[0].active} type="button" size="lg">
-									Back
-								</Button>
-								<Button
-									disabled={steps[2].active}
-									size="lg"
-									className="disabled:cursor-not-allowed"
-									type="submit"
-								>
-									Nextrrrr
-								</Button>
-							</div>
 						</div>
+						<Button
+							disabled={steps[2].active}
+							size="lg"
+							className="disabled:cursor-not-allowed block w-full my-4"
+							type="submit"
+						>
+							Submit
+						</Button>
 					</form>
 				</Form>
-			</TabsContent>
-			<TabsContent className="h-full" value="2">
+				<h4 className="text-2xl font-bold text-center">Course Content</h4>
 				<AddSection />
-			</TabsContent>
-		</Tabs>
+			</div>
+		</div>
 	);
 };

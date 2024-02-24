@@ -22,6 +22,7 @@ import {useAppDispatch} from '@/redux/hooks';
 import {getCategoriesAction} from '@/redux/features/course/slice';
 import {UserType} from '@/redux/features/users/types';
 import {loginUserSuccessAction} from '@/redux/features/users/slice';
+import {SectionMediaProvider} from '@/context';
 
 const sidebarItems = [
 	{
@@ -116,38 +117,45 @@ export const DashboardRoot = () => {
 	const l = LocalStorageManager.getInstance();
 	useEffect(() => {
 		if (l.getItem('user')) {
-			const user: UserType = l.getItem('user') !== '' ? l.getItem('user') : null;
+			const user: UserType =
+				l.getItem('user') !== '' ? l.getItem('user') : null;
 			dispatch(loginUserSuccessAction(user));
 		}
 		dispatch(getCategoriesAction());
 	}, [dispatch]);
 	return (
 		<main className="relative flex h-screen">
-			<Toaster />
-			<div className="absolute w-full h-full custom-gradient custom-gradient-1"></div>
-			<div className="flex flex-row flex-nowrap h-full w-full">
-				<DashboardSidebar items={sidebarItems} isCollapsed={isCollapsed}>
-					<Button
-						onClick={() => setIsCollapsed(!isCollapsed)}
-						className={cn(
-							'flex mt-auto',
-							'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
-						)}
-						variant="ghost"
-					>
-						{!isCollapsed ? <DoubleArrowLeftIcon /> : <DoubleArrowRightIcon />}
-					</Button>
-				</DashboardSidebar>
-				<div className="flex flex-col z-40 flex-grow">
-					<DashboardHeader />
+			<SectionMediaProvider>
+				<Toaster richColors expand position="top-right" />
+				<div className="absolute w-full h-full custom-gradient custom-gradient-1"></div>
+				<div className="flex flex-row flex-nowrap h-full w-full">
+					<DashboardSidebar items={sidebarItems} isCollapsed={isCollapsed}>
+						<Button
+							onClick={() => setIsCollapsed(!isCollapsed)}
+							className={cn(
+								'flex mt-auto',
+								'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
+							)}
+							variant="ghost"
+						>
+							{!isCollapsed ? (
+								<DoubleArrowLeftIcon />
+							) : (
+								<DoubleArrowRightIcon />
+							)}
+						</Button>
+					</DashboardSidebar>
+					<div className="flex flex-col z-40 flex-grow">
+						<DashboardHeader />
 
-					<div className="flex-grow p-2">
-						<div className="bg-white/10 backdrop-blur-lg custom-shadow rounded-small p-5 h-full">
-							<Outlet />
+						<div className="flex-grow p-2">
+							<div className="bg-white/10 backdrop-blur-lg custom-shadow rounded-small p-5 h-full">
+								<Outlet />
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</SectionMediaProvider>
 		</main>
 	);
 };

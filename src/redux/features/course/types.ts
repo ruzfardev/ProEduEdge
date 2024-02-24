@@ -10,14 +10,15 @@ export type Course = {
     isVerified: boolean;
 }
 export type CreateCourse = {
+  id?: string;
   title: string;
   description: string;
   banner: string;
   price: number;
   instructorId: number;
   categoryId: number;
-  dateTime: string;
   isVerified: boolean;
+  createdAt?: string;
 }
 export type CategoryType = {
     id: string;
@@ -36,10 +37,27 @@ export type CategoryType = {
     isLoading: boolean;
     errors: string;
   }
-  
+  export type ICourseSection = {
+    courseId: number;
+    ownerId: number;
+    modifiedAt: string;
+    courseContent: {
+      courseId: number;
+      sectionName: string;
+      title: string;
+      description: string;
+      status: string;
+      resources: {
+        id: string;
+        fileType: string;
+        url: string;
+      }[]
+    }
+  }
   // The users global state
   export type CoursesStateType = {
     courses: ICourse;
+    selectedCourse: Course | null;
     category: ICategoryState;
     createCourse: CreateCourse;
     pending: boolean;
@@ -56,7 +74,18 @@ export type CategoryType = {
   export const GET_COURSES = `${COURSES}/getCoursesAction`;
   export const GET_CATEGORIES = `${COURSES}/getCategoriesAction`;
   export const CREATE_COURSE = `${COURSES}/createCourseAction`;
+  export const GET_ALL_COURSES = `${COURSES}/getAllCoursesAction`;
+  export const GET_ALL_COURSES_SUCCESS = `${COURSES}/getAllCoursesSuccessAction`;
+  export const GET_ALL_COURSES_ERROR = `${COURSES}/getAllCoursesErrorAction`;
+  export const SELECT_COURSE = `${COURSES}/selectCourseAction`;
+
+  export const GET_COURSE_BY_ID = `${COURSES}/getCourseByIdAction`;
+  
   export const UPLOAD_BANNER = `${COURSES}/uploadBannerAction`;
   export const UPLOAD_BANNER_SUCCESS = `${COURSES}/uploadBannerSuccessAction`;
+  export const UPLOAD_COURSE_CONTENT_MEDIA = `${COURSES}/uploadCourseContentMediaAction`;
+  export const UPLOAD_COURSE_CONTENT_MEDIA_SUCCESS = `${COURSES}/uploadCourseContentMediaSuccessAction`;
+  export const UPLOAD_COURSE_CONTENT_MEDIA_ERROR = `${COURSES}/uploadCourseContentMediaErrorAction`;
+  export const CREATE_OR_UPDATE_COURSE_SECTION = `${COURSES}/createOrUpdateCourseSectionAction`;
   export type GET_CATEGORIES = typeof GET_CATEGORIES;
 

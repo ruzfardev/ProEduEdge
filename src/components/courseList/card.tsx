@@ -1,21 +1,20 @@
 import {FC, useState} from 'react';
-import {cn} from '@/lib/utils';
+import {cn, getBlobUrlWithSasToken} from '@/lib/utils';
+import {Course} from '@/redux/features/course/types';
 interface Props {
-	id: number;
-	title: string;
-	banner: string;
-	price: number;
+	course: Course;
 	onCardClick: Function;
 }
 export const PCard: FC<Props> = (props) => {
-	const {onCardClick, id, title, price, banner} = props;
+	const {id, title, price, banner} = props.course;
+	const {onCardClick} = props;
 	const [loadedImages, setLoadedImages] = useState<any>({});
 	const handleImageLoad = (id: number) => {
 		setLoadedImages((prev: any) => ({...prev, [id]: true}));
 	};
 	return (
 		<div
-			onClick={() => onCardClick(id)}
+			onClick={() => onCardClick(props.course)}
 			className={cn(
 				'space-y-3 cursor-pointer hover:scale-105   transition-all'
 			)}
@@ -31,7 +30,7 @@ export const PCard: FC<Props> = (props) => {
 					></div>
 				)}
 				<img
-					src={`https://source.unsplash.com/random?sig=${id}`}
+					src={getBlobUrlWithSasToken(banner, 'banners')}
 					onLoad={() => handleImageLoad(id)}
 					className={cn(
 						'h-auto w-auto object-cover transition-all',

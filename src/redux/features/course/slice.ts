@@ -1,5 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {COURSES, CoursesStateType, CreateCourse, ICourse} from './types';
+import {Course, COURSES, CoursesStateType, CreateCourse, ICourse} from './types';
+import { FilePondInitialFile } from 'filepond';
+import { ISection } from '@/pages/dashboard/dashboard/courses/addSection';
 
 const courseInitialState: CoursesStateType = {
 	courses: {
@@ -19,7 +21,6 @@ const courseInitialState: CoursesStateType = {
 		price: 0,
 		instructorId: 0,
 		categoryId: 0,
-		dateTime: '',
 		isVerified: false,
 	},
 	pending: false,
@@ -29,6 +30,20 @@ export const coursesSlice = createSlice({
 	name: COURSES,
 	initialState: courseInitialState,
 	reducers: {
+		getAllCoursesAction: (state) => {
+			state.courses.isLoading = true;
+		},
+		getAllCoursesSuccessAction: (state, action: PayloadAction<Course[]>) => {
+			state.courses.isLoading = false;
+			state.courses.data = action.payload;
+		},
+		getAllCoursesErrorAction: (state, action: PayloadAction<string>) => {
+			state.courses.isLoading = false;
+			state.courses.errors = action.payload;
+		},
+		selectCourseAction: (state, action: PayloadAction<Course>) => {
+			state.selectedCourse = action.payload;
+		},
 		uploadBannerAction: (state, action: PayloadAction<{file: File, data: CreateCourse}>) => {
 			state.pending = true;
 			console.log("uploading banner");
@@ -37,8 +52,7 @@ export const coursesSlice = createSlice({
 			state.createCourse = action.payload;
 			state.pending = false;
 		},
-		createCourseAction: (state, action: PayloadAction<CreateCourse>) => {
-			state.pending = true;
+		createCourseSuccessAction: (state, action: PayloadAction<CreateCourse>) => {
 			state.createCourse = action.payload;
 		},
 		getCategoriesAction: (state) => {
@@ -52,14 +66,38 @@ export const coursesSlice = createSlice({
 			state.category.isLoading = false;
 			state.category.errors = action.payload;
 		},
+		uploadCourseContentMediaAction: (state, action: PayloadAction<{sectionInfo: ISection, files: Array<FilePondInitialFile | File | Blob | string>}>) => {
+			state.pending = true;
+		},
+		uploadCourseContentMediaSuccessAction: (state, action: PayloadAction<File>) => {
+			state.pending = false;
+		},
+		uploadCourseContentMediaErrorAction: (state, action: PayloadAction<string>) => {
+			state.pending = false;
+		},
+		createOrUpdateCourseSectionAction: (state, action: PayloadAction<any>) => {
+			state.pending = true;
+		},
+		createOrUpdateCourseSectionSuccessAction: (state) => {
+			state.pending = false;
+		},
 	},
 });
 export const {
 	getCategoriesAction,
 	getCategoriesSuccessAction,
 	getCategoriesErrorAction,
-	createCourseAction,
+	createCourseSuccessAction,
+	createOrUpdateCourseSectionAction,
+	createOrUpdateCourseSectionSuccessAction,
 	uploadBannerAction,
 	uploadBannerSuccessAction,
+	uploadCourseContentMediaAction,
+	uploadCourseContentMediaSuccessAction,
+	uploadCourseContentMediaErrorAction,
+	getAllCoursesAction,
+	getAllCoursesSuccessAction,
+	getAllCoursesErrorAction,
+	selectCourseAction,
 } = coursesSlice.actions;
 export default coursesSlice.reducer;

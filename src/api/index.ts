@@ -1,9 +1,12 @@
-import { CreateCourse } from '@/redux/features/course/types';
+import { CreateCourse, ICourseSection } from '@/redux/features/course/types';
 import {ILogin, IUser} from '@/redux/models';
 import axios from 'axios';
+import { FilePondInitialFile } from 'filepond';
+import { toast } from 'sonner';
 
 export const api = axios.create({
-	baseURL: 'http://localhost:8080/api/proeduedge/',
+	// baseURL: 'http://localhost:8080/api/proeduedge/',
+	baseURL: 'http://localhost:5000/api/proeduedge/',
 	headers: {
 		'Content-Type': 'application/json',
 		'Access-Control-Allow-Origin': '*',
@@ -69,6 +72,7 @@ export const getCategoriesFx = async () => {
 // Handling Media Files
 export const uploadCourseBannerFx = async (file: File) => {
 	try {
+		toast.loading('Uploading banner');
 		const formData = new FormData();
 		formData.append('file', file);
 		const response = await api.post('upload/banners', formData, {
@@ -76,6 +80,8 @@ export const uploadCourseBannerFx = async (file: File) => {
 				'Content-Type': 'multipart/form-data',
 			},
 		});
+		toast.dismiss();
+		toast.success('Banner uploaded successfully');
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);
@@ -83,29 +89,37 @@ export const uploadCourseBannerFx = async (file: File) => {
 };
 export const uploadCourseRecoursesFx = async (file: File) => {
     try {
+		toast.loading('Uploading file');
         const formData = new FormData();
         formData.append('file', file);
-        const response = await api.post('upload/resources', formData, {
+        const response = await api.post('upload/resourses', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
+		toast.dismiss();
+		toast.success('File uploaded successfully');
         return response.data;
     } catch (error: any) {
         handleApiError(error);
     }
 }
-export const uploadCourseRecoursesMultipleFx = async (files: File[]) => {
+export const uploadCourseRecoursesMultipleFx = async (files: Array<FilePondInitialFile | File | Blob | string>) => {
     try {
+		toast.loading('Uploading files');
         const formData = new FormData();
         files.forEach((file) => {
             formData.append('files', file);
         });
-        const response = await api.post('uploadMultiple/resources', formData, {
+        const response = await api.post('uploadMultiple/recourses', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
+		toast.dismiss();
+		toast.success('Files uploaded successfully');
+		return response.data;
+
     } catch (error: any) {
         handleApiError(error);
     }
@@ -114,9 +128,31 @@ export const uploadCourseRecoursesMultipleFx = async (files: File[]) => {
 // Handling Course Actions
 export const createCourseFx = async (data: CreateCourse) =>{
 	try {
+		toast.loading('Creating course');
 		const response = await api.post('create-course', data);
+		toast.dismiss();
+		toast.success('Course created successfully');
 		return response.data
 	} catch (error: any) {
 		handleApiError(error)
+	}
+}
+export const addCourseSectionFx = async (data: ICourseSection) => {
+	try {
+		toast.loading('Adding course section');
+		const response = await api.post('add-content', data);
+		toast.dismiss();
+		toast.success('Course section added successfully');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+}
+export const getAllCoursesFx = async () => {
+	try {
+		const response = await api.get('all-courses');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
 	}
 }

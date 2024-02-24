@@ -183,7 +183,6 @@ export const Header: FC = () => {
 									<DropdownMenuItem onClick={() => handleMenuClick('profile')}>
 										Profile
 									</DropdownMenuItem>
-
 									<DropdownMenuItem
 										onAbort={() => handleMenuClick('dashboard')}
 									>
