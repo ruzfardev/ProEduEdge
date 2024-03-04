@@ -24,6 +24,17 @@ const courseInitialState: CoursesStateType = {
 		isVerified: false,
 	},
 	pending: false,
+	selectedCourse: {
+		id: "",
+		title: '',
+		description: '',
+		banner: '',
+		price: 0,
+		instructorId: 0,
+		categoryId: 0,
+		isVerified: false,
+		dateTime: '',
+	},
 };
 
 export const coursesSlice = createSlice({
