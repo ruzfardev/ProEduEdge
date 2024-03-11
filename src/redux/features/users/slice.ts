@@ -56,6 +56,9 @@ export const usersSlice = createSlice({
 			state.user.isLoading = false;
 			state.user.errors = error;
 		},
+		logOutAction: (state: UsersStateType) => {
+			state.user.data = null;
+		}
 	},
 });
 export const {
@@ -65,5 +68,6 @@ export const {
 	registerUserAction,
 	registerUserSuccessAction,
 	registerUserErrorAction,
+	logOutAction,
 } = usersSlice.actions;
 export default usersSlice.reducer;

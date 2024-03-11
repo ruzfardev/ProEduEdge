@@ -15,14 +15,17 @@ import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import './index.css';
 import {TooltipProvider} from './components/ui/tooltip.tsx';
+import {PayPalScriptProvider} from '@paypal/react-paypal-js';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
+		{/*<PayPalScriptProvider deferLoading={true} options={}>*/}
 		<Provider store={store}>
 			<TooltipProvider>
 				<RouteProvider />
 			</TooltipProvider>
 		</Provider>
+		{/*</PayPalScriptProvider>*/}
 	</React.StrictMode>
 );

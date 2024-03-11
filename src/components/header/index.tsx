@@ -15,10 +15,14 @@ import {
 } from '@/components/ui';
 import {Link, NavLink, useNavigate} from 'react-router-dom';
 import logo from '../../assets/images/logo-black.png';
-import {useAppSelector} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {StateType} from '@/redux/root-reducer';
+import {logOutAction} from '@/redux/features/users/slice.ts';
+import {LocalStorageManager} from '@/lib/utils.ts';
 export const Header: FC = () => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const l = LocalStorageManager.getInstance();
 	const [isScrolled, setIsScrolled] = useState(false);
 	const {user} = useAppSelector((state: StateType) => state.users);
 	const {data, errors, isLoading} = user;
@@ -64,9 +68,9 @@ export const Header: FC = () => {
 				console.log('Settings');
 				break;
 			case 'log-out':
-				// TODO: Implement logout functionality
+				dispatch(logOutAction());
+				l.removeItem('user');
 				navigate('/login');
-				console.log('Log out');
 				break;
 			default:
 				console.log('default');
