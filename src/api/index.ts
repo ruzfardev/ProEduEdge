@@ -156,3 +156,23 @@ export const getAllCoursesFx = async () => {
 		handleApiError(error);
 	}
 }
+
+
+// Handling Student Actions
+export const getMyCoursesFx = async () => {
+	try {
+		const response = await api.get('all-courses');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+}
+
+export const getCourseWithContentFx = async () => {
+	try {
+		const response = await api.get(`get-content/2006`);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+}

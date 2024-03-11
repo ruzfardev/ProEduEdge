@@ -26,93 +26,85 @@ import {SectionMediaProvider} from '@/context';
 
 const sidebarItems = [
 	{
-		sectionName: 'Main',
-		showDivider: false,
-		children: [
-			{
-				name: 'Dashboard',
-				icon: <CubeIcon />,
-				href: '/dashboard',
-				color: 'warning',
-			},
-			{
-				name: 'Profile',
-				icon: <PersonIcon />,
-				href: '/dashboard/profile',
-				color: 'warning',
-			},
-		],
+		name: 'Dashboard',
+		user: 'teacher',
+		icon: <CubeIcon />,
+		href: '/dashboard',
+		color: 'warning',
 	},
 	{
-		sectionName: 'Management',
-		showDivider: false,
-		children: [
-			{
-				name: 'Students',
-				icon: <FaUsers />,
-				href: '/dashboard/students',
-				color: 'warning',
-			},
-			{
-				name: 'Courses',
-				icon: <FaChalkboardTeacher />,
-				href: '/dashboard/courses',
-				color: 'warning',
-			},
-			{
-				name: 'Categories',
-				icon: <CardStackIcon />,
-				href: '/dashboard/categories',
-				color: 'warning',
-			},
-		],
+		name: 'Dashboard',
+		user: 'student',
+		icon: <CubeIcon />,
+		href: '/dashboard/me',
+		color: 'warning',
 	},
 	{
-		sectionName: 'Settings',
-		showDivider: false,
-		children: [
-			{
-				name: 'Settings',
-				icon: <GearIcon />,
-				href: '/dashboard/settings',
-				color: 'warning',
-			},
-		],
-	},
-
-	{
-		sectionName: 'Media',
-		showDivider: true,
-		children: [
-			{
-				name: 'Discussions',
-				icon: <ChatBubbleIcon />,
-				href: '/dashboard/discussions',
-				color: 'warning',
-			},
-			{
-				name: 'Live Streams',
-				icon: <VideoIcon />,
-				href: '/dashboard/livestream',
-				color: 'warning',
-			},
-		],
+		name: 'Profile',
+		user: '',
+		icon: <PersonIcon />,
+		href: '/dashboard/profile',
+		color: 'warning',
 	},
 	{
-		sectionName: 'Logout',
-		showDivider: false,
-		children: [
-			{
-				name: 'Logout',
-				icon: <ExitIcon />,
-				href: '/login',
-				color: 'danger',
-			},
-		],
+		name: 'Students',
+		user: 'teacher',
+		icon: <FaUsers />,
+		href: '/dashboard/students',
+		color: 'warning',
+	},
+	{
+		name: 'Courses',
+		user: 'teacher',
+		icon: <FaChalkboardTeacher />,
+		href: '/dashboard/courses',
+		color: 'warning',
+	},
+	{
+		name: 'My Courses',
+		user: 'student',
+		icon: <FaChalkboardTeacher />,
+		href: '/dashboard/my-courses',
+		color: 'warning',
+	},
+	{
+		name: 'Categories',
+		user: 'teacher',
+		icon: <CardStackIcon />,
+		href: '/dashboard/categories',
+		color: 'warning',
+	},
+	{
+		name: 'Settings',
+		user: '',
+		icon: <GearIcon />,
+		href: '/dashboard/settings',
+		color: 'warning',
+	},
+	{
+		name: 'Discussions',
+		user: '',
+		icon: <ChatBubbleIcon />,
+		href: '/dashboard/discussions',
+		color: 'warning',
+	},
+	{
+		name: 'Live Streams',
+		user: '',
+		icon: <VideoIcon />,
+		href: '/dashboard/livestream',
+		color: 'warning',
+	},
+	{
+		name: 'Logout',
+		user: '',
+		icon: <ExitIcon />,
+		href: '/login',
+		color: 'danger',
 	},
 ];
 export const DashboardRoot = () => {
-	const [isCollapsed, setIsCollapsed] = useState(false);
+	const [isCollapsed, setIsCollapsed] = useState(true);
 	const dispatch = useAppDispatch();
 	const l = LocalStorageManager.getInstance();
 	useEffect(() => {
