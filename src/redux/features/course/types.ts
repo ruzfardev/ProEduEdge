@@ -9,6 +9,7 @@ export type Course = {
     dateTime: string;
     isVerified: boolean;
 }
+
 export type CreateCourse = {
   id?: string;
   title: string;

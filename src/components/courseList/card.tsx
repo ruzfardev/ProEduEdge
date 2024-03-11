@@ -9,7 +9,7 @@ export const PCard: FC<Props> = (props) => {
 	const {id, title, price, banner} = props.course;
 	const {onCardClick} = props;
 	const [loadedImages, setLoadedImages] = useState<any>({});
-	const handleImageLoad = (id: number) => {
+	const handleImageLoad = (id: string) => {
 		setLoadedImages((prev: any) => ({...prev, [id]: true}));
 	};
 	return (
