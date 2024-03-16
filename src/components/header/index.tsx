@@ -14,7 +14,7 @@ import {
 	Card,
 } from '@/components/ui';
 import {Link, NavLink, useNavigate} from 'react-router-dom';
-import logo from '../../assets/images/logo-black.png';
+import logo from '../../assets/images/logo.svg';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {StateType} from '@/redux/root-reducer';
 import {logOutAction} from '@/redux/features/users/slice.ts';
@@ -83,13 +83,11 @@ export const Header: FC = () => {
 			}`}
 		>
 			<div className="w-8/12 flex items-center justify-between mx-auto">
-				<div className="flex h-[40px] w-56  items-center gap-2">
-					{/*<Image src={logo} alt="logo" />*/}
-					<strong className="text-2xl font-bold">
-						<Link to="/">
-							<img src={logo} alt="logo" className="w-full h-full" />
-						</Link>
-					</strong>
+				<div className="flex h-[75px] w-56  items-center gap-2">
+					{/* <Image src={logo} alt="logo" /> */}
+					<Link className="w-full h-full" to="/">
+						<img src={logo} alt="logo" className="w-full h-full" />
+					</Link>
 				</div>
 				<ul className="hidden sm:flex gap-4">
 					<li>

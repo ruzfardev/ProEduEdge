@@ -5,8 +5,8 @@ import { FilePondInitialFile } from 'filepond';
 import { toast } from 'sonner';
 
 export const api = axios.create({
-	// baseURL: 'http://localhost:8080/api/proeduedge/',
-	baseURL: 'http://localhost:5000/api/proeduedge/',
+	baseURL: 'http://localhost:8080/api/proeduedge/',
+	// baseURL: 'http://localhost:5000/api/proeduedge/',
 	headers: {
 		'Content-Type': 'application/json',
 		'Access-Control-Allow-Origin': '*',
