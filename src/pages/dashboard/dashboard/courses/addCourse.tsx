@@ -9,11 +9,8 @@ import {
 	Input,
 	Select,
 	SelectContent,
-	SelectItem,
 	SelectTrigger,
 	SelectValue,
-	Tabs,
-	TabsContent,
 	Textarea,
 } from '@/components/ui';
 import React, {useEffect} from 'react';
@@ -23,14 +20,9 @@ import {AddSection} from './addSection';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {Course, CreateCourse} from '@/redux/features/course/types';
 import {FilePondInitialFile} from 'filepond';
-import {
-	createCourseAction,
-	uploadBannerAction,
-} from '@/redux/features/course/slice';
+import {uploadBannerAction} from '@/redux/features/course/slice';
 import './style.css';
 import {uploadCourseBannerFx} from '@/api';
-import {Toaster, toast} from 'sonner';
-import {getBlobUrlWithSasToken} from '@/lib/utils';
 
 export const AddCourse = () => {
 	let pond = React.useRef(null);
@@ -47,8 +39,6 @@ export const AddCourse = () => {
 		},
 	});
 	const {
-		createCourse,
-		pending,
 		category: {data, errors, isLoading},
 	} = useAppSelector((state) => state.courses);
 	const {
@@ -59,10 +49,6 @@ export const AddCourse = () => {
 		handleSubmit,
 		formState: {isValid},
 	} = form;
-	// course creation steps
-	// 1. Course Details
-	// 2. Course Content
-	// 3. Course Pricing
 	const [steps, setSteps] = React.useState([
 		{
 			id: 1,
@@ -80,31 +66,6 @@ export const AddCourse = () => {
 			active: false,
 		},
 	]);
-	const handleSteps = (id: number): boolean => {
-		// before moving to the next step, validate the current step
-		// if the current step is not valid, don't move to the next step
-		// if the current step is valid, move to the next step
-		if (form.formState.isValid) {
-			setSteps(
-				steps.map((step) =>
-					step.id === id
-						? {
-								...step,
-								active: true,
-							}
-						: {
-								...step,
-								active: false,
-							}
-				)
-			);
-			return true;
-		} else {
-			// show form validation errors
-			form.trigger();
-			return false;
-		}
-	};
 	const handleCourseDetails = (data: CreateCourse) => {
 		if (isValid) {
 			const instructorId = userData?.id ? userData?.id : null;

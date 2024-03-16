@@ -1,26 +1,28 @@
+import React, {FC, useEffect, useRef} from 'react';
 import {Editor} from '@toast-ui/react-editor';
-import React from 'react';
-import {Button} from '@/components/ui';
-export const EditorComponent = () => {
-	const editorRef = React.useRef<Editor | null>(null);
+
+interface EditorComponentProps {
+	getEditorInstance: (editor: Editor) => void;
+}
+
+export const EditorComponent: FC<EditorComponentProps> = ({
+	getEditorInstance,
+}) => {
+	const editorRef = useRef<Editor | null>(null);
+
+	useEffect(() => {
+		if (editorRef.current) {
+			getEditorInstance(editorRef.current);
+		}
+	}, [getEditorInstance]);
 	return (
-		<>
-			<Editor
-				ref={editorRef}
-				initialValue="hello react editor world!"
-				previewStyle="vertical"
-				height="600px"
-				initialEditType="wysiwyg"
-				useCommandShortcut={true}
-				onChange={(e) => console.log(e)}
-			/>
-			<Button
-				onClick={() =>
-					console.log(editorRef.current?.getInstance().getMarkdown())
-				}
-			>
-				Get Markdown
-			</Button>
-		</>
+		<Editor
+			ref={editorRef}
+			initialValue="hello react editor world!"
+			previewStyle="vertical"
+			height="600px"
+			initialEditType="wysiwyg"
+			useCommandShortcut={true}
+		/>
 	);
 };

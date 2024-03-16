@@ -18,10 +18,13 @@ import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {uploadCourseContentMediaAction} from '@/redux/features/course/slice';
 import {toast} from 'sonner';
 import {EditorComponent} from '@/components/editor';
+import {EditorParser} from '@/components/editor/editorParser';
+import {Editor} from '@toast-ui/react-editor';
 export interface ISection {
 	id: number;
 	name: string;
 	label: string;
+	content: string;
 	description: string;
 	active: boolean;
 }
@@ -31,6 +34,7 @@ export const AddSection = () => {
 		createCourse: {id},
 	} = useAppSelector((state) => state.courses);
 	const dispatch = useAppDispatch();
+	const [editorRef, setEditorRef] = useState<Editor>();
 	const form = useForm<ISection>({
 		defaultValues: {
 			name: '',
@@ -47,24 +51,27 @@ export const AddSection = () => {
 			toast.error('Please create a course first. Then add a section');
 			return;
 		}
+		data.content = editorRef?.getInstance().getMarkdown() || '';
 		dispatch(
 			uploadCourseContentMediaAction({
 				files,
 				sectionInfo: data,
 			})
 		);
+		console.info('Section Data:', data);
 		form.reset();
+		editorRef?.getInstance().setMarkdown('');
 		setFiles([]);
 	};
 
 	return (
 		<Form {...form}>
-			<div className="w-full mx-auto flex gap-1 h-full">
+			<div className="w-full mx-auto flex flex-col gap-1 h-full">
 				<div className="w-full">
 					<form
 						id="section-form"
 						onSubmit={handleSubmit(handleSectionSubmit)}
-						className="w-11/12 mx-auto flex flex-col h-full"
+						className="w-full p-2 mx-auto flex flex-col h-full"
 					>
 						<div className="flex flex-col mt-4 gap-4">
 							<FormField
@@ -110,6 +117,7 @@ export const AddSection = () => {
 									</FormItem>
 								)}
 							/>
+							<EditorComponent getEditorInstance={setEditorRef} />
 							<Label>Section Recources</Label>
 							<FilePond
 								name="recources"
@@ -130,7 +138,6 @@ export const AddSection = () => {
 						</div>
 					</form>
 				</div>
-				<EditorComponent />
 			</div>
 			<Button
 				form="section-form"
