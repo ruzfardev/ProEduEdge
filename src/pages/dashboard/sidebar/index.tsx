@@ -50,7 +50,7 @@ export const DashboardSidebar: FC<SidebarProps> = ({
 				<Separator orientation="horizontal" />
 				<div className="flex mb-auto justify-self-start mt-4 flex-col group-[[data-collapsed=true]]:items-center gap-2">
 					{sidebarItems
-						.filter((s) => s.user === data?.role || s.user === '')
+						// .filter((s) => s.user === data?.role || s.user === '')
 						.map((item, index) =>
 							isCollapsed ? (
 								<Tooltip key={item.name} delayDuration={0}>

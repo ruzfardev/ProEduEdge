@@ -13,9 +13,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
 import './index.css';
-import {TooltipProvider} from './components/ui/tooltip.tsx';
-import {PayPalScriptProvider} from '@paypal/react-paypal-js';
+import {TooltipProvider} from '@/components/ui';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

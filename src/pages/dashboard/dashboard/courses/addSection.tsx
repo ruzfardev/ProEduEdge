@@ -17,6 +17,7 @@ import {FilePondInitialFile} from 'filepond';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {uploadCourseContentMediaAction} from '@/redux/features/course/slice';
 import {toast} from 'sonner';
+import {EditorComponent} from '@/components/editor';
 export interface ISection {
 	id: number;
 	name: string;
@@ -59,50 +60,6 @@ export const AddSection = () => {
 	return (
 		<Form {...form}>
 			<div className="w-full mx-auto flex gap-1 h-full">
-				{/* <div
-					className="vertical-tabs w-1/4  
-				h-full overflow-scroll no-scrollbar
-				dark:bg-gray-800"
-				>
-					<div className="flex flex-col gap-2">
-						<div className="flex justify-between items-center">
-							<Button
-								onClick={handleAddSection}
-								type="button"
-								size="default"
-								color="warning"
-								variant="outline"
-							>
-								<PlusIcon />
-							</Button>
-							<Button
-								onClick={handleRemoveSection}
-								type="button"
-								size="default"
-								variant="outline"
-								color="danger"
-							>
-								<TrashIcon />
-							</Button>
-						</div>
-						<div className="divider w-full h-[1px] bg-gray-200 dark:bg-gray-700"></div>
-						<div className="mt-4 overflow-y-auto no-scrollbar max-h-[calc(100vh-270px)]">
-							<div className="flex flex-col gap-2">
-								{sections.map((section, index) => (
-									<Button
-										onClick={() => switchToSection(section.id)}
-										key={section.id}
-										type="button"
-										size="default"
-										variant={section.active ? 'default' : 'secondary'}
-									>
-										{section.label}
-									</Button>
-								))}
-							</div>
-						</div>
-					</div>
-				</div> */}
 				<div className="w-full">
 					<form
 						id="section-form"
@@ -173,6 +130,7 @@ export const AddSection = () => {
 						</div>
 					</form>
 				</div>
+				<EditorComponent />
 			</div>
 			<Button
 				form="section-form"

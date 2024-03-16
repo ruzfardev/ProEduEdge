@@ -91,11 +91,11 @@ export const AddCourse = () => {
 						? {
 								...step,
 								active: true,
-						  }
+							}
 						: {
 								...step,
 								active: false,
-						  }
+							}
 				)
 			);
 			return true;
@@ -200,14 +200,14 @@ export const AddCourse = () => {
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												{data?.map((category) => (
-													<SelectItem
-														key={category.id}
-														value={category.id.toString()}
-													>
-														{category.name}
-													</SelectItem>
-												))}
+												{/*{data?.map((category) => (*/}
+												{/*	<SelectItem*/}
+												{/*		key={category.id}*/}
+												{/*		value={category.id.toString()}*/}
+												{/*	>*/}
+												{/*		{category.name}*/}
+												{/*	</SelectItem>*/}
+												{/*))}*/}
 											</SelectContent>
 										</Select>
 										<FormMessage />
