@@ -1,5 +1,5 @@
 import {useLocation, useNavigate} from 'react-router';
-import logo from '@/assets/images/logo-black.png';
+import logo from '@/assets/images/logo.svg';
 import {FC} from 'react';
 import {Link} from 'react-router-dom';
 import {cn} from '@/lib/utils';
@@ -42,12 +42,10 @@ export const DashboardSidebar: FC<SidebarProps> = ({
 			)}
 		>
 			<nav className="flex flex-col h-full gap-1 group-[[data-collapsed=false]]:px-3">
-				<div className="flex h-[40px] w-full  items-center gap-2">
-					<strong className="sepia text-2xl font-bold">
-						<Link to="/">
-							<img src={logo} alt="logo" className="w-full sepia h-full" />
-						</Link>
-					</strong>
+				<div className="flex h-[60px] w-full  items-center gap-2">
+					<Link className="w-full h-full" to="/">
+						<img src={logo} alt="logo" className="w-full h-full" />
+					</Link>
 				</div>
 				<Separator orientation="horizontal" />
 				<div className="flex mb-auto justify-self-start mt-4 flex-col group-[[data-collapsed=true]]:items-center gap-2">

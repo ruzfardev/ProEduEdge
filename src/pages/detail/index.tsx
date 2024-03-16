@@ -34,7 +34,9 @@ export const CourseDetail: FC = () => {
 					>
 						<h1>
 							Created by:{' '}
-							<span className="text-blue-600">{c.instructorId}</span>
+							<span className="text-blue-600">
+								{c.instructor.firstName} {c.instructor.lastName}
+							</span>
 						</h1>
 						<div className="flex items-center space-x-2 my-3">
 							<FaCalendar />

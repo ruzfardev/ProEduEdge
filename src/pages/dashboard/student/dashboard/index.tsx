@@ -1,16 +1,27 @@
 import {Card} from '@/components/ui';
 import {cn} from '@/lib/utils';
+import {useAppDispatch} from '@/redux/hooks';
 import {PlayIcon} from '@radix-ui/react-icons';
 import React from 'react';
 import {useNavigate} from 'react-router';
 
 export const StudentDashboard = () => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 	const handleClick = (id: number) => {
 		navigate(`/dashboard/me/courses/${id}`);
+		dispatch();
 	};
 	return (
-		<div className="w-full mx-auto gap-4 grid grid-cols-2 sm:grid-cols-4 justify-center">
+		<div
+			className="
+		w-full 
+		mx-auto gap-4 
+		grid 
+		grid-cols-6
+		sm:grid-cols-5
+		justify-center"
+		>
 			{Array.from({length: 14}).map((_, index) => {
 				return (
 					<Card

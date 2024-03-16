@@ -1,3 +1,5 @@
+import { UserType } from "../users/types";
+
 export type Course = {
     id: string;
     title: string;
@@ -5,6 +7,7 @@ export type Course = {
     banner: string;
     price: number;
     instructorId: number;
+    instructor: UserType;
     categoryId: number;
     dateTime: string;
     isVerified: boolean;
