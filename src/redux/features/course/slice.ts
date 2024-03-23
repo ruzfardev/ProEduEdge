@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Course, COURSES, CoursesStateType, CreateCourse, ICourse} from './types';
 import { FilePondInitialFile } from 'filepond';
 import { ISection } from '@/pages/dashboard/dashboard/courses/addSection';
+import { UserType } from '../users/types';
 
 const courseInitialState: CoursesStateType = {
 	courses: {
@@ -31,6 +32,7 @@ const courseInitialState: CoursesStateType = {
 		banner: '',
 		price: 0,
 		instructorId: 0,
+		instructor: {} as UserType,
 		categoryId: 0,
 		isVerified: false,
 		dateTime: '',

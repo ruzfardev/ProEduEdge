@@ -159,20 +159,21 @@ export const getAllCoursesFx = async () => {
 
 
 // Handling Student Actions
-export const getMyCoursesFx = async () => {
+export const getMyCoursesFx = async (id: number) => {
 	try {
-		const response = await api.get('all-courses');
+		console.log(id, "ID")
+		const response = await api.get(`student-courses/${id}`);
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);
 	}
 }
 
-export const getCourseWithContentFx = async () => {
+export const getCourseWithContentFx = async (id: number) => {
 	try {
-		const response = await api.get(`get-content/2006`);
+		const response = await api.get(`get-content/${id}`);
 		return response.data;
 	} catch (error: any) {
-		handleApiError(error);
+		handleApiError(error);	
 	}
 }

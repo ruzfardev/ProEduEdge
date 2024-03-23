@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from 'react';
+import {FC} from 'react';
 import {ContainerWrapper} from '../../components/container/container-wrapper.tsx';
 import {useParams} from 'react-router';
 import {
@@ -21,7 +21,6 @@ import {ShowMoreText} from '../../components/show-more';
 import {useAppSelector} from '@/redux/hooks/index.ts';
 import {getBlobUrlWithSasToken} from '@/lib/utils.ts';
 export const CourseDetail: FC = () => {
-	const {id} = useParams();
 	const c = useAppSelector((state) => state.courses.selectedCourse);
 	return (
 		<>
@@ -58,11 +57,12 @@ export const CourseDetail: FC = () => {
 							</h5>
 							<Avatar className="w-24 h-24">
 								<AvatarFallback className="bg-gradient-to-tr text-2xl text-white from-orange-500 to-orange-400">
-									{c.instructorId}
+									{c.instructor.firstName[0]}
+									{c.instructor.lastName[0]}
 								</AvatarFallback>
 							</Avatar>
 							<h5 className="text-xl text-zinc-400 text-center">
-								{c.instructorId}
+								{c.instructor.firstName} {c.instructor.lastName}
 							</h5>
 							<div className="flex items-center space-x-2 my-3">
 								<div className="cursor-pointer flex bg-gradient-to-tr text-white from-orange-500 to-orange-400 items-center rounded-full p-2 text-sm">

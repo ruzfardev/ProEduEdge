@@ -26,20 +26,20 @@ export const Header: FC = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const {user} = useAppSelector((state: StateType) => state.users);
 	const {data, errors, isLoading} = user;
-	const handleScroll = () => {
-		const offset = window.scrollY;
-		const headerHeight = 100; // Replace with the actual height of your header
-		if (offset > headerHeight) {
-			setIsScrolled(true);
-		} else {
-			setIsScrolled(false);
-		}
-	};
+	// const handleScroll = () => {
+	// 	const offset = window.scrollY;
+	// 	const headerHeight = 100; // Replace with the actual height of your header
+	// 	if (offset > headerHeight) {
+	// 		setIsScrolled(true);
+	// 	} else {
+	// 		setIsScrolled(false);
+	// 	}
+	// };
 
-	useEffect(() => {
-		window.addEventListener('scroll', handleScroll);
-		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
+	// useEffect(() => {
+	// 	window.addEventListener('scroll', handleScroll);
+	// 	return () => window.removeEventListener('scroll', handleScroll);
+	// }, []);
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 	const menuItems = [
 		'Profile',
@@ -77,14 +77,9 @@ export const Header: FC = () => {
 		}
 	};
 	return (
-		<nav
-			className={`py-3 z-50 nav w-full shadow-md mx-auto ${
-				isScrolled ? 'nav-scrolled' : 'nav-top'
-			}`}
-		>
+		<nav className={`z-50 nav w-full border-b-2 mx-auto`}>
 			<div className="w-8/12 flex items-center justify-between mx-auto">
 				<div className="flex h-[75px] w-56  items-center gap-2">
-					{/* <Image src={logo} alt="logo" /> */}
 					<Link className="w-full h-full" to="/">
 						<img src={logo} alt="logo" className="w-full h-full" />
 					</Link>
@@ -96,9 +91,9 @@ export const Header: FC = () => {
 								isActive
 									? 'text-black font-bold'
 									: 'relative inline-flex items-center tap-highlight-transparent\n' +
-									  '\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
-									  '\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
-									  '\t\t\t\t\t\ttext-medium text-orange-400 no-underline hover:opacity-80 active:text-orange-400 active:opacity-disabled transition-opacity'
+										'\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
+										'\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
+										'\t\t\t\t\t\ttext-medium text-orange-400 no-underline hover:opacity-80 active:text-orange-400 active:opacity-disabled transition-opacity'
 							}
 							to={'/'}
 						>
@@ -111,9 +106,9 @@ export const Header: FC = () => {
 								isActive
 									? 'text-black font-bold'
 									: 'relative inline-flex items-center tap-highlight-transparent\n' +
-									  '\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
-									  '\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
-									  '\t\t\t\t\t\ttext-medium text-orange-400 no-underline hover:opacity-80 active:text-orange-400 active:opacity-disabled transition-opacity'
+										'\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
+										'\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
+										'\t\t\t\t\t\ttext-medium text-orange-400 no-underline hover:opacity-80 active:text-orange-400 active:opacity-disabled transition-opacity'
 							}
 							to={'/courses'}
 						>
@@ -126,9 +121,9 @@ export const Header: FC = () => {
 								isActive
 									? 'text-black font-bold'
 									: 'relative inline-flex items-center tap-highlight-transparent\n' +
-									  '\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
-									  '\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
-									  '\t\t\t\t\t\ttext-medium text-orange-400 no-underline hover:opacity-80 active:text-orange-400 active:opacity-disabled transition-opacity'
+										'\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
+										'\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
+										'\t\t\t\t\t\ttext-medium text-orange-400 no-underline hover:opacity-80 active:text-orange-400 active:opacity-disabled transition-opacity'
 							}
 							to={'/about'}
 						>
@@ -141,9 +136,9 @@ export const Header: FC = () => {
 								isActive
 									? 'text-black font-bold'
 									: 'relative inline-flex items-center tap-highlight-transparent\n' +
-									  '\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
-									  '\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
-									  '\t\t\t\t\t\ttext-medium text-orange-400 no-underline hover:opacity-80 active:text-orange-400 active:opacity-disabled transition-opacity'
+										'\t\t\t\t\t\toutline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2\n' +
+										'\t\t\t\t\t\tdata-[focus-visible=true]:outline-focus font-bold data-[focus-visible=true]:outline-offset-2\n' +
+										'\t\t\t\t\t\ttext-medium text-orange-400 no-underline hover:opacity-80 active:text-orange-400 active:opacity-disabled transition-opacity'
 							}
 							to={'/contact'}
 						>

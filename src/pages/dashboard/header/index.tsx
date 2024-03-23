@@ -26,19 +26,14 @@ export const DashboardHeader = () => {
 				break;
 			case 'dashboard':
 				navigate('/dashboard', {replace: true});
-				console.log('Dashboard');
 				break;
 			case 'settings':
 				navigate('/dashboard/settings');
-				console.log('Settings');
 				break;
 			case 'log-out':
-				// TODO: Implement logout functionality
 				navigate('/login');
-				console.log('Log out');
 				break;
 			default:
-				console.log('default');
 		}
 	};
 	return (

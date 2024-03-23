@@ -64,7 +64,7 @@ const sidebarItems = [
 		name: 'My Courses',
 		user: 'student',
 		icon: <FaChalkboardTeacher />,
-		href: '/dashboard/my-courses',
+		href: '/dashboard/me/courses',
 		color: 'warning',
 	},
 	{

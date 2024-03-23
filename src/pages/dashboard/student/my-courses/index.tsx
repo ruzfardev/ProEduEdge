@@ -1,65 +1,76 @@
-import React, {useEffect} from 'react';
+import {Loading} from '@/components/loader';
+import {Card} from '@/components/ui';
+import {LocalStorageManager, cn, getBlobUrlWithSasToken} from '@/lib/utils';
 import {
-	AccordionContent,
-	Accordion,
-	AccordionItem,
-	AccordionTrigger,
-} from '@/components/ui';
-import ReactPlayer from 'react-player';
-import {useParams} from 'react-router';
+	getCourseWithContentAction,
+	getMyCoursesAction,
+} from '@/redux/features/student/slice';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-import {getMyCoursesAction} from '@/redux/features/student/slice';
+import {PlayIcon} from '@radix-ui/react-icons';
+import React, {useEffect} from 'react';
+import {useNavigate} from 'react-router';
 
-export const MyCourse = () => {
-	const {id} = useParams();
+export const MyCourses = () => {
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const {selectedCourse} = useAppSelector((state) => state.student);
-
+	const l = LocalStorageManager.getInstance();
+	const {data, errors, isLoading} = useAppSelector(
+		(state) => state.student.myCourses
+	);
+	const handleClick = (id: number) => {
+		navigate(`/dashboard/me/courses/${id}`);
+	};
 	useEffect(() => {
-		dispatch(getMyCoursesAction());
+		dispatch(getMyCoursesAction(l.getItem('user')?.id));
 	}, []);
-
 	return (
-		<div className="flex gap-1 h-full">
-			<div
-				className="player-wrapper w-9/12 border-orange-50 border-2 h-full
-            "
-			>
-				<ReactPlayer
-					url="https://www.youtube.com/watch?v=_uUmKZvBqN8"
-					controls
-					height="100%"
-					width="100%"
-					style={{borderRadius: '10px'}}
-				/>
-			</div>
-			<div className="sections w-3/12">
-				<Accordion
-					type="single"
-					collapsible
-					className="w-full border p-2 border-zinc-100 rounded
-				"
+		<>
+			{isLoading && <Loading />}
+			{!isLoading && data && (
+				<div
+					className="
+		w-full 
+		mx-auto gap-4 
+		grid 
+		grid-cols-6
+		sm:grid-cols-5
+		justify-center"
 				>
-					<AccordionItem value="item-1">
-						<AccordionTrigger>
-							Module 1: Introduction to the course
-						</AccordionTrigger>
-						<AccordionContent>Module 1 Content</AccordionContent>
-					</AccordionItem>
-					<AccordionItem value="item-2">
-						<AccordionTrigger>
-							Module 2: Introduction to the course
-						</AccordionTrigger>
-						<AccordionContent>Module 2 Content</AccordionContent>
-					</AccordionItem>
-					<AccordionItem value="item-3">
-						<AccordionTrigger>
-							Module 3: Introduction to the course
-						</AccordionTrigger>
-						<AccordionContent>Module 3 Content</AccordionContent>
-					</AccordionItem>
-				</Accordion>
-			</div>
-		</div>
+					{data.map((c, index) => {
+						return (
+							<Card
+								key={index}
+								onClick={() => handleClick(Number(c.id))}
+								className="max-w-sm rounded overflow-hidden shadow-lg"
+							>
+								<div className="relative">
+									<img
+										className={cn(
+											'h-auto w-auto object-cover transition-all',
+											'portrait' === 'portrait'
+												? 'aspect-[4/2]'
+												: 'aspect-square'
+										)}
+										src={getBlobUrlWithSasToken(c.banner, 'banners')}
+										alt="Course image"
+									/>
+									<div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100">
+										<button className="p-3 bg-white rounded-full hover:bg-gray-100 transition-all">
+											<PlayIcon />
+										</button>
+									</div>
+								</div>
+								<div className="px-6 py-4">
+									<div className="font-bold mb-2">{c.title}</div>
+									<p className="text-gray-700 text-base">
+										{c.instructor.firstName} {c.instructor.lastName}
+									</p>
+								</div>
+							</Card>
+						);
+					})}
+				</div>
+			)}
+		</>
 	);
 };

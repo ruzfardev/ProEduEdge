@@ -22,7 +22,8 @@ import {DiscussionChat} from '@/pages/dashboard/dashboard/discussions';
 import {MeetingRoot} from '@/pages/dashboard/dashboard/live-streams';
 import {SDashboardRoot} from '@/pages/dashboard/student';
 import {StudentDashboard} from '@/pages/dashboard/student/dashboard';
-import {MyCourse} from '@/pages/dashboard/student/my-courses';
+import {MyCourses} from '@/pages/dashboard/student/my-courses';
+import {MyCourse} from '@/pages/dashboard/student/my-courses/me-course';
 
 export const RootRoute = () => {
 	return (
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
 						path: '/dashboard/me/courses/:id',
 						element: <MyCourse />,
 					},
+					{
+						path: '/dashboard/me/courses',
+						element: <MyCourses />,
+					},
 				],
 			},
 			{
@@ -105,10 +110,6 @@ const router = createBrowserRouter([
 			{
 				path: '/dashboard/courses',
 				element: <ManageCourses />,
-			},
-			{
-				path: '/dashboard/my-courses',
-				element: <div>My Courses</div>,
 			},
 			{
 				path: '/dashboard/courses/add',

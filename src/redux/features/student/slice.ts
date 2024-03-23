@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { STUDENT, StudentDashboardState } from "./types";
 
 const studentDashboardInitialState: StudentDashboardState = {
@@ -19,7 +19,7 @@ export const studentDashboardSlice = createSlice({
 	name: STUDENT,
 	initialState: studentDashboardInitialState,
 	reducers: {
-		getMyCoursesAction: (state) => {
+		getMyCoursesAction: (state, action: PayloadAction<number>) => {
 			state.myCourses.isLoading = true;
 		},
 		getMyCoursesSuccessAction: (state, action) => {
