@@ -20,6 +20,7 @@ import {toast} from 'sonner';
 import {EditorComponent} from '@/components/editor';
 import {EditorParser} from '@/components/editor/editorParser';
 import {Editor} from '@toast-ui/react-editor';
+import {v4 as uuidv4} from 'uuid';
 export interface ISection {
 	id: number;
 	name: string;
@@ -51,6 +52,7 @@ export const AddSection = () => {
 			toast.error('Please create a course first. Then add a section');
 			return;
 		}
+		data.id = uuidv4();
 		data.content = editorRef?.getInstance().getMarkdown() || '';
 		dispatch(
 			uploadCourseContentMediaAction({

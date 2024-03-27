@@ -26,6 +26,12 @@ export const MyCourses = () => {
 	return (
 		<>
 			{isLoading && <Loading />}
+			{!isLoading && !data && (
+				<div className="w-full h-full flex flex-col items-center justify-center mx-auto text-center">
+					<span className="text-9xl text-zinc-600">(·.·)</span>
+					<h1 className="text-2xl mt-2 font-bold">No courses found</h1>
+				</div>
+			)}
 			{!isLoading && data && (
 				<div
 					className="

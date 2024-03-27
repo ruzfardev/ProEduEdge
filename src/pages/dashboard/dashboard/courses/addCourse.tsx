@@ -9,6 +9,7 @@ import {
 	Input,
 	Select,
 	SelectContent,
+	SelectItem,
 	SelectTrigger,
 	SelectValue,
 	Textarea,
@@ -161,14 +162,14 @@ export const AddCourse = () => {
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												{/*{data?.map((category) => (*/}
-												{/*	<SelectItem*/}
-												{/*		key={category.id}*/}
-												{/*		value={category.id.toString()}*/}
-												{/*	>*/}
-												{/*		{category.name}*/}
-												{/*	</SelectItem>*/}
-												{/*))}*/}
+												{data?.map((category) => (
+													<SelectItem
+														key={category.id}
+														value={category.id.toString()}
+													>
+														{category.name}
+													</SelectItem>
+												))}
 											</SelectContent>
 										</Select>
 										<FormMessage />

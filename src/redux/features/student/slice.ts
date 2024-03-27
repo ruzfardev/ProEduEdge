@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { STUDENT, StudentDashboardState } from "./types";
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {STUDENT, StudentDashboardState} from './types';
 
 const studentDashboardInitialState: StudentDashboardState = {
 	myCourses: {
@@ -32,14 +32,17 @@ export const studentDashboardSlice = createSlice({
 		},
 		getCourseWithContentAction: (state) => {
 			state.pending = true;
+			state.selectedCourse.isLoading = true;
 		},
 		getCourseWithContentSuccessAction: (state, action) => {
 			state.pending = false;
-			state.selectedCourse = action.payload;
+			state.selectedCourse.isLoading = false;
+			state.selectedCourse.data = action.payload;
 		},
 		getCourseWithContentErrorAction: (state, action) => {
 			state.pending = false;
-			state.myCourses.errors = action.payload;
+			state.selectedCourse.isLoading = false;
+			state.selectedCourse.errors = action.payload;
 		},
 	},
 });

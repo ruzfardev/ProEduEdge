@@ -1,12 +1,12 @@
-import { CreateCourse, ICourseSection } from '@/redux/features/course/types';
+import {CreateCourse, ICourseSection} from '@/redux/features/course/types';
 import {ILogin, IUser} from '@/redux/models';
 import axios from 'axios';
-import { FilePondInitialFile } from 'filepond';
-import { toast } from 'sonner';
+import {FilePondInitialFile} from 'filepond';
+import {toast} from 'sonner';
 
 export const api = axios.create({
-	baseURL: 'http://localhost:8080/api/proeduedge/',
-	// baseURL: 'http://localhost:5000/api/proeduedge/',
+	// baseURL: 'http://localhost:8080/api/proeduedge/',
+	baseURL: 'http://localhost:5000/api/proeduedge/',
 	headers: {
 		'Content-Type': 'application/json',
 		'Access-Control-Allow-Origin': '*',
@@ -15,6 +15,7 @@ export const api = axios.create({
 			'Origin, X-Requested-With, Content-Type, Accept, Authorization',
 	},
 });
+
 const handleApiError = (error: any) => {
 	let errorMessage = 'An error occurred';
 	if (error.response && error.response.data && error.response.data.message) {
@@ -88,55 +89,56 @@ export const uploadCourseBannerFx = async (file: File) => {
 	}
 };
 export const uploadCourseRecoursesFx = async (file: File) => {
-    try {
+	try {
 		toast.loading('Uploading file');
-        const formData = new FormData();
-        formData.append('file', file);
-        const response = await api.post('upload/resourses', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+		const formData = new FormData();
+		formData.append('file', file);
+		const response = await api.post('upload/resourses', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		});
 		toast.dismiss();
 		toast.success('File uploaded successfully');
-        return response.data;
-    } catch (error: any) {
-        handleApiError(error);
-    }
-}
-export const uploadCourseRecoursesMultipleFx = async (files: Array<FilePondInitialFile | File | Blob | string>) => {
-    try {
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+export const uploadCourseRecoursesMultipleFx = async (
+	files: Array<FilePondInitialFile | File | Blob | string>
+) => {
+	try {
 		toast.loading('Uploading files');
-        const formData = new FormData();
-        files.forEach((file) => {
-            formData.append('files', file);
-        });
-        const response = await api.post('uploadMultiple/recourses', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+		const formData = new FormData();
+		files.forEach((file) => {
+			formData.append('files', file);
+		});
+		const response = await api.post('uploadMultiple/recourses', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		});
 		toast.dismiss();
 		toast.success('Files uploaded successfully');
 		return response.data;
-
-    } catch (error: any) {
-        handleApiError(error);
-    }
-}
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
 
 // Handling Course Actions
-export const createCourseFx = async (data: CreateCourse) =>{
+export const createCourseFx = async (data: CreateCourse) => {
 	try {
 		toast.loading('Creating course');
 		const response = await api.post('create-course', data);
 		toast.dismiss();
 		toast.success('Course created successfully');
-		return response.data
+		return response.data;
 	} catch (error: any) {
-		handleApiError(error)
+		handleApiError(error);
 	}
-}
+};
 export const addCourseSectionFx = async (data: ICourseSection) => {
 	try {
 		toast.loading('Adding course section');
@@ -147,7 +149,7 @@ export const addCourseSectionFx = async (data: ICourseSection) => {
 	} catch (error: any) {
 		handleApiError(error);
 	}
-}
+};
 export const getAllCoursesFx = async () => {
 	try {
 		const response = await api.get('all-courses');
@@ -155,25 +157,24 @@ export const getAllCoursesFx = async () => {
 	} catch (error: any) {
 		handleApiError(error);
 	}
-}
-
+};
 
 // Handling Student Actions
 export const getMyCoursesFx = async (id: number) => {
 	try {
-		console.log(id, "ID")
+		console.log(id, 'ID');
 		const response = await api.get(`student-courses/${id}`);
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);
 	}
-}
+};
 
 export const getCourseWithContentFx = async (id: number) => {
 	try {
 		const response = await api.get(`get-content/${id}`);
 		return response.data;
 	} catch (error: any) {
-		handleApiError(error);	
+		handleApiError(error);
 	}
-}
+};

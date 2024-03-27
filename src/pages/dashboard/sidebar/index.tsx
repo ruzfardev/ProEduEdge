@@ -2,7 +2,7 @@ import {useLocation, useNavigate} from 'react-router';
 import logo from '@/assets/images/logo.svg';
 import {FC} from 'react';
 import {Link} from 'react-router-dom';
-import {cn} from '@/lib/utils';
+import {cn, LocalStorageManager} from '@/lib/utils';
 import {
 	Tooltip,
 	TooltipContent,
@@ -10,7 +10,8 @@ import {
 	Button,
 	Separator,
 } from '@/components/ui';
-import {useAppSelector} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {logOutAction} from '@/redux/features/users/slice.ts';
 interface SidebarProps {
 	isCollapsed: boolean;
 	items: {
@@ -28,10 +29,18 @@ export const DashboardSidebar: FC<SidebarProps> = ({
 	children,
 }) => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 	const location = useLocation();
+	const l = LocalStorageManager.getInstance();
 	const {data} = useAppSelector((state) => state.users.user);
 	const handleSidebarItemClick = (href: string) => {
-		navigate(href);
+		if (href === '/login') {
+			dispatch(logOutAction());
+			l.removeItem('user');
+			navigate(href);
+		} else {
+			navigate(href);
+		}
 	};
 	return (
 		<div
