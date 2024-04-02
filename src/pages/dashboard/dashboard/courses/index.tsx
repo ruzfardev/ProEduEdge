@@ -65,9 +65,9 @@ export const ManageCourses = () => {
 							<Card
 								onClick={() => handleCourseDetails(course.id)}
 								key={course.id}
-								className="flex flex-col cursor-pointer space-y-4 rounded-none"
+								className="flex bg-transparent flex-col cursor-pointer space-y-4 rounded-none"
 							>
-								<div className="flex flex-row bg-white overflow-hidden">
+								<div className="flex flex-row overflow-hidden">
 									<div className="p-4 flex-grow">
 										<h2 className="font-semibold text-lg">{course.title}</h2>
 										<div className="flex mt-2">

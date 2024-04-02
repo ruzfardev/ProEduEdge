@@ -5,6 +5,7 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 	Button,
+	Checkbox,
 } from '@/components/ui';
 import ReactPlayer from 'react-player';
 import {useParams} from 'react-router';
@@ -14,6 +15,8 @@ import {CourseContent} from '@/redux/features/student/types.ts';
 import {DownloadIcon} from '@radix-ui/react-icons';
 import {getBlobUrlWithSasToken, getFileIconComponent} from '@/lib/utils.ts';
 import FileIcon from '@/components/file-icon';
+import {VideoPlayer} from '@/components/video-player';
+import {EditorParser} from '@/components/editor/editorParser';
 
 export const MyCourse = () => {
 	const {id} = useParams();
@@ -28,33 +31,31 @@ export const MyCourse = () => {
 
 	useEffect(() => {
 		if (data) {
-			setSelectedSection(data.contents[1]);
+			setSelectedSection(data.contents[0]);
 		}
 	}, [isLoading, data]);
 
 	const handleSectionChange = (sectionName: string) => {
-		console.info('sectionName', sectionName);
 		const section = data?.contents.find(
 			(section) => section.sectionName === sectionName
 		);
 		setSelectedSection(section);
 	};
+	useEffect(() => {}, [selectedSection]);
 
 	return (
 		<div className="flex gap-1 h-full">
-			<div className="player-wrapper w-9/12 border-orange-50 border-2 h-full">
-				{selectedSection && (
-					<ReactPlayer
-						url={getBlobUrlWithSasToken(
-							selectedSection?.resources[0].url,
-							'recourses'
-						)}
-						controls
-						height="100%"
-						width="100%"
-						style={{borderRadius: '10px'}}
-					/>
-				)}
+			<div className="vertical-scroll-container w-9/12 max-h-[calc(100vh-10rem)] no-scrollbar overflow-y-auto">
+				<div className="player-wrapper w-full h-5/4 border-orange-50 border-2 ">
+					{selectedSection && <VideoPlayer selectedSection={selectedSection} />}
+				</div>
+				<div className="course-info p-2">
+					<h1 className="text-xl font-semibold mb-2">{data?.title}</h1>
+					<p className="text-sm text-gray-700 mb-2">{data?.description}</p>
+				</div>
+				<div className="markdown-parser-container">
+					<EditorParser />
+				</div>
 			</div>
 			<div className="sections w-3/12">
 				<Accordion
@@ -73,9 +74,13 @@ export const MyCourse = () => {
 											: ''
 									}
 								>
+									{/*<Checkbox*/}
+									{/*	id={section.sectionName}*/}
+									{/*	checked={selectedSection?.status === 'completed'}*/}
+									{/*/>*/}
 									{section.sectionName}
 								</AccordionTrigger>
-								<AccordionContent>
+								<AccordionContent className="hover:bg-zinc-50 p-2 rounded cursor-pointer">
 									{section.resources.map((resource, index) => (
 										<div
 											key={index}

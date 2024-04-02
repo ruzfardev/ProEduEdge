@@ -20,6 +20,7 @@ import {
 import {ShowMoreText} from '../../components/show-more';
 import {useAppSelector} from '@/redux/hooks/index.ts';
 import {getBlobUrlWithSasToken} from '@/lib/utils.ts';
+import {EnrollDialog} from '@/components/enroll-dialog';
 export const CourseDetail: FC = () => {
 	const c = useAppSelector((state) => state.courses.selectedCourse);
 	return (
@@ -187,13 +188,7 @@ export const CourseDetail: FC = () => {
 						title={''}
 						subtitle="Enroll in this course to get access to unlimited educational resources."
 					>
-						<Button
-							className="bg-white text-orange-500 rounded-full px-12 py-6
-					hover:bg-white transition-all duration-500 ease-in-out
-					"
-						>
-							Enroll Now
-						</Button>
+						<EnrollDialog courseId={c.id} amount={c.price} />
 					</ContainerWrapper>
 				</>
 			)}

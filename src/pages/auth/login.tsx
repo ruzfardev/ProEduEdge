@@ -8,12 +8,12 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from '../../components/ui';
+} from '@/components/ui';
 import {WrapperAuth} from './wrapper.tsx';
 import {Link, useNavigate} from 'react-router-dom';
 import {useForm, SubmitHandler} from 'react-hook-form';
-import {ILogin} from '../../redux/models/index.ts';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks/index.ts';
+import {ILogin} from '@/redux/models';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {Toaster, toast} from 'sonner';
 import {StateType} from '@/redux/root-reducer.ts';
 import {loginUserAction} from '@/redux/features/users/slice.ts';

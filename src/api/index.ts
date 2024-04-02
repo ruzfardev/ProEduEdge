@@ -1,5 +1,5 @@
 import {CreateCourse, ICourseSection} from '@/redux/features/course/types';
-import {ILogin, IUser} from '@/redux/models';
+import {Enrollment, ILogin, IUser, Payment} from '@/redux/models';
 import axios from 'axios';
 import {FilePondInitialFile} from 'filepond';
 import {toast} from 'sonner';
@@ -69,7 +69,6 @@ export const getCategoriesFx = async () => {
 		throw new Error(errorMessage);
 	}
 };
-
 // Handling Media Files
 export const uploadCourseBannerFx = async (file: File) => {
 	try {
@@ -112,6 +111,7 @@ export const uploadCourseRecoursesMultipleFx = async (
 		toast.loading('Uploading files');
 		const formData = new FormData();
 		files.forEach((file) => {
+			// @ts-ignore
 			formData.append('files', file);
 		});
 		const response = await api.post('uploadMultiple/recourses', formData, {
@@ -169,7 +169,6 @@ export const getMyCoursesFx = async (id: number) => {
 		handleApiError(error);
 	}
 };
-
 export const getCourseWithContentFx = async (id: number) => {
 	try {
 		const response = await api.get(`get-content/${id}`);
@@ -181,6 +180,22 @@ export const getCourseWithContentFx = async (id: number) => {
 export const getInstructorCoursesFx = async (id: number) => {
 	try {
 		const response = await api.get(`instructor-courses/${id}`);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+export const enrollCourseFx = async (data: Enrollment) => {
+	try {
+		const response = await api.post('enroll', data);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+export const payForCourseFx = async (data: Payment) => {
+	try {
+		const response = await api.post('pay', data);
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);
