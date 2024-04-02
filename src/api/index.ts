@@ -178,3 +178,11 @@ export const getCourseWithContentFx = async (id: number) => {
 		handleApiError(error);
 	}
 };
+export const getInstructorCoursesFx = async (id: number) => {
+	try {
+		const response = await api.get(`instructor-courses/${id}`);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};

@@ -9,10 +9,12 @@ import {
 	Avatar,
 	AvatarImage,
 	AvatarFallback,
+	Button,
 } from '@/components/ui';
 import {useAppSelector} from '@/redux/hooks';
 import {StateType} from '@/redux/root-reducer';
 import {useLocation, useNavigate} from 'react-router-dom';
+import {DoubleArrowLeftIcon} from '@radix-ui/react-icons';
 
 export const DashboardHeader = () => {
 	const location = useLocation();
@@ -38,8 +40,15 @@ export const DashboardHeader = () => {
 	};
 	return (
 		<div className="flex-none custom-shadow bg-white/10 backdrop-blur-lg flex m-2 mb-0 items-center">
-			<div className="w-full p-4 flex items-center justify-between border-small rounded-small border-default-200">
-				<h2 className="text-2xl font-bold">
+			<div className="w-full p-4 flex items-center border-small rounded-small border-default-200">
+				<Button
+					onClick={() => navigate(-1)}
+					className="text-white font-bold py-2 px-4 rounded"
+				>
+					<DoubleArrowLeftIcon className="mr-3" />
+					Back
+				</Button>
+				<h2 className="text-2xl ml-3 font-bold">
 					👋 Welcome,{' '}
 					<span className="text-primary-500">
 						{data?.firstName}
@@ -49,7 +58,10 @@ export const DashboardHeader = () => {
 				</h2>
 				{data && !errors && (
 					<DropdownMenu>
-						<DropdownMenuTrigger className="w-[14rem] cursor-pointer" asChild>
+						<DropdownMenuTrigger
+							className="w-[14rem] ml-auto cursor-pointer"
+							asChild
+						>
 							<div className="py-1 px-5">
 								<div
 									className="flex items-center

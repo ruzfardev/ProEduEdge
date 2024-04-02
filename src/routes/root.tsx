@@ -1,17 +1,17 @@
-import {Header} from '../components/header';
-import {Footer} from '../components/footer';
+import {Header} from '@/components/header';
+import {Footer} from '@/components/footer';
 
 import {Outlet, RouterProvider} from 'react-router';
 import {createBrowserRouter} from 'react-router-dom';
 import {ErrorRoute} from './error';
 import App from '../app/App';
-import {AboutPage} from '../pages/about';
-import {CoursesPage} from '../pages/courses';
-import {CourseDetail} from '../pages/detail';
-import {ContactPage} from '../pages/contact';
+import {AboutPage} from '@/pages/about';
+import {CoursesPage} from '@/pages/courses';
+import {CourseDetail} from '@/pages/detail';
+import {ContactPage} from '@/pages/contact';
 import {Login} from '../pages/auth/login';
 import {Register} from '../pages/auth/register';
-import {DashboardRoot} from '../pages/dashboard';
+import {DashboardRoot} from '@/pages/dashboard';
 import Dashboard from '../pages/dashboard/dashboard';
 import {Profile} from '@/pages/dashboard/dashboard/profile';
 import {StudentList} from '@/pages/dashboard/dashboard/students';
@@ -24,6 +24,7 @@ import {SDashboardRoot} from '@/pages/dashboard/student';
 import {StudentDashboard} from '@/pages/dashboard/student/dashboard';
 import {MyCourses} from '@/pages/dashboard/student/my-courses';
 import {MyCourse} from '@/pages/dashboard/student/my-courses/me-course';
+import {CourseDetailView} from '@/pages/dashboard/dashboard/courses/detail/course-detail-view.tsx';
 
 export const RootRoute = () => {
 	return (
@@ -114,6 +115,10 @@ const router = createBrowserRouter([
 			{
 				path: '/dashboard/courses/add',
 				element: <AddCourse />,
+			},
+			{
+				path: '/dashboard/courses/:id',
+				element: <CourseDetailView />,
 			},
 			{
 				path: '/dashboard/categories',
