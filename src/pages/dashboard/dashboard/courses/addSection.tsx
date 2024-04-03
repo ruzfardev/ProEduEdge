@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
 	Button,
 	Form,
@@ -18,11 +18,10 @@ import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {uploadCourseContentMediaAction} from '@/redux/features/course/slice';
 import {toast} from 'sonner';
 import {EditorComponent} from '@/components/editor';
-import {EditorParser} from '@/components/editor/editorParser';
 import {Editor} from '@toast-ui/react-editor';
 import {v4 as uuidv4} from 'uuid';
 export interface ISection {
-	id: number;
+	id: string;
 	name: string;
 	label: string;
 	content: string;
@@ -32,6 +31,7 @@ export interface ISection {
 export const AddSection = () => {
 	const {
 		pending,
+		courseCreationStatus,
 		createCourse: {id},
 	} = useAppSelector((state) => state.courses);
 	const dispatch = useAppDispatch();
@@ -53,21 +53,38 @@ export const AddSection = () => {
 			return;
 		}
 		data.id = uuidv4();
-		data.content = editorRef?.getInstance().getMarkdown() || '';
+		data.content = JSON.stringify(editorRef?.getInstance().getMarkdown()) || '';
+		console.log(data);
 		dispatch(
 			uploadCourseContentMediaAction({
 				files,
 				sectionInfo: data,
 			})
 		);
-		console.info('Section Data:', data);
-		form.reset();
-		editorRef?.getInstance().setMarkdown('');
-		setFiles([]);
+		// form.reset();
+		// editorRef?.getInstance().setMarkdown('');
+		// setFiles([]);
 	};
+
+	useEffect(() => {
+		if (courseCreationStatus === 'SUCCESS') {
+			reset();
+			setFiles([]);
+			editorRef?.getInstance().setMarkdown('');
+		}
+	}, [pending, courseCreationStatus]);
 
 	return (
 		<Form {...form}>
+			{pending && (
+				<div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-90 z-50">
+					<div className="w-full h-full flex justify-center items-center">
+						<div className="bg-white p-4 rounded-lg shadow-lg">
+							<h1 className="text-lg font-bold">Uploading...</h1>
+						</div>
+					</div>
+				</div>
+			)}
 			<div className="w-full mx-auto flex flex-col gap-1 h-full">
 				<div className="w-full">
 					<form

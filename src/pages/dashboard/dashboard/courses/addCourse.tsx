@@ -70,11 +70,13 @@ export const AddCourse = () => {
 	const handleCourseDetails = (data: CreateCourse) => {
 		if (isValid) {
 			const instructorId = userData?.id ? userData?.id : null;
+			//@ts-ignore
 			const file = files[0].file;
 			const formData = new FormData();
 			formData.append('file', file);
 			data = {
 				...data,
+				// @ts-ignore
 				instructorId,
 				price: Number(data.price),
 				categoryId: Number(data.categoryId),
@@ -204,10 +206,12 @@ export const AddCourse = () => {
 								name="file"
 								files={files}
 								ref={(ref) => {
+									// @ts-ignore
 									pond = ref;
 								}}
 								required
 								imagePreviewHeight={400}
+								// @ts-ignore
 								onupdatefiles={setFiles}
 								instantUpload={false}
 								server={{
@@ -220,6 +224,7 @@ export const AddCourse = () => {
 										progress,
 										abort
 									) => {
+										// @ts-ignore
 										uploadCourseBannerFx(file)
 											.then((res) => {
 												console.log(res);

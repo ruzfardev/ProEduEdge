@@ -47,7 +47,7 @@ export class LocalStorageManager {
 }
 
 export const getBlobUrlWithSasToken = (
-	blobUrl: string,
+	blobUrl: string | undefined,
 	containerName: string
 ) => {
 	let sasToken;
@@ -73,7 +73,7 @@ export const getBlobUrlWithSasToken = (
 	return `${blobUrl}?${sasToken}`;
 };
 
-export function getFileIconComponent(fileType) {
+export function getFileIconComponent(fileType: string) {
 	// Mapping MIME types and other identifiers to react-icons components
 	const fileIcons = {
 		// Common document types
@@ -108,6 +108,18 @@ export function getFileIconComponent(fileType) {
 		default: FaFile,
 	};
 
-	// Return the corresponding React component or a default component
+	//@ts-ignore
 	return fileIcons[fileType.toLowerCase()] || fileIcons['default'];
+}
+export function isVideoFile(mimeType: string) {
+	const videoMimeTypes = [
+		'video/mp4',
+		'video/webm',
+		'video/ogg',
+		'video/mpeg',
+		'video/avi',
+		'video/quicktime',
+	];
+
+	return videoMimeTypes.includes(mimeType);
 }

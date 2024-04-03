@@ -1,8 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Course, COURSES, CoursesStateType, CreateCourse, ICourse} from './types';
-import { FilePondInitialFile } from 'filepond';
-import { ISection } from '@/pages/dashboard/dashboard/courses/addSection';
-import { UserType } from '../users/types';
+import {
+	Course,
+	COURSES,
+	CoursesStateType,
+	CreateCourse,
+	ICourse,
+} from './types';
+import {FilePondInitialFile} from 'filepond';
+import {ISection} from '@/pages/dashboard/dashboard/courses/addSection';
+import {UserType} from '../users/types';
 
 const courseInitialState: CoursesStateType = {
 	courses: {
@@ -25,8 +31,9 @@ const courseInitialState: CoursesStateType = {
 		isVerified: false,
 	},
 	pending: false,
+	courseCreationStatus: '',
 	selectedCourse: {
-		id: "",
+		id: '',
 		title: '',
 		description: '',
 		banner: '',
@@ -57,9 +64,12 @@ export const coursesSlice = createSlice({
 		selectCourseAction: (state, action: PayloadAction<Course>) => {
 			state.selectedCourse = action.payload;
 		},
-		uploadBannerAction: (state, action: PayloadAction<{file: File, data: CreateCourse}>) => {
+		uploadBannerAction: (
+			state,
+			action: PayloadAction<{file: File; data: CreateCourse}>
+		) => {
 			state.pending = true;
-			console.log("uploading banner");
+			console.log('uploading banner');
 		},
 		uploadBannerSuccessAction: (state, action: PayloadAction<CreateCourse>) => {
 			state.createCourse = action.payload;
@@ -79,20 +89,22 @@ export const coursesSlice = createSlice({
 			state.category.isLoading = false;
 			state.category.errors = action.payload;
 		},
-		uploadCourseContentMediaAction: (state, action: PayloadAction<{sectionInfo: ISection, files: Array<FilePondInitialFile | File | Blob | string>}>) => {
+		uploadCourseContentMediaAction: (
+			state,
+			action: PayloadAction<{
+				sectionInfo: ISection;
+				files: Array<FilePondInitialFile | File | Blob | string>;
+			}>
+		) => {
 			state.pending = true;
-		},
-		uploadCourseContentMediaSuccessAction: (state, action: PayloadAction<File>) => {
-			state.pending = false;
-		},
-		uploadCourseContentMediaErrorAction: (state, action: PayloadAction<string>) => {
-			state.pending = false;
+			state.courseCreationStatus = 'STARTED';
 		},
 		createOrUpdateCourseSectionAction: (state, action: PayloadAction<any>) => {
 			state.pending = true;
 		},
 		createOrUpdateCourseSectionSuccessAction: (state) => {
 			state.pending = false;
+			state.courseCreationStatus = 'SUCCESS';
 		},
 	},
 });
@@ -106,8 +118,6 @@ export const {
 	uploadBannerAction,
 	uploadBannerSuccessAction,
 	uploadCourseContentMediaAction,
-	uploadCourseContentMediaSuccessAction,
-	uploadCourseContentMediaErrorAction,
 	getAllCoursesAction,
 	getAllCoursesSuccessAction,
 	getAllCoursesErrorAction,

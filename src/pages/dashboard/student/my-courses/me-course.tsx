@@ -13,7 +13,11 @@ import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {getCourseWithContentAction} from '@/redux/features/student/slice';
 import {CourseContent} from '@/redux/features/student/types.ts';
 import {DownloadIcon} from '@radix-ui/react-icons';
-import {getBlobUrlWithSasToken, getFileIconComponent} from '@/lib/utils.ts';
+import {
+	getBlobUrlWithSasToken,
+	getFileIconComponent,
+	isVideoFile,
+} from '@/lib/utils.ts';
 import FileIcon from '@/components/file-icon';
 import {VideoPlayer} from '@/components/video-player';
 import {EditorParser} from '@/components/editor/editorParser';
@@ -25,36 +29,54 @@ export const MyCourse = () => {
 		selectedCourse: {data, errors, isLoading},
 	} = useAppSelector((state) => state.student);
 	const [selectedSection, setSelectedSection] = React.useState<CourseContent>();
+	const [selectedVideo, setSelectedVideo] = React.useState<string>();
+
+	const handlePlayVideo = (url: string, type: string) => {
+		console.log(url);
+		if (isVideoFile(type)) {
+			setSelectedVideo(url);
+		}
+	};
 	useEffect(() => {
+		// @ts-ignore
 		dispatch(getCourseWithContentAction(id));
 	}, []);
 
 	useEffect(() => {
 		if (data) {
 			setSelectedSection(data.contents[0]);
+			if (isVideoFile(data.contents[0].resources[0].fileType)) {
+				setSelectedVideo(data.contents[0].resources[0].url);
+			}
 		}
 	}, [isLoading, data]);
 
-	const handleSectionChange = (sectionName: string) => {
-		const section = data?.contents.find(
-			(section) => section.sectionName === sectionName
-		);
+	const handleSectionChange = (sectionId: string) => {
+		const section = data?.contents.find((section) => section.id === sectionId);
 		setSelectedSection(section);
+		console.log(selectedSection);
 	};
+
 	useEffect(() => {}, [selectedSection]);
 
 	return (
 		<div className="flex gap-1 h-full">
 			<div className="vertical-scroll-container w-9/12 max-h-[calc(100vh-10rem)] no-scrollbar overflow-y-auto">
-				<div className="player-wrapper w-full h-5/4 border-orange-50 border-2 ">
-					{selectedSection && <VideoPlayer selectedSection={selectedSection} />}
+				<div className="player-wrapper w-full h-5/4 max-5/4">
+					<VideoPlayer url={selectedVideo} />
 				</div>
 				<div className="course-info p-2">
-					<h1 className="text-xl font-semibold mb-2">{data?.title}</h1>
-					<p className="text-sm text-gray-700 mb-2">{data?.description}</p>
+					<h1 className="text-xl font-semibold mb-2">
+						{selectedSection?.sectionName}
+					</h1>
+					<p className="text-sm text-gray-700 mb-2">{selectedSection?.title}</p>
 				</div>
 				<div className="markdown-parser-container">
-					<EditorParser />
+					{selectedSection?.content && (
+						<EditorParser
+							markdownSource={JSON.parse(selectedSection?.content)}
+						/>
+					)}
 				</div>
 			</div>
 			<div className="sections w-3/12">
@@ -67,7 +89,7 @@ export const MyCourse = () => {
 						data.contents.map((section, inx) => (
 							<AccordionItem key={inx} value={section.sectionName}>
 								<AccordionTrigger
-									onClick={() => handleSectionChange(section.sectionName)}
+									onClick={() => handleSectionChange(section.id)}
 									className={
 										selectedSection?.sectionName === section.sectionName
 											? 'text-orange-500'
@@ -83,6 +105,9 @@ export const MyCourse = () => {
 								<AccordionContent className="hover:bg-zinc-50 p-2 rounded cursor-pointer">
 									{section.resources.map((resource, index) => (
 										<div
+											onClick={() =>
+												handlePlayVideo(resource.url, resource.fileType)
+											}
 											key={index}
 											className="flex items-center gap-1 mb-1 p-1"
 										>

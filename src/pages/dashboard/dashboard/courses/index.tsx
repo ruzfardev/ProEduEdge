@@ -18,6 +18,7 @@ import {useNavigate} from 'react-router';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {getInstructorCoursesAction} from '@/redux/features/instructor/slice.ts';
 import {Loading} from '@/components/loader';
+import {NotFound} from '@/components/not-found';
 export const ManageCourses = () => {
 	const dispatch = useAppDispatch();
 	const l = LocalStorageManager.getInstance();
@@ -53,12 +54,7 @@ export const ManageCourses = () => {
 			</div>
 			{isLoading && <Loading />}
 			<div className="max-h-[calc(100vh-300px)] flex flex-col gap-1 overflow-scroll no-scrollbar p-2">
-				{!isLoading && !data && (
-					<div className="w-full h-full flex flex-col items-center justify-center mx-auto text-center">
-						<span className="text-9xl text-zinc-600">(·.·)</span>
-						<h1 className="text-2xl mt-2 font-bold">No courses found</h1>
-					</div>
-				)}
+				{!isLoading && data?.length === 0 && <NotFound />}
 				{!isLoading &&
 					data?.map((course) => {
 						return (
