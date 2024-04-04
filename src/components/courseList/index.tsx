@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC} from 'react';
 import {Button} from '../ui/button';
 import {useNavigate} from 'react-router';
 import {PCard} from './card.tsx';
@@ -23,20 +23,18 @@ export const CourseList: FC = () => {
 		dispatch(selectCourseAction(c));
 		navigate(`/courses/${id}`);
 	};
-	const [loadedImages, setLoadedImages] = useState<any>({});
-
 	return (
 		<section className=" p-10" id="courseList">
 			<h1 className="text-4xl font-bold text-center text-orange-400 mb-8">
 				Courses
 			</h1>
 			<Tabs
-				className="md:w-8/12 w-9/12 px-6 mx-auto flex flex-col justify-center flex-wrap gap-4"
+				className="md:w-8/12 overflow-y-scroll no-scrollbar w-9/12 px-6 mx-auto flex flex-col justify-center flex-wrap gap-4"
 				defaultValue="All"
 			>
 				<TabsList
 					className="flex justify-center
-				overflow-y-auto no-scrollbars max-w-[700px]:
+				overflow-y-auto  max-w-[700px]:
 				"
 				>
 					{!catgoriesIsLoading && catgoriesError ? (

@@ -18,6 +18,8 @@ import {toast} from 'sonner';
 import {enrollCourseFx, payForCourseFx} from '@/api';
 import {LocalStorageManager} from '@/lib/utils';
 import {useAppSelector} from '@/redux/hooks';
+import {Loading} from '@/components/loader';
+import {useNavigate} from 'react-router';
 interface IEnrollDialogProps {
 	amount: number;
 	courseId: string;
@@ -27,6 +29,8 @@ export const EnrollDialog: FC<IEnrollDialogProps> = ({amount, courseId}) => {
 		user: {data},
 	} = useAppSelector((state) => state.users);
 	const [paymentMethod, setPaymentMethod] = React.useState('card');
+	const [isLoading, setIsLoading] = React.useState(false);
+	const navigate = useNavigate();
 	const handleEnroll = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!data) {
@@ -34,6 +38,7 @@ export const EnrollDialog: FC<IEnrollDialogProps> = ({amount, courseId}) => {
 			return;
 		} else {
 			try {
+				setIsLoading(true);
 				const id = Number(courseId);
 				const userId = Number(data.id);
 				const pay = await payForCourseFx({
@@ -47,7 +52,14 @@ export const EnrollDialog: FC<IEnrollDialogProps> = ({amount, courseId}) => {
 					userId: userId,
 					status: 'enrolled',
 				});
+				console.info(res, pay);
+				setTimeout(() => {
+					setIsLoading(false);
+					toast.success('You have successfully enrolled in the course');
+					navigate(`/dashboard`);
+				}, 2000);
 			} catch (error) {
+				setIsLoading(false);
 				toast.error('An error occurred while processing your payment');
 			}
 		}
@@ -71,7 +83,12 @@ export const EnrollDialog: FC<IEnrollDialogProps> = ({amount, courseId}) => {
 						<span className="text-orange-500 ml-auto">${amount} USD</span>
 					</div>
 				</CardHeader>
-				<CardContent className="grid gap-6 p-0">
+				<CardContent className="grid gap-6 p-0 relative">
+					{isLoading && (
+						<div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-80">
+							<Loading />
+						</div>
+					)}
 					<CardTitle>Payment Method</CardTitle>
 					<RadioGroup
 						onValueChange={(e) => setPaymentMethod(e)}

@@ -15,9 +15,7 @@ export const PCard: FC<Props> = (props) => {
 	return (
 		<div
 			onClick={() => onCardClick(props.course)}
-			className={cn(
-				'space-y-3 cursor-pointer hover:scale-105   transition-all'
-			)}
+			className={cn('cursor-pointer max-h-[200px]')}
 			key={id}
 		>
 			<div className="overflow-hidden rounded-md">

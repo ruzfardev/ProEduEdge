@@ -14,7 +14,6 @@ export const ContainerWrapper: FC<ContainerWrapperProps> = ({
 	banner,
 	className,
 }) => {
-	console.log(className);
 	return (
 		<>
 			{banner ? (

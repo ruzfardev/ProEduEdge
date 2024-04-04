@@ -1,27 +1,19 @@
 import React from 'react';
-import {Hero} from '../../components/hero';
-import svg from '../../assets/images/Helped Students.svg';
-import svg1 from '../../assets/images/Expert Teacher.svg';
-import svg2 from '../../assets/images/Learn Anywhere.svg';
-import svg3 from '../../assets/images/build-portfolio.svg';
-import svg4 from '../../assets/images/Registered Students.svg';
-import svg5 from '../../assets/images/Rank.svg';
-import svg6 from '../../assets/images/Visits.svg';
+import {Hero} from '@/components/hero';
+import svg from '@/assets/images/Helped Students.svg';
+import svg1 from '@/assets/images/Expert Teacher.svg';
+import svg2 from '@/assets/images/Learn Anywhere.svg';
+import svg3 from '@/assets/images/build-portfolio.svg';
+import svg4 from '@/assets/images/Registered Students.svg';
+import svg5 from '@/assets/images/Rank.svg';
+import svg6 from '@/assets/images/Visits.svg';
 import {FaCircleCheck} from 'react-icons/fa6';
-import {CourseList} from '../../components/courseList';
+import {CourseList} from '@/components/courseList';
 import {
 	Tabs,
 	TabsContent,
 	TabsList,
 	TabsTrigger,
-	Card,
-	CardHeader,
-	CardTitle,
-	CardDescription,
-	CardContent,
-	CardFooter,
-	Label,
-	Input,
 	Button,
 } from '@/components/ui';
 import './style.css';

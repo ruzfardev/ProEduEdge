@@ -1,5 +1,5 @@
 import {ContainerWrapper} from '../../components/container/container-wrapper.tsx';
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {
 	Input,
 	Slider,
@@ -10,7 +10,10 @@ import {
 import {PCard} from '../../components/courseList/card.tsx';
 import {useNavigate} from 'react-router';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks/index.ts';
-import {selectCourseAction} from '@/redux/features/course/slice.ts';
+import {
+	getAllCoursesAction,
+	selectCourseAction,
+} from '@/redux/features/course/slice.ts';
 import {Course} from '@/redux/features/course/types.ts';
 export const CoursesPage: FC = () => {
 	const [value, setValue] = useState<number[]>([20, 400]);
@@ -28,10 +31,13 @@ export const CoursesPage: FC = () => {
 		dispatch(selectCourseAction(course));
 		navigate(`/courses/${course.id}`);
 	};
+
+	useEffect(() => {
+		dispatch(getAllCoursesAction());
+	}, []);
 	return (
 		<>
 			<ContainerWrapper
-				className="mt-16"
 				title="Browse Thousands of Our Video Tutorials"
 				subtitle="Access all tutorials and resources when you become a premium member of our platform."
 			/>
@@ -41,7 +47,10 @@ export const CoursesPage: FC = () => {
 					type="search"
 				/>
 				<div className="flex justify-between gap-4 mt-4">
-					<div className="md:w-full gap-4 grid grid-cols-2 sm:grid-cols-3 justify-center">
+					<div
+						className="md:w-full gap-4 grid grid-cols-2 sm:grid-cols-3
+					grid-row-3 justify-center"
+					>
 						{!isLoading &&
 							data &&
 							data.map((c) => (

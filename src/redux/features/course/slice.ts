@@ -106,6 +106,13 @@ export const coursesSlice = createSlice({
 			state.pending = false;
 			state.courseCreationStatus = 'SUCCESS';
 		},
+		getCourseByIdAction: (state, action: PayloadAction<string>) => {
+			state.courses.isLoading = true;
+		},
+		getCourseByIdSuccessAction: (state, action: PayloadAction<Course>) => {
+			state.courses.isLoading = false;
+			state.selectedCourse = action.payload;
+		},
 	},
 });
 export const {
@@ -122,5 +129,7 @@ export const {
 	getAllCoursesSuccessAction,
 	getAllCoursesErrorAction,
 	selectCourseAction,
+	getCourseByIdAction,
+	getCourseByIdSuccessAction,
 } = coursesSlice.actions;
 export default coursesSlice.reducer;

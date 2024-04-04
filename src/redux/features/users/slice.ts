@@ -8,6 +8,7 @@ const usersInitialState: UsersStateType = {
 		isLoading: false,
 		errors: '',
 	},
+	isAuthenticated: false,
 };
 
 export const usersSlice = createSlice({
@@ -25,6 +26,7 @@ export const usersSlice = createSlice({
 			state: UsersStateType,
 			{payload: user}: PayloadAction<UserType>
 		) => {
+			state.isAuthenticated = true;
 			state.user.isLoading = false;
 			state.user.data = user;
 		},
@@ -48,6 +50,7 @@ export const usersSlice = createSlice({
 		) => {
 			state.user.isLoading = false;
 			state.user.data = user;
+			state.isAuthenticated = true;
 		},
 		registerUserErrorAction: (
 			state: UsersStateType,
@@ -58,7 +61,8 @@ export const usersSlice = createSlice({
 		},
 		logOutAction: (state: UsersStateType) => {
 			state.user.data = null;
-		}
+			state.isAuthenticated = false;
+		},
 	},
 });
 export const {

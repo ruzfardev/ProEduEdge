@@ -5,7 +5,6 @@ import {ContainerWrapper} from '../container/container-wrapper.tsx';
 export const Hero: FC = () => {
 	return (
 		<ContainerWrapper
-			className="mt-16"
 			title="Get Access to Unlimited Educational Resources. Everywhere,
 						Everytime."
 			subtitle="premium access to more than 10,000 resources ranging from courses,

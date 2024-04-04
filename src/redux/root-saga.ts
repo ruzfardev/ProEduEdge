@@ -7,6 +7,7 @@ import {
 	watchUploadCourseMedia,
 	watchCreateOrUpdateCourseSection,
 	watchGetAllCourses,
+	watchGetCourseById,
 } from './features/course/saga';
 import {
 	watchgetCourseWithContentSaga,
@@ -30,6 +31,7 @@ const rootSaga = function* rootSaga() {
 		fork(watchgetCourseWithContentSaga),
 		fork(watchgetInstructorCoursesSaga),
 		fork(watchgetInstructorCourseWithContentSaga),
+		fork(watchGetCourseById),
 	]);
 };
 export default rootSaga;

@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import {FC, useEffect} from 'react';
 import {ContainerWrapper} from '../../components/container/container-wrapper.tsx';
 import {useParams} from 'react-router';
 import {
@@ -18,24 +18,37 @@ import {
 	Button,
 } from '../../components/ui';
 import {ShowMoreText} from '../../components/show-more';
-import {useAppSelector} from '@/redux/hooks/index.ts';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks/index.ts';
 import {getBlobUrlWithSasToken} from '@/lib/utils.ts';
 import {EnrollDialog} from '@/components/enroll-dialog';
+import {getCourseByIdAction} from '@/redux/features/course/slice';
+import {FiUser} from 'react-icons/fi';
 export const CourseDetail: FC = () => {
-	const c = useAppSelector((state) => state.courses.selectedCourse);
+	const {
+		courses: {isLoading},
+		selectedCourse,
+	} = useAppSelector((state) => state.courses);
+	const {id} = useParams();
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		// @ts-ignore
+		dispatch(getCourseByIdAction(id));
+	}, [id]);
+
 	return (
 		<>
-			{c && (
+			{!isLoading && selectedCourse && (
 				<>
 					<ContainerWrapper
-						title={c.title}
-						subtitle={c.description}
-						banner={getBlobUrlWithSasToken(c.banner, 'banners')}
+						title={selectedCourse?.title}
+						subtitle={selectedCourse.description}
+						banner={getBlobUrlWithSasToken(selectedCourse.banner, 'banners')}
 					>
 						<h1>
 							Created by:{' '}
 							<span className="text-blue-600">
-								{c.instructor.firstName} {c.instructor.lastName}
+								{selectedCourse.instructor.firstName}{' '}
+								{selectedCourse.instructor.lastName}
 							</span>
 						</h1>
 						<div className="flex items-center space-x-2 my-3">
@@ -43,7 +56,7 @@ export const CourseDetail: FC = () => {
 							<span className="text-sm ">Last updated 8/2023</span>
 							<div className="flex items-center space-x-1">
 								<FaClock />
-								<span className="text-sm ">{c.dateTime}</span>
+								<span className="text-sm ">{selectedCourse.dateTime}</span>
 							</div>
 						</div>
 					</ContainerWrapper>
@@ -58,12 +71,12 @@ export const CourseDetail: FC = () => {
 							</h5>
 							<Avatar className="w-24 h-24">
 								<AvatarFallback className="bg-gradient-to-tr text-2xl text-white from-orange-500 to-orange-400">
-									{c.instructor.firstName[0]}
-									{c.instructor.lastName[0]}
+									<FiUser />
 								</AvatarFallback>
 							</Avatar>
 							<h5 className="text-xl text-zinc-400 text-center">
-								{c.instructor.firstName} {c.instructor.lastName}
+								{selectedCourse.instructor.firstName}{' '}
+								{selectedCourse.instructor.lastName}
 							</h5>
 							<div className="flex items-center space-x-2 my-3">
 								<div className="cursor-pointer flex bg-gradient-to-tr text-white from-orange-500 to-orange-400 items-center rounded-full p-2 text-sm">
@@ -93,39 +106,7 @@ export const CourseDetail: FC = () => {
 						accusantium voluptates natus quos fugiat. Lorem ipsum dolor sit amet
 						consectetur adipisicing elit. Quisquam quibusdam, voluptatum, quod,
 						doloribus voluptatem quas quia accusantium voluptates natus quos
-						fugiat. Quisquam quibusdam, voluptatum, quod, doloribus voluptatem
-						quas quia accusantium voluptates natus quos fugiat. Lorem ipsum
-						dolor sit amet consectetur adipisicing elit. Quisquam quibusdam,
-						voluptatum, quod, doloribus voluptatem quas quia accusantium
-						voluptates natus quos fugiat. Quisquam quibusdam, voluptatum, quod,
-						doloribus voluptatem quas quia accusantium voluptates natus quos
-						fugiat. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Quisquam quibusdam, voluptatum, quod, doloribus voluptatem quas quia
-						accusantium voluptates natus quos fugiat. Quisquam quibusdam,
-						voluptatum, quod, doloribus voluptatem quas quia accusantium
-						voluptates natus quos fugiat. Lorem ipsum dolor sit amet consectetur
-						adipisicing elit. Quisquam quibusdam, voluptatum, quod, doloribus
-						voluptatem quas quia accusantium voluptates natus quos fugiat.
-						Quisquam quibusdam, voluptatum, quod, doloribus voluptatem quas quia
-						accusantium voluptates natus quos fugiat. Lorem ipsum dolor sit amet
-						consectetur adipisicing elit. Quisquam quibusdam, voluptatum, quod,
-						doloribus voluptatem quas quia accusantium voluptates natus quos
-						fugiat. Quisquam quibusdam, voluptatum, quod, doloribus voluptatem
-						quas quia accusantium voluptates natus quos fugiat. Lorem ipsum
-						dolor sit amet consectetur adipisicing elit. Quisquam quibusdam,
-						voluptatum, quod, doloribus voluptatem quas quia accusantium
-						voluptates natus quos fugiat. Quisquam quibusdam, voluptatum, quod,
-						doloribus voluptatem quas quia accusantium voluptates natus quos
-						fugiat. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Quisquam quibusdam, voluptatum, quod, doloribus voluptatem quas quia
-						accusantium voluptates natus quos fugiat. Quisquam quibusdam,
-						voluptatum, quod, doloribus voluptatem quas quia accusantium
-						voluptates natus quos fugiat. Lorem ipsum dolor sit amet consectetur
-						adipisicing elit. Quisquam quibusdam, voluptatum, quod, doloribus
-						voluptatem quas quia accusantium voluptates natus quos fugiat.
-						Quisquam quibusdam, voluptatum, quod, doloribus voluptatem quas quia
-						accusantium voluptates natus quos fugiat. Lorem ipsum dolor sit amet
-						consectetur adipisicing elit. Quisquam quibusdam, voluptatum, quod,
+						fugiat. Quiam, voluptatum, quod,
 						doloribus voluptatem quas quia accusantium voluptates natus quos
 						fugiat. Quisquam quibusdam, voluptatum, quod, doloribus voluptatem
 						quas quia accusantium voluptates natus quos fugiat. Lorem ipsum
@@ -152,7 +133,7 @@ export const CourseDetail: FC = () => {
 										12/12/2021
 									</span>
 									<span className="text-sm font-light text-zinc-400">
-										#{c.categoryId}
+										#{selectedCourse.categoryId}
 									</span>
 								</div>
 							</div>
@@ -188,7 +169,10 @@ export const CourseDetail: FC = () => {
 						title={''}
 						subtitle="Enroll in this course to get access to unlimited educational resources."
 					>
-						<EnrollDialog courseId={c.id} amount={c.price} />
+						<EnrollDialog
+							courseId={selectedCourse.id}
+							amount={selectedCourse.price}
+						/>
 					</ContainerWrapper>
 				</>
 			)}

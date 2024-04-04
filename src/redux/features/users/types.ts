@@ -18,11 +18,7 @@ export type IUserState = {
 // The users global state
 export type UsersStateType = {
 	user: IUserState;
-	// Later, we can add other sub-states like:
-	// list,
-	// create,
-	// update,
-	// remove
+	isAuthenticated: boolean;
 };
 
 // (1)
@@ -33,7 +29,6 @@ export type USERS = typeof USERS;
 export const LOGIN_USER = `${USERS}/loginUserAction`;
 export const REGISTER_USER = `${USERS}/registerUserAction`;
 export const GET_USER_BY_ID = `${USERS}/getUserAction`;
-
 // (3)
 export type LOGIN_USER = typeof LOGIN_USER;
 export type REGISTER_USER = typeof REGISTER_USER;

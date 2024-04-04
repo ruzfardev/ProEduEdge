@@ -3,6 +3,7 @@ import {
 	createCourseFx,
 	getAllCoursesFx,
 	getCategoriesFx,
+	getCourseByIdFx,
 	uploadCourseBannerFx,
 	uploadCourseRecoursesFx,
 	uploadCourseRecoursesMultipleFx,
@@ -19,6 +20,7 @@ import {
 	UPLOAD_BANNER,
 	UPLOAD_BANNER_SUCCESS,
 	UPLOAD_COURSE_CONTENT_MEDIA,
+	GET_COURSE_BY_ID,
 } from './types';
 import {
 	createCourseSuccessAction,
@@ -28,6 +30,7 @@ import {
 	getAllCoursesSuccessAction,
 	getCategoriesErrorAction,
 	getCategoriesSuccessAction,
+	getCourseByIdSuccessAction,
 	uploadBannerSuccessAction,
 } from './slice';
 import {toast} from 'sonner';
@@ -175,6 +178,14 @@ function* getAllCourses() {
 	}
 }
 
+function* getCourseById(action: PayloadAction<string>) {
+	try {
+		const response: Course = yield call(getCourseByIdFx, action.payload);
+		yield put(getCourseByIdSuccessAction(response));
+	} catch (error: any) {
+		yield put(getAllCoursesErrorAction(error.message));
+	}
+}
 // watcher sagas
 
 export function* watchCreateCourse() {
@@ -196,4 +207,7 @@ export function* watchCreateOrUpdateCourseSection() {
 }
 export function* watchGetAllCourses() {
 	yield takeLatest(GET_ALL_COURSES, getAllCourses);
+}
+export function* watchGetCourseById() {
+	yield takeLatest(GET_COURSE_BY_ID, getCourseById);
 }

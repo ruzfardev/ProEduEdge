@@ -26,54 +26,26 @@ export const Header: FC = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const {user} = useAppSelector((state: StateType) => state.users);
 	const {data, errors, isLoading} = user;
-	// const handleScroll = () => {
-	// 	const offset = window.scrollY;
-	// 	const headerHeight = 100; // Replace with the actual height of your header
-	// 	if (offset > headerHeight) {
-	// 		setIsScrolled(true);
-	// 	} else {
-	// 		setIsScrolled(false);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	window.addEventListener('scroll', handleScroll);
-	// 	return () => window.removeEventListener('scroll', handleScroll);
-	// }, []);
-	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-	const menuItems = [
-		'Profile',
-		'Dashboard',
-		'Activity',
-		'Analytics',
-		'System',
-		'Deployments',
-		'My Settings',
-		'Team Settings',
-		'Help & Feedback',
-		'Log Out',
-	];
-
 	const handleMenuClick = (item: string) => {
+		console.log(item);
 		switch (item) {
 			case 'profile':
 				navigate('/dashboard/profile');
 				break;
 			case 'dashboard':
-				console.log('Dashboard');
-				navigate('/dashboard');
+				//if user student navigate to /dashboard/me
+				if (data?.role === 'student') {
+					console.log(item);
+					navigate('/dashboard/me');
+				} else {
+					navigate('/dashboard');
+				}
 				break;
 			case 'settings':
 				navigate('/dashboard/settings');
-				console.log('Settings');
-				break;
-			case 'log-out':
-				dispatch(logOutAction());
-				l.removeItem('user');
-				navigate('/login');
 				break;
 			default:
-				console.log('default');
+				break;
 		}
 	};
 	return (
@@ -181,7 +153,7 @@ export const Header: FC = () => {
 										Profile
 									</DropdownMenuItem>
 									<DropdownMenuItem
-										onAbort={() => handleMenuClick('dashboard')}
+										onClick={() => handleMenuClick('dashboard')}
 									>
 										Dashboard
 									</DropdownMenuItem>
@@ -189,10 +161,6 @@ export const Header: FC = () => {
 										Settings
 									</DropdownMenuItem>
 								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuItem onClick={() => handleMenuClick('log-out')}>
-									Log out
-								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
 					) : (

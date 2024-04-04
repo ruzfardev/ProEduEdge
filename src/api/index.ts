@@ -159,6 +159,15 @@ export const getAllCoursesFx = async () => {
 	}
 };
 
+export const getCourseByIdFx = async (id: string) => {
+	try {
+		const response = await api.get(`course/${id}`);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
 // Handling Student Actions
 export const getMyCoursesFx = async (id: number) => {
 	try {
