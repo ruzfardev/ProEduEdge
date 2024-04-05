@@ -17,7 +17,6 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {DoubleArrowLeftIcon} from '@radix-ui/react-icons';
 
 export const DashboardHeader = () => {
-	const location = useLocation();
 	const navigate = useNavigate();
 	const {user} = useAppSelector((state: StateType) => state.users);
 	const {data, errors, isLoading} = user;
@@ -38,15 +37,14 @@ export const DashboardHeader = () => {
 			default:
 		}
 	};
+	const goBack = () => {
+		navigate(-1);
+	};
 	return (
 		<div className="flex-none custom-shadow bg-white/10 backdrop-blur-lg flex m-2 mb-0 items-center">
 			<div className="w-full p-4 flex items-center border-small rounded-small border-default-200">
-				<Button
-					onClick={() => navigate(-1)}
-					className="text-white font-bold py-2 px-4 rounded"
-				>
+				<Button onClick={goBack} variant="ghost">
 					<DoubleArrowLeftIcon className="mr-3" />
-					Back
 				</Button>
 				<h2 className="text-2xl ml-3 font-bold">
 					👋 Welcome,{' '}
