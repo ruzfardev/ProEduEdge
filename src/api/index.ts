@@ -158,7 +158,6 @@ export const getAllCoursesFx = async () => {
 		handleApiError(error);
 	}
 };
-
 export const getCourseByIdFx = async (id: string) => {
 	try {
 		const response = await api.get(`course/${id}`);
@@ -205,6 +204,16 @@ export const enrollCourseFx = async (data: Enrollment) => {
 export const payForCourseFx = async (data: Payment) => {
 	try {
 		const response = await api.post('pay', data);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
+// Handling Instructor Actions
+export const getAllMeetingsFx = async () => {
+	try {
+		const response = await api.get('all-meetings');
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);

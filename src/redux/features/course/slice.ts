@@ -1,11 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {
-	Course,
-	COURSES,
-	CoursesStateType,
-	CreateCourse,
-	ICourse,
-} from './types';
+import {Course, COURSES, CoursesStateType, CreateCourse} from './types';
 import {FilePondInitialFile} from 'filepond';
 import {ISection} from '@/pages/dashboard/dashboard/courses/addSection';
 import {UserType} from '../users/types';
@@ -43,6 +37,11 @@ const courseInitialState: CoursesStateType = {
 		categoryId: 0,
 		isVerified: false,
 		dateTime: '',
+	},
+	meetings: {
+		data: null,
+		isLoading: false,
+		errors: '',
 	},
 };
 
@@ -113,6 +112,17 @@ export const coursesSlice = createSlice({
 			state.courses.isLoading = false;
 			state.selectedCourse = action.payload;
 		},
+		getMeetingsAction: (state) => {
+			state.meetings.isLoading = true;
+		},
+		getMeetingsSuccessAction: (state, action: PayloadAction<any>) => {
+			state.meetings.isLoading = false;
+			state.meetings.data = action.payload;
+		},
+		getMeetingsErrorAction: (state, action: PayloadAction<string>) => {
+			state.meetings.isLoading = false;
+			state.meetings.errors = action.payload;
+		},
 	},
 });
 export const {
@@ -131,5 +141,8 @@ export const {
 	selectCourseAction,
 	getCourseByIdAction,
 	getCourseByIdSuccessAction,
+	getMeetingsAction,
+	getMeetingsSuccessAction,
+	getMeetingsErrorAction,
 } = coursesSlice.actions;
 export default coursesSlice.reducer;

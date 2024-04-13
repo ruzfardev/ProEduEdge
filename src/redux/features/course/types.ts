@@ -27,7 +27,14 @@ export type CategoryType = {
 	id: string;
 	name: string;
 };
-
+export type Meeting = {
+	id: string;
+	roomId: string;
+	courseId: number;
+	userId: number;
+	recordingURL: string;
+	isActive: boolean;
+};
 // This type will represent the sub-state for getting a single user by ID
 export type ICategoryState = {
 	data: CategoryType[] | null;
@@ -70,6 +77,11 @@ export type ICourseSection = {
 	modifiedAt: string;
 	courseContent: CourseContent;
 };
+export type IMeeting = {
+	data: Meeting[] | null;
+	isLoading: boolean;
+	errors: string;
+};
 // The users global state
 export type CoursesStateType = {
 	courses: ICourse;
@@ -78,11 +90,7 @@ export type CoursesStateType = {
 	createCourse: CreateCourse;
 	pending: boolean;
 	courseCreationStatus: string;
-	// Later, we can add other sub-states like:
-	// list,
-	// create,
-	// update,
-	// remove
+	meetings: IMeeting;
 };
 
 export const COURSES = 'courses';
@@ -90,6 +98,7 @@ export type COURSES = typeof COURSES;
 
 export const GET_COURSES = `${COURSES}/getCoursesAction`;
 export const GET_CATEGORIES = `${COURSES}/getCategoriesAction`;
+export const GET_MEETINGS = `${COURSES}/getMeetingsAction`;
 export const CREATE_COURSE = `${COURSES}/createCourseAction`;
 export const GET_ALL_COURSES = `${COURSES}/getAllCoursesAction`;
 export const GET_ALL_COURSES_SUCCESS = `${COURSES}/getAllCoursesSuccessAction`;
@@ -105,3 +114,4 @@ export const UPLOAD_COURSE_CONTENT_MEDIA_SUCCESS = `${COURSES}/uploadCourseConte
 export const UPLOAD_COURSE_CONTENT_MEDIA_ERROR = `${COURSES}/uploadCourseContentMediaErrorAction`;
 export const CREATE_OR_UPDATE_COURSE_SECTION = `${COURSES}/createOrUpdateCourseSectionAction`;
 export type GET_CATEGORIES = typeof GET_CATEGORIES;
+export type GET_MEETINGS = typeof GET_MEETINGS;
