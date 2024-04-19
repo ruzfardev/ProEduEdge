@@ -77,12 +77,12 @@ export const Register: FC = () => {
 			<Form {...form}>
 				<form
 					onSubmit={handleSubmit(handleUserRegister)}
-					className="w-8/12 mx-auto"
+					className="w-8/12 mx-auto flex flex-col justify-center items-center gap-4"
 				>
 					<h2 className="text-4xl font-bold text-center text-orange-400 mb-8">
 						Register
 					</h2>
-					<div>
+					<div className="w-32 h-32">
 						<FilePond
 							name="avatar"
 							acceptedFileTypes={['image/*']}
@@ -106,8 +106,8 @@ export const Register: FC = () => {
 											},
 										})
 										.then((res) => {
-											setValue('avatarUrl', res.data.blob.url);
-											load(res.data.blob.url);
+											setValue('avatarUrl', res.data.blob.uri);
+											load(res.data.blob.uri);
 										})
 										.catch((err) => {
 											console.log(err);

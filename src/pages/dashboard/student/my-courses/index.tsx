@@ -9,6 +9,7 @@ import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {PlayIcon} from '@radix-ui/react-icons';
 import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router';
+import {NotFound} from '@/components/not-found';
 
 export const MyCourses = () => {
 	const navigate = useNavigate();
@@ -26,12 +27,7 @@ export const MyCourses = () => {
 	return (
 		<>
 			{isLoading && <Loading />}
-			{!isLoading && !data && (
-				<div className="w-full h-full flex flex-col items-center justify-center mx-auto text-center">
-					<span className="text-9xl text-zinc-600">(·.·)</span>
-					<h1 className="text-2xl mt-2 font-bold">No courses found</h1>
-				</div>
-			)}
+			{!isLoading && data?.length === 0 && <NotFound />}
 			{!isLoading && data && (
 				<div
 					className="

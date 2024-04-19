@@ -14,6 +14,7 @@ import {
 import {useAppSelector} from '@/redux/hooks';
 import React from 'react';
 import {useForm} from 'react-hook-form';
+import {getBlobUrlWithSasToken} from '@/lib/utils';
 
 export const Profile = () => {
 	const form = useForm({
@@ -44,7 +45,10 @@ export const Profile = () => {
 			<div className="flex flex-col gap-2 justify-center items-center">
 				<Card className="w-5/12 mx-auto flex flex-col gap-2 justify-center items-center p-6">
 					<Avatar className="w-40 h-40">
-						<AvatarImage src={data?.avatarUrl} alt="John Doe" />
+						<AvatarImage
+							src={getBlobUrlWithSasToken(data?.avatarUrl, 'avatar')}
+							alt="John Doe"
+						/>
 						<AvatarFallback className="border text-4xl border-orange-500 bg-orange-500 text-white">
 							{data?.firstName[0]}
 							{data?.lastName[0]}

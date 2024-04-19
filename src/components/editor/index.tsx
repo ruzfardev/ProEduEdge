@@ -3,10 +3,14 @@ import {Editor} from '@toast-ui/react-editor';
 
 interface EditorComponentProps {
 	getEditorInstance: (editor: Editor) => void;
+	initValue?: string;
+	height?: string;
 }
 
 export const EditorComponent: FC<EditorComponentProps> = ({
 	getEditorInstance,
+	initValue,
+	height,
 }) => {
 	const editorRef = useRef<Editor | null>(null);
 
@@ -14,13 +18,13 @@ export const EditorComponent: FC<EditorComponentProps> = ({
 		if (editorRef.current) {
 			getEditorInstance(editorRef.current);
 		}
-	}, [getEditorInstance]);
+	}, [getEditorInstance, editorRef]);
 	return (
 		<Editor
 			ref={editorRef}
-			initialValue="hello react editor world!"
+			initialValue={initValue}
 			previewStyle="vertical"
-			height="600px"
+			height={height || '600px'}
 			initialEditType="wysiwyg"
 			useCommandShortcut={true}
 		/>

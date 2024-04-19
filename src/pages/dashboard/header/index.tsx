@@ -15,6 +15,7 @@ import {useAppSelector} from '@/redux/hooks';
 import {StateType} from '@/redux/root-reducer';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {DoubleArrowLeftIcon} from '@radix-ui/react-icons';
+import {getBlobUrlWithSasToken} from '@/lib/utils';
 
 export const DashboardHeader = () => {
 	const navigate = useNavigate();
@@ -66,7 +67,10 @@ export const DashboardHeader = () => {
 								 justify-start gap-2"
 								>
 									<Avatar>
-										<AvatarImage src={data?.avatarUrl} alt="Avatar" />
+										<AvatarImage
+											src={getBlobUrlWithSasToken(data?.avatarUrl, 'avatar')}
+											alt="Avatar"
+										/>
 										<AvatarFallback className="border border-orange-500 bg-orange-500 text-white">
 											{data?.firstName[0]}
 											{data?.lastName[0]}

@@ -54,13 +54,14 @@ export const AddSection = () => {
 		}
 		data.id = uuidv4();
 		data.content = JSON.stringify(editorRef?.getInstance().getMarkdown()) || '';
-		console.log(data);
-		dispatch(
-			uploadCourseContentMediaAction({
-				files,
-				sectionInfo: data,
-			})
-		);
+		if (files) {
+			dispatch(
+				uploadCourseContentMediaAction({
+					files,
+					sectionInfo: data,
+				})
+			);
+		}
 		// form.reset();
 		// editorRef?.getInstance().setMarkdown('');
 		// setFiles([]);
@@ -136,7 +137,10 @@ export const AddSection = () => {
 									</FormItem>
 								)}
 							/>
-							<EditorComponent getEditorInstance={setEditorRef} />
+							<EditorComponent
+								height={'300px'}
+								getEditorInstance={setEditorRef}
+							/>
 							<Label>Section Recources</Label>
 							<FilePond
 								name="recources"
@@ -162,7 +166,7 @@ export const AddSection = () => {
 				form="section-form"
 				type="submit"
 				size="lg"
-				className="block w-full my-8 mt-14"
+				className="block w-full"
 			>
 				Add Section
 			</Button>

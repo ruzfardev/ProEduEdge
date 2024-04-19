@@ -46,6 +46,7 @@ const FileIcon: FC<FileIconProps> = ({mimeType, size}) => {
 
 	// Lowercase the MIME type to ensure case-insensitive matching
 	const iconComponent =
+		// @ts-ignore
 		fileIcons[mimeType.toLowerCase()] || fileIcons['default'];
 
 	return iconComponent;

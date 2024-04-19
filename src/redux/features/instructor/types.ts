@@ -20,6 +20,7 @@ export type ICourse = {
 };
 
 export type CourseContent = {
+	id: string;
 	courseId: number;
 	sectionName: string;
 	title: string;

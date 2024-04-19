@@ -1,4 +1,8 @@
-import {CreateCourse, ICourseSection} from '@/redux/features/course/types';
+import {
+	CourseContent,
+	CreateCourse,
+	ICourseSection,
+} from '@/redux/features/course/types';
 import {Enrollment, ILogin, IUser, Payment} from '@/redux/models';
 import axios from 'axios';
 import {FilePondInitialFile} from 'filepond';
@@ -166,7 +170,31 @@ export const getCourseByIdFx = async (id: string) => {
 		handleApiError(error);
 	}
 };
-
+export const updateCourseFx = async (data: CreateCourse) => {
+	try {
+		toast.loading('Updating course');
+		const response = await api.put('edit-course', data);
+		toast.dismiss();
+		toast.success('Course updated successfully');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+export const updateCourseSectionFx = async (
+	data: CourseContent,
+	courseId: number
+) => {
+	try {
+		toast.loading('Updating course section');
+		const response = await api.put(`edit-section/${courseId}`, data);
+		toast.dismiss();
+		toast.success('Course section updated successfully');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
 // Handling Student Actions
 export const getMyCoursesFx = async (id: number) => {
 	try {
@@ -214,6 +242,25 @@ export const payForCourseFx = async (data: Payment) => {
 export const getAllMeetingsFx = async () => {
 	try {
 		const response = await api.get('all-meetings');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
+// Handling Media Files
+export const deleteFileFx = async (id: string) => {
+	try {
+		const response = await api.delete(`delete/${id}`);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
+export const deleteSectionFx = async (id: string, courseId: number) => {
+	try {
+		const response = await api.delete(`delete-section/${id}/${courseId}`);
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);

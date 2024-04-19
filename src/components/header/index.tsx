@@ -18,7 +18,7 @@ import logo from '../../assets/images/logo.svg';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {StateType} from '@/redux/root-reducer';
 import {logOutAction} from '@/redux/features/users/slice.ts';
-import {LocalStorageManager} from '@/lib/utils.ts';
+import {getBlobUrlWithSasToken, LocalStorageManager} from '@/lib/utils.ts';
 export const Header: FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -128,7 +128,10 @@ export const Header: FC = () => {
 								 justify-start gap-2"
 									>
 										<Avatar>
-											<AvatarImage src={data?.avatarUrl} alt="Avatar" />
+											<AvatarImage
+												src={getBlobUrlWithSasToken(data?.avatarUrl, 'avatar')}
+												alt="Avatar"
+											/>
 											<AvatarFallback className="border border-orange-500 bg-orange-500 text-white">
 												{data?.firstName[0]}
 												{data?.lastName[0]}

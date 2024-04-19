@@ -5,22 +5,17 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 	Button,
-	Checkbox,
 } from '@/components/ui';
-import ReactPlayer from 'react-player';
 import {useParams} from 'react-router';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {getCourseWithContentAction} from '@/redux/features/student/slice';
-import {CourseContent} from '@/redux/features/student/types.ts';
 import {DownloadIcon} from '@radix-ui/react-icons';
-import {
-	getBlobUrlWithSasToken,
-	getFileIconComponent,
-	isVideoFile,
-} from '@/lib/utils.ts';
+import {getBlobUrlWithSasToken, isVideoFile} from '@/lib/utils.ts';
 import FileIcon from '@/components/file-icon';
 import {VideoPlayer} from '@/components/video-player';
 import {EditorParser} from '@/components/editor/editorParser';
+import {CourseContent} from '@/redux/features/course/types';
+import {updateCourseSectionFx} from '@/api';
 
 export const MyCourse = () => {
 	const {id} = useParams();
@@ -54,7 +49,32 @@ export const MyCourse = () => {
 	const handleSectionChange = (sectionId: string) => {
 		const section = data?.contents.find((section) => section.id === sectionId);
 		setSelectedSection(section);
-		console.log(selectedSection);
+	};
+	const checkSectionCompletion = (sectionId: string) => {
+		const sectionIndex = data?.contents.findIndex(
+			(section) => section.id === sectionId
+		);
+		if (sectionIndex === 0) {
+			return true;
+		}
+		const previousSection = data?.contents[sectionIndex - 1];
+		return previousSection?.status === 'completed';
+	};
+
+	const handleSectionCompletion = async () => {
+		try {
+			const res = await updateCourseSectionFx(
+				// @ts-ignore
+				{...selectedSection, status: 'completed'},
+				Number(id)
+			);
+			if (res) {
+				// @ts-ignore
+				dispatch(getCourseWithContentAction(id));
+			}
+		} catch (e: any) {
+			console.log(e);
+		}
 	};
 
 	useEffect(() => {}, [selectedSection]);
@@ -71,13 +91,19 @@ export const MyCourse = () => {
 					</h1>
 					<p className="text-sm text-gray-700 mb-2">{selectedSection?.title}</p>
 				</div>
-				<div className="markdown-parser-container">
+				<div className="markdown-parser-container p-2">
 					{selectedSection?.content && (
 						<EditorParser
 							markdownSource={JSON.parse(selectedSection?.content)}
 						/>
 					)}
 				</div>
+				<Button
+					disabled={!checkSectionCompletion(selectedSection?.id)}
+					onClick={handleSectionCompletion}
+				>
+					Complete Section
+				</Button>
 			</div>
 			<div className="sections w-3/12">
 				<Accordion
@@ -96,10 +122,6 @@ export const MyCourse = () => {
 											: ''
 									}
 								>
-									{/*<Checkbox*/}
-									{/*	id={section.sectionName}*/}
-									{/*	checked={selectedSection?.status === 'completed'}*/}
-									{/*/>*/}
 									{section.sectionName}
 								</AccordionTrigger>
 								<AccordionContent className="hover:bg-zinc-50 p-2 rounded cursor-pointer">
@@ -120,7 +142,7 @@ export const MyCourse = () => {
 												{resource.id}
 											</span>
 											<a
-												href={resource.url}
+												href={getBlobUrlWithSasToken(resource.url, 'recourses')}
 												target="_blank"
 												className="text-blue-500 ml-auto cursor-pointer hover:text-blue-700"
 											>
