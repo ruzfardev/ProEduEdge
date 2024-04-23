@@ -61,6 +61,9 @@ export const getBlobUrlWithSasToken = (
 		case 'recourses':
 			sasToken = SAS_TOKEN.REACT_APP_RESOURCES_SAS_TOKEN;
 			break;
+		case 'recordings':
+			sasToken = SAS_TOKEN.REACT_APP_RECORDINGS_SAS_TOKEN;
+			break;
 		default:
 			sasToken = '';
 	}

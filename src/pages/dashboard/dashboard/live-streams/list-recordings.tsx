@@ -28,6 +28,7 @@ export const ListOfRecordings = () => {
 	const {data, errors, isLoading} = useAppSelector(
 		(state) => state.courses.meetings
 	);
+	const {user} = useAppSelector((state) => state.users);
 	useEffect(() => {
 		dispatch(getMeetingsAction());
 	}, []);
@@ -35,11 +36,22 @@ export const ListOfRecordings = () => {
 	const refreshMeetings = () => {
 		dispatch(getMeetingsAction());
 	};
+	const handleJoinMeeting = (roomId: string) => {
+		const info = {
+			role: 'student',
+			courseId: null,
+			instructorId: user.data?.id,
+			roomId: roomId,
+		};
+		const toJSONString = JSON.stringify(info);
+		const toBase64 = btoa(toJSONString);
+		window.open(`http://localhost:3000/${toBase64}`, '_blank');
+	};
 
 	return (
 		<div className="relative min-h-[500px]">
 			<div className="table-header flex justify-between items-center">
-				<CreateMeetingDialog />
+				{user.data && user.data.role === 'teacher' && <CreateMeetingDialog />}
 				<Button onClick={refreshMeetings} variant="outline">
 					Refresh
 					<BiRefresh className="w-4 h-4 ml-2" />
@@ -53,6 +65,9 @@ export const ListOfRecordings = () => {
 						<TableHead className="w-[100px]">ID</TableHead>
 						<TableHead>Status</TableHead>
 						<TableHead className="w-[200px]">Room ID</TableHead>
+						{user.data && user.data.role === 'student' && (
+							<TableHead className="w-[200px]">Join</TableHead>
+						)}
 						<TableHead className="text-right">Action</TableHead>
 					</TableRow>
 				</TableHeader>
@@ -62,8 +77,11 @@ export const ListOfRecordings = () => {
 							<TableRow key={index}>
 								<TableCell className="font-medium">{index + 1}</TableCell>
 								<TableCell>
-									<Badge variant="outline" className="text-green-500">
-										Active
+									<Badge
+										variant="outline"
+										className={`${meeting.isActive ? 'text-green-500' : 'text-red-500'} px-2 text-md`}
+									>
+										{meeting.isActive ? 'Active' : 'Inactive'}
 									</Badge>
 								</TableCell>
 								<TableCell>
@@ -84,6 +102,17 @@ export const ListOfRecordings = () => {
 										/>
 									</Badge>
 								</TableCell>
+								{user.data && user.data.role === 'student' && (
+									<TableCell>
+										<Button
+											onClick={() => handleJoinMeeting(meeting.roomId)}
+											className="p-2 w-20 h-8"
+										>
+											Join
+											<RocketIcon className="w-4 h-4 ml-2" />
+										</Button>
+									</TableCell>
+								)}
 								<TableCell className="text-right flex gap-1 justify-end">
 									<Button className="p-1 w-8 h-8" variant="outline">
 										<DownloadIcon className="w-4 h-4" />

@@ -7,7 +7,8 @@ import {Enrollment, ILogin, IUser, Payment} from '@/redux/models';
 import axios from 'axios';
 import {FilePondInitialFile} from 'filepond';
 import {toast} from 'sonner';
-
+import {SAS_TOKEN} from '@/constants/enum';
+const API_BASE_URL = 'https://api.videosdk.live/v2/';
 export const api = axios.create({
 	// baseURL: 'http://localhost:8080/api/proeduedge/',
 	baseURL: 'http://localhost:5000/api/proeduedge/',
@@ -19,7 +20,13 @@ export const api = axios.create({
 			'Origin, X-Requested-With, Content-Type, Accept, Authorization',
 	},
 });
-
+export const videoApi = axios.create({
+	baseURL: API_BASE_URL,
+	headers: {
+		'Content-Type': 'application/json',
+		Authorization: `Bearer ${SAS_TOKEN.REACT_VIDEOSDK_API_KEY}`,
+	},
+});
 const handleApiError = (error: any) => {
 	let errorMessage = 'An error occurred';
 	if (error.response && error.response.data && error.response.data.message) {
@@ -242,6 +249,15 @@ export const payForCourseFx = async (data: Payment) => {
 export const getAllMeetingsFx = async () => {
 	try {
 		const response = await api.get('all-meetings');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+export const getMeetingRecordingsFx = async (roomId: string) => {
+	try {
+		const response = await videoApi.get(`recordings?roomId=${roomId}`);
+		console.info(response.data);
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);

@@ -57,6 +57,7 @@ export const MyCourse = () => {
 		if (sectionIndex === 0) {
 			return true;
 		}
+		// @ts-ignore
 		const previousSection = data?.contents[sectionIndex - 1];
 		return previousSection?.status === 'completed';
 	};
@@ -99,6 +100,7 @@ export const MyCourse = () => {
 					)}
 				</div>
 				<Button
+					// @ts-ignore
 					disabled={!checkSectionCompletion(selectedSection?.id)}
 					onClick={handleSectionCompletion}
 				>
