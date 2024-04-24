@@ -11,16 +11,19 @@ import {
 	AvatarFallback,
 	Button,
 } from '@/components/ui';
-import {useAppSelector} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {StateType} from '@/redux/root-reducer';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {DoubleArrowLeftIcon} from '@radix-ui/react-icons';
-import {getBlobUrlWithSasToken} from '@/lib/utils';
+import {getBlobUrlWithSasToken, LocalStorageManager} from '@/lib/utils';
+import {logOutAction} from '@/redux/features/users/slice';
 
 export const DashboardHeader = () => {
 	const navigate = useNavigate();
 	const {user} = useAppSelector((state: StateType) => state.users);
 	const {data, errors, isLoading} = user;
+	const l = LocalStorageManager.getInstance();
+	const dispatch = useAppDispatch();
 	const handleMenuClick = (item: string) => {
 		switch (item) {
 			case 'profile':
@@ -33,6 +36,9 @@ export const DashboardHeader = () => {
 				navigate('/dashboard/settings');
 				break;
 			case 'log-out':
+				dispatch(logOutAction());
+				l.removeItem('user');
+				l.removeItem('token');
 				navigate('/login');
 				break;
 			default:

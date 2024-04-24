@@ -168,7 +168,7 @@ export const SectionDetail: FC<SectionDetailProps> = ({section}) => {
 							<EditorComponent
 								getEditorInstance={setEditorRef}
 								initValue={JSON.parse(section.content)}
-								height={'300px'}
+								height={'600px'}
 							/>
 							<Label>Section Resources</Label>
 							<div className="grid grid-cols-2 gap-2">

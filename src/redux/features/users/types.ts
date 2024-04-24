@@ -7,6 +7,10 @@ export type UserType = {
 	password: string;
 	role: string;
 };
+export type ILoginResponse = {
+	token: string;
+	user: UserType;
+};
 
 // This type will represent the sub-state for getting a single user by ID
 export type IUserState = {

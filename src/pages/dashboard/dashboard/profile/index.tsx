@@ -23,7 +23,6 @@ export const Profile = () => {
 			firstName: '',
 			lastName: '',
 			email: '',
-			password: '',
 		},
 	});
 	const {control, handleSubmit} = form;
@@ -98,20 +97,6 @@ export const Profile = () => {
 											{...field}
 											type="email"
 											placeholder="Enter your email"
-										/>
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={control}
-								name="password"
-								render={({field}) => (
-									<FormItem>
-										<FormLabel>Password</FormLabel>
-										<Input
-											{...field}
-											type="password"
-											placeholder="Enter your password"
 										/>
 									</FormItem>
 								)}

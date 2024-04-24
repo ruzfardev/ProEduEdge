@@ -3,11 +3,19 @@ import {
 	CreateCourse,
 	ICourseSection,
 } from '@/redux/features/course/types';
-import {Enrollment, ILogin, IUser, Payment} from '@/redux/models';
+import {
+	Enrollment,
+	IChangePassword,
+	ILogin,
+	IUser,
+	Payment,
+} from '@/redux/models';
 import axios from 'axios';
 import {FilePondInitialFile} from 'filepond';
 import {toast} from 'sonner';
 import {SAS_TOKEN} from '@/constants/enum';
+import {jwtDecode} from 'jwt-decode';
+import {ILoginResponse} from '@/redux/features/users/types';
 const API_BASE_URL = 'https://api.videosdk.live/v2/';
 export const api = axios.create({
 	// baseURL: 'http://localhost:8080/api/proeduedge/',
@@ -20,6 +28,55 @@ export const api = axios.create({
 			'Origin, X-Requested-With, Content-Type, Accept, Authorization',
 	},
 });
+
+function getToken() {
+	return localStorage.getItem('token'); // Adjust if your token is stored under a different key
+}
+
+// Decode token and check expiration
+function isTokenValidOrUndefined() {
+	const token = getToken();
+	if (!token) return false;
+
+	try {
+		const {exp} = jwtDecode(token);
+		// @ts-ignore
+		if (exp < Date.now() / 1000) {
+			return false; // Token has expired
+		}
+	} catch (error) {
+		return false; // Token is invalid
+	}
+
+	return true;
+}
+
+api.interceptors.request.use(
+	(config) => {
+		if (!isTokenValidOrUndefined()) {
+			// endpoint is /login or /register do not reject
+			if (
+				config.url?.includes('upload-avatar') ||
+				config.url?.includes('register') ||
+				config.url?.includes('login')
+			) {
+				return config;
+			}
+			console.log('Token is expired or not available');
+			window.location.href = '/login';
+			localStorage.removeItem('token');
+			return Promise.reject(new Error('Token is expired or not available'));
+		}
+
+		const token = getToken();
+		// @ts-ignore
+		config.headers['Authorization'] = `Bearer ${JSON.parse(token)}`; // Prefix with 'Bearer' if needed by your backend
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	}
+);
 export const videoApi = axios.create({
 	baseURL: API_BASE_URL,
 	headers: {
@@ -37,7 +94,7 @@ const handleApiError = (error: any) => {
 	throw new Error(errorMessage);
 };
 // Auth
-export const login = async (user: ILogin) => {
+export const login = async (user: ILogin): Promise<ILoginResponse> => {
 	try {
 		const response = await api.post('login', user);
 		return response.data;
@@ -53,7 +110,11 @@ export const login = async (user: ILogin) => {
 };
 export const register = async (user: IUser) => {
 	try {
+		toast.loading('Registering');
 		const response = await api.post('register', user);
+		toast.dismiss();
+		toast.success('Registration successful');
+		window.location.href = '/';
 		return response.data;
 	} catch (error: any) {
 		let errorMessage = 'An error occurred during registration';
@@ -63,6 +124,18 @@ export const register = async (user: IUser) => {
 			errorMessage = error.message;
 		}
 		throw new Error(errorMessage);
+	}
+};
+
+export const changePassword = async (data: IChangePassword) => {
+	try {
+		toast.loading('Changing password');
+		const response = await api.put('change-password', data);
+		toast.dismiss();
+		toast.success('Password changed successfully');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
 	}
 };
 // Categories

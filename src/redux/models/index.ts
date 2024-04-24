@@ -42,3 +42,8 @@ export interface Payment {
 	amount: number;
 	paymentType: string;
 }
+export interface IChangePassword {
+	currentPassword: string;
+	newPassword: string;
+	confirmPassword: string;
+}

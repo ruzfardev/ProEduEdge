@@ -37,6 +37,7 @@ export const DashboardSidebar: FC<SidebarProps> = ({
 		if (href === '/login') {
 			dispatch(logOutAction());
 			l.removeItem('user');
+			l.removeItem('token');
 			navigate(href);
 		} else {
 			navigate(href);

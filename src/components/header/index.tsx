@@ -27,7 +27,6 @@ export const Header: FC = () => {
 	const {user} = useAppSelector((state: StateType) => state.users);
 	const {data, errors, isLoading} = user;
 	const handleMenuClick = (item: string) => {
-		console.log(item);
 		switch (item) {
 			case 'profile':
 				navigate('/dashboard/profile');

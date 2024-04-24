@@ -25,6 +25,8 @@ import {StudentDashboard} from '@/pages/dashboard/student/dashboard';
 import {MyCourses} from '@/pages/dashboard/student/my-courses';
 import {MyCourse} from '@/pages/dashboard/student/my-courses/me-course';
 import {CourseDetailView} from '@/pages/dashboard/dashboard/courses/detail/course-detail-view.tsx';
+import {Settings} from '@/pages/dashboard/dashboard/settings';
+import {ProtectedRoute} from '@/routes/protected';
 
 export const RootRoute = () => {
 	return (
@@ -75,7 +77,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/dashboard',
-		element: <DashboardRoot />,
+		element: <ProtectedRoute element={<DashboardRoot />} />,
 		errorElement: <ErrorRoute />,
 		children: [
 			{
@@ -126,7 +128,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/dashboard/settings',
-				element: <h1>Settings from dashboard</h1>,
+				element: <Settings />,
 			},
 			{
 				path: '/dashboard/discussions',
