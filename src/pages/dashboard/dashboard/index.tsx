@@ -1,18 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
 	Button,
 	Card,
 	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
 	DropdownMenuTrigger,
 	Input,
 } from '@/components/ui';
 import {FaChalkboardTeacher} from 'react-icons/fa';
 import {FaMoneyBill1Wave, FaUserGroup} from 'react-icons/fa6';
-import {CustomTable} from '../../../components/table';
+import {CustomTable} from '@/components/table';
 import {cn} from '@/lib/utils';
 import {ChevronDownIcon} from '@radix-ui/react-icons';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {columns} from '@/pages/dashboard/dashboard/students';
+import {getStudentsAction} from '@/redux/features/users/slice';
 // @ts-ignore
 export const IconWrapper = ({children, className}) => (
 	<div
@@ -26,6 +27,14 @@ export const IconWrapper = ({children, className}) => (
 );
 
 export default function Dashboard() {
+	const dispatch = useAppDispatch();
+	const {
+		students: {data, errors, isLoading},
+	} = useAppSelector((state) => state.users);
+
+	useEffect(() => {
+		dispatch(getStudentsAction());
+	}, []);
 	return (
 		<div className="flex  flex-col flex-grow">
 			<div className="grid dashboard-cards  grid-cols-3 gap-4 ">
@@ -82,43 +91,10 @@ export default function Dashboard() {
 			</div>
 			<div className="dashboard-table mt-5">
 				<div className="flex items-center py-4">
-					<Input
-						placeholder="Filter emails..."
-						// value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-						// onChange={(event) =>
-						// 	table.getColumn('email')?.setFilterValue(event.target.value)
-						// }
-						className="max-w-sm"
-					/>
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="outline" className="ml-auto">
-								Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-							</Button>
-						</DropdownMenuTrigger>
-						{/* <DropdownMenuContent align="end">
-						{table
-							.getAllColumns()
-							.filter((column) => column.getCanHide())
-							.map((column) => {
-								return (
-									<DropdownMenuCheckboxItem
-										key={column.id}
-										className="capitalize"
-										checked={column.getIsVisible()}
-										onCheckedChange={(value) =>
-											column.toggleVisibility(!!value)
-										}
-									>
-										{column.id}
-									</DropdownMenuCheckboxItem>
-								);
-							})}
-					</DropdownMenuContent> */}
-					</DropdownMenu>
+					<Input placeholder="Filter emails..." className="max-w-sm" />
 				</div>
 				<div className="w-full rounded-md no-scrollbar max-h-[calc(100vh-440px)] overflow-scroll border">
-					<CustomTable />
+					<CustomTable data={data} loading={isLoading} columns={columns} />
 				</div>
 				<div className="flex items-center justify-end space-x-2 py-4">
 					<div className="flex-1 text-sm text-muted-foreground">

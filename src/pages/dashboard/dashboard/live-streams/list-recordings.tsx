@@ -1,5 +1,11 @@
 import React, {useEffect} from 'react';
-import {Badge, Button, Separator} from '@/components/ui';
+import {
+	Badge,
+	Button,
+	DialogClose,
+	DialogTrigger,
+	Separator,
+} from '@/components/ui';
 import {
 	Table,
 	TableBody,
@@ -22,8 +28,13 @@ import {CreateMeetingDialog} from '@/components/create-meeting-dialog';
 import {useDispatch} from 'react-redux';
 import {getMeetingsAction} from '@/redux/features/course/slice';
 import {Loading} from '@/components/loader';
+import {deleteMeetingFx, getMeetingRecordingsFx, updateMeetingFx} from '@/api';
+import {generateRecordingUrl, getBlobUrlWithSasToken} from '@/lib/utils';
+import {Meeting} from '@/redux/features/course/types';
+import {ConfirmationDialog} from '@/components/confirmation-dialog';
 
 export const ListOfRecordings = () => {
+	const closeBtnRef = React.useRef<HTMLButtonElement>(null);
 	const dispatch = useDispatch();
 	const {data, errors, isLoading} = useAppSelector(
 		(state) => state.courses.meetings
@@ -46,6 +57,34 @@ export const ListOfRecordings = () => {
 		const toJSONString = JSON.stringify(info);
 		const toBase64 = btoa(toJSONString);
 		window.open(`http://localhost:3000/${toBase64}`, '_blank');
+	};
+
+	const handleDownloadRecording = async (roomId: string) => {
+		try {
+			toast.loading('Downloading recording...');
+			const path = await getMeetingRecordingsFx(roomId);
+			const url = generateRecordingUrl(path);
+			console.log(url);
+			const a = document.createElement('a');
+			a.href = getBlobUrlWithSasToken(url, 'recordings');
+			a.download = 'recording.mp4';
+			a.target = '_blank';
+			a.click();
+			toast.dismiss();
+			toast.success('Recording downloaded successfully');
+		} catch (error: any) {
+			toast.dismiss();
+			toast.error(error.message);
+		}
+	};
+	const handleDeleteMeeting = async (meeting: Meeting) => {
+		try {
+			await deleteMeetingFx(meeting.id);
+			dispatch(getMeetingsAction());
+			closeBtnRef.current?.click();
+		} catch (error: any) {
+			toast.error(error.message);
+		}
 	};
 
 	return (
@@ -114,12 +153,40 @@ export const ListOfRecordings = () => {
 									</TableCell>
 								)}
 								<TableCell className="text-right flex gap-1 justify-end">
-									<Button className="p-1 w-8 h-8" variant="outline">
+									<Button
+										onClick={() => handleDownloadRecording(meeting.roomId)}
+										className="p-1 w-8 h-8"
+										variant="outline"
+									>
 										<DownloadIcon className="w-4 h-4" />
 									</Button>
-									<Button className="p-1 w-8 h-8" variant="outline">
-										<TrashIcon className="w-4 h-4" />
-									</Button>
+									<ConfirmationDialog
+										title="Delete Recording"
+										description="Are you sure you want to delete this recording?"
+										trigger={
+											<>
+												<DialogTrigger asChild>
+													<Button className="p-1 w-8 h-8" variant="outline">
+														<TrashIcon className="w-4 h-4" />
+													</Button>
+												</DialogTrigger>
+												<DialogClose asChild>
+													<Button
+														ref={closeBtnRef}
+														type="button"
+														className="hidden block w-full mt-2"
+														variant="outline"
+														style={{display: 'none', visibility: 'hidden'}}
+													>
+														Cancel
+													</Button>
+												</DialogClose>
+											</>
+										}
+										onConfirm={() => {
+											handleDeleteMeeting(meeting);
+										}}
+									/>
 									<Button className="p-1 w-8 h-8" variant="outline">
 										<EyeOpenIcon className="w-4 h-4" />
 									</Button>

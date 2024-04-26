@@ -1,9 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {USERS, UsersStateType, UserType} from './types';
+import {Student, USERS, UsersStateType, UserType} from './types';
 import {ILogin, IUser} from '@/redux/models';
 
 const usersInitialState: UsersStateType = {
 	user: {
+		data: null,
+		isLoading: false,
+		errors: '',
+	},
+	students: {
 		data: null,
 		isLoading: false,
 		errors: '',
@@ -63,6 +68,23 @@ export const usersSlice = createSlice({
 			state.user.data = null;
 			state.isAuthenticated = false;
 		},
+		getStudentsAction: (state: UsersStateType) => {
+			state.students.isLoading = true;
+		},
+		getStudentsSuccessAction: (
+			state: UsersStateType,
+			{payload: students}: PayloadAction<Student[]>
+		) => {
+			state.students.isLoading = false;
+			state.students.data = students;
+		},
+		getStudentsErrorAction: (
+			state: UsersStateType,
+			{payload: error}: PayloadAction<string>
+		) => {
+			state.students.isLoading = false;
+			state.students.errors = error;
+		},
 	},
 });
 export const {
@@ -73,5 +95,8 @@ export const {
 	registerUserSuccessAction,
 	registerUserErrorAction,
 	logOutAction,
+	getStudentsAction,
+	getStudentsSuccessAction,
+	getStudentsErrorAction,
 } = usersSlice.actions;
 export default usersSlice.reducer;

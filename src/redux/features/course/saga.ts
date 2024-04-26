@@ -195,36 +195,13 @@ function* getCourseById(action: PayloadAction<string>) {
 function* getMeetings() {
 	try {
 		const response: Meeting[] = yield call(getAllMeetingsFx);
-		console.info(response);
-		response.forEach((meeting) => {
-			//
-		});
-		const updatedMeetings = yield* getMeetingRecordings(response);
-		console.info(updatedMeetings);
 		yield put(getMeetingsSuccessAction(response));
 	} catch (error: any) {
 		yield put(getMeetingsErrorAction(error.message));
 	}
 }
 
-function* getMeetingRecordings(
-	meetings: Meeting[]
-): Generator<any, Meeting[], any> {
-	console.log('meetings', meetings);
-	const res = meetings.map((meeting) => {
-		call(getMeetingRecordingsFx, meeting.roomId);
-	});
-	const urls = yield all(res);
-	return meetings.map((meeting, index) => {
-		return {
-			...meeting,
-			recordingURL: urls[index],
-		};
-	});
-}
-
 // watcher sagas
-
 export function* watchCreateCourse() {
 	yield takeLatest(UPLOAD_BANNER_SUCCESS, createCourse);
 }

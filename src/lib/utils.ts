@@ -76,44 +76,10 @@ export const getBlobUrlWithSasToken = (
 	return `${blobUrl}?${sasToken}`;
 };
 
-export function getFileIconComponent(fileType: string) {
-	// Mapping MIME types and other identifiers to react-icons components
-	const fileIcons = {
-		// Common document types
-		'application/pdf': FaFilePdf,
-		'application/msword': FaFileWord,
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-			FaFileWord,
-		'application/vnd.ms-excel': FaFileExcel,
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-			FaFileExcel,
-		'application/vnd.ms-powerpoint': FaFilePowerpoint,
-		'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-			FaFilePowerpoint,
+export const generateRecordingUrl = (recordingPath: string) => {
+	return `https://proeduedge11888.blob.core.windows.net/recordings/${recordingPath}`;
+};
 
-		// Common image types
-		'image/png': FaFileImage,
-		'image/jpeg': FaFileImage,
-		'image/gif': FaFileImage,
-
-		// Common audio and video types
-		'audio/mpeg': FaFileAudio,
-		'audio/wav': FaFileAudio,
-		'video/mp4': FaFileVideo,
-		'video/quicktime': FaFileVideo,
-
-		// Archives and text files
-		'application/zip': FaFileArchive,
-		'application/x-rar-compressed': FaFileArchive,
-		'text/plain': FaFileAlt,
-
-		// Default for unrecognized types
-		default: FaFile,
-	};
-
-	//@ts-ignore
-	return fileIcons[fileType.toLowerCase()] || fileIcons['default'];
-}
 export function isVideoFile(mimeType: string) {
 	const videoMimeTypes = [
 		'video/mp4',

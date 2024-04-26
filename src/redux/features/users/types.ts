@@ -19,9 +19,22 @@ export type IUserState = {
 	errors: string;
 };
 
+export type Student = {
+	id: string;
+	lastName: string;
+	name: string;
+};
+
+export type IStudents = {
+	data: Student[] | null;
+	isLoading: boolean;
+	errors: string;
+};
+
 // The users global state
 export type UsersStateType = {
 	user: IUserState;
+	students: IStudents;
 	isAuthenticated: boolean;
 };
 
@@ -33,6 +46,7 @@ export type USERS = typeof USERS;
 export const LOGIN_USER = `${USERS}/loginUserAction`;
 export const REGISTER_USER = `${USERS}/registerUserAction`;
 export const GET_USER_BY_ID = `${USERS}/getUserAction`;
+export const GET_STUDENTS = `${USERS}/getStudentsAction`;
 // (3)
 export type LOGIN_USER = typeof LOGIN_USER;
 export type REGISTER_USER = typeof REGISTER_USER;

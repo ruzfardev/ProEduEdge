@@ -1,5 +1,9 @@
 import {all, fork} from 'redux-saga/effects';
-import {watchLoginUser, watchRegisterUser} from './features/users/saga';
+import {
+	watchGetStudents,
+	watchLoginUser,
+	watchRegisterUser,
+} from './features/users/saga';
 import {
 	watchGetCategories,
 	watchUploadCourseBanner,
@@ -34,6 +38,7 @@ const rootSaga = function* rootSaga() {
 		fork(watchgetInstructorCourseWithContentSaga),
 		fork(watchGetCourseById),
 		fork(watchGetAllMeetings),
+		fork(watchGetStudents),
 	]);
 };
 export default rootSaga;

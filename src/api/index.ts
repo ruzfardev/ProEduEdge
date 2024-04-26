@@ -2,6 +2,7 @@ import {
 	CourseContent,
 	CreateCourse,
 	ICourseSection,
+	Meeting,
 } from '@/redux/features/course/types';
 import {
 	Enrollment,
@@ -81,7 +82,7 @@ export const videoApi = axios.create({
 	baseURL: API_BASE_URL,
 	headers: {
 		'Content-Type': 'application/json',
-		Authorization: `Bearer ${SAS_TOKEN.REACT_VIDEOSDK_API_KEY}`,
+		Authorization: `${SAS_TOKEN.REACT_VIDEOSDK_API_KEY}`,
 	},
 });
 const handleApiError = (error: any) => {
@@ -126,7 +127,6 @@ export const register = async (user: IUser) => {
 		throw new Error(errorMessage);
 	}
 };
-
 export const changePassword = async (data: IChangePassword) => {
 	try {
 		toast.loading('Changing password');
@@ -317,7 +317,14 @@ export const payForCourseFx = async (data: Payment) => {
 		handleApiError(error);
 	}
 };
-
+export const getEnrolledStudentsFx = async () => {
+	try {
+		const response = await api.get('students-by-courses');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
 // Handling Instructor Actions
 export const getAllMeetingsFx = async () => {
 	try {
@@ -330,7 +337,30 @@ export const getAllMeetingsFx = async () => {
 export const getMeetingRecordingsFx = async (roomId: string) => {
 	try {
 		const response = await videoApi.get(`recordings?roomId=${roomId}`);
-		console.info(response.data);
+		if (response.data.data.length === 0) {
+			throw new Error('No recordings found');
+		}
+		return response.data.data[0].file.filePath;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
+export const updateMeetingFx = async (data: Meeting) => {
+	try {
+		const response = await api.put('update-meeting', data);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
+export const deleteMeetingFx = async (id: string) => {
+	try {
+		toast.loading('Deleting meeting');
+		const response = await api.delete(`delete-meeting/${id}`);
+		toast.dismiss();
+		toast.success('Meeting deleted successfully');
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);
