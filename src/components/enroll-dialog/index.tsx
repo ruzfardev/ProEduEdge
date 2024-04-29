@@ -56,7 +56,7 @@ export const EnrollDialog: FC<IEnrollDialogProps> = ({amount, courseId}) => {
 				setTimeout(() => {
 					setIsLoading(false);
 					toast.success('You have successfully enrolled in the course');
-					navigate(`/dashboard`);
+					navigate(`/dashboard/me`);
 				}, 2000);
 			} catch (error) {
 				setIsLoading(false);

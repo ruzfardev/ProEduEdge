@@ -50,23 +50,6 @@ export const AddCourse = () => {
 		handleSubmit,
 		formState: {isValid},
 	} = form;
-	const [steps, setSteps] = React.useState([
-		{
-			id: 1,
-			name: 'Course Details',
-			active: true,
-		},
-		{
-			id: 2,
-			name: 'Course Content',
-			active: false,
-		},
-		{
-			id: 3,
-			name: 'Course Pricing',
-			active: false,
-		},
-	]);
 	const handleCourseDetails = (data: CreateCourse) => {
 		if (isValid) {
 			const instructorId = userData?.id ? userData?.id : null;
@@ -254,7 +237,6 @@ export const AddCourse = () => {
 							/>
 						</div>
 						<Button
-							disabled={steps[2].active}
 							size="lg"
 							className="disabled:cursor-not-allowed block w-full my-4"
 							type="submit"

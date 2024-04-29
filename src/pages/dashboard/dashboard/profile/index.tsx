@@ -14,15 +14,23 @@ import {
 import {useAppSelector} from '@/redux/hooks';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {getBlobUrlWithSasToken} from '@/lib/utils';
+import {getBlobUrlWithSasToken, LocalStorageManager} from '@/lib/utils';
+import {IUpdateUser} from '@/redux/models';
+import {toast} from 'sonner';
+import {updateProfileFx} from '@/api';
+import {useDispatch} from 'react-redux';
+import {loginUserSuccessAction} from '@/redux/features/users/slice';
 
 export const Profile = () => {
-	const form = useForm({
+	const l = LocalStorageManager.getInstance();
+	const dispatch = useDispatch();
+	const form = useForm<IUpdateUser>({
 		mode: 'onChange',
 		defaultValues: {
 			firstName: '',
 			lastName: '',
 			email: '',
+			avatarUrl: '',
 		},
 	});
 	const {control, handleSubmit} = form;
@@ -36,8 +44,26 @@ export const Profile = () => {
 			form.reset(data);
 		}
 	}, [data]);
-	const onSubmit = (data: any) => {
-		console.log(data);
+	const onSubmit = async (data: IUpdateUser) => {
+		try {
+			toast.loading('Updating profile...');
+			const userData: IUpdateUser = {
+				firstName: data.firstName,
+				lastName: data.lastName,
+				email: data.email,
+				avatarUrl: data.avatarUrl,
+			};
+			const res = await updateProfileFx(userData);
+			const u = l.getItem('user');
+			l.setItem('user', JSON.stringify({...u, ...userData}));
+			dispatch(loginUserSuccessAction({...u, ...userData}));
+			toast.dismiss();
+			if (res) {
+				toast.info(res);
+			}
+		} catch (e: any) {
+			toast.error(e.message);
+		}
 	};
 	return (
 		<div className="flex flex-col gap-3">

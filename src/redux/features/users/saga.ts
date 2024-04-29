@@ -36,12 +36,9 @@ function* loginUser(action: PayloadAction<ILogin>) {
 function* registerUser(action: PayloadAction<IUser>) {
 	try {
 		const l = LocalStorageManager.getInstance();
-		const response: ILoginResponse = yield call(register, action.payload);
-		// @ts-ignore
-		const {newUser: user, token} = response;
+		const response: UserType = yield call(register, action.payload);
 		l.setItem('user', JSON.stringify(response));
-		l.setItem('token', JSON.stringify(token));
-		yield put(registerUserSuccessAction(user));
+		yield put(registerUserSuccessAction(response));
 	} catch (error: any) {
 		yield put(registerUserErrorAction(error.message));
 	}

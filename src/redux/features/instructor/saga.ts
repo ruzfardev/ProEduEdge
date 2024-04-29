@@ -2,15 +2,23 @@ import {call, put, takeLatest} from 'redux-saga/effects';
 import {
 	CourseWithContent,
 	GET_COURSE_WITH_CONTENT,
+	GET_INSTRUCTOR_DASHBOARD,
 	GET_MY_COURSES,
+	InstructorDashboardStat,
 } from './types';
 import {
 	getCourseWithContentErrorAction,
 	getCourseWithContentSuccessAction,
 	getInstructorCoursesSuccessAction,
 	getInstructorCoursesErrorAction,
+	getInstructorDashboardSuccessAction,
+	getInstructorDashboardErrorAction,
 } from './slice';
-import {getCourseWithContentFx, getInstructorCoursesFx} from '@/api';
+import {
+	getCourseWithContentFx,
+	getInstructorCoursesFx,
+	getInstructorDashboardStatsFx,
+} from '@/api';
 import {PayloadAction} from '@reduxjs/toolkit';
 
 function* getInstructorCoursesSaga(action: PayloadAction<number>) {
@@ -36,6 +44,17 @@ function* getCourseWithContentSaga(action: PayloadAction<number>) {
 	}
 }
 
+function* getInstructorDashboardSaga() {
+	try {
+		const response: InstructorDashboardStat = yield call(
+			getInstructorDashboardStatsFx
+		);
+		yield put(getInstructorDashboardSuccessAction(response));
+	} catch (error) {
+		yield put(getInstructorDashboardErrorAction(error));
+	}
+}
+
 // watch saga
 export function* watchgetInstructorCoursesSaga() {
 	yield takeLatest(GET_MY_COURSES, getInstructorCoursesSaga);
@@ -43,4 +62,7 @@ export function* watchgetInstructorCoursesSaga() {
 
 export function* watchgetCourseWithContentSaga() {
 	yield takeLatest(GET_COURSE_WITH_CONTENT, getCourseWithContentSaga);
+}
+export function* watchGetInstructorDashboardSaga() {
+	yield takeLatest(GET_INSTRUCTOR_DASHBOARD, getInstructorDashboardSaga);
 }

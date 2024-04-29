@@ -15,12 +15,14 @@ import {
 	watchGetAllMeetings,
 } from './features/course/saga';
 import {
+	watchGetCourseStatsSaga,
 	watchgetCourseWithContentSaga,
 	watchgetMyCoursesSaga,
 } from './features/student/saga';
 import {
 	watchgetInstructorCoursesSaga,
 	watchgetCourseWithContentSaga as watchgetInstructorCourseWithContentSaga,
+	watchGetInstructorDashboardSaga,
 } from '@/redux/features/instructor/saga.ts';
 const rootSaga = function* rootSaga() {
 	yield all([
@@ -39,6 +41,8 @@ const rootSaga = function* rootSaga() {
 		fork(watchGetCourseById),
 		fork(watchGetAllMeetings),
 		fork(watchGetStudents),
+		fork(watchGetInstructorDashboardSaga),
+		fork(watchGetCourseStatsSaga),
 	]);
 };
 export default rootSaga;

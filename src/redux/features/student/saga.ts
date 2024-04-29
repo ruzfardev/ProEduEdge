@@ -1,24 +1,29 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {
-	CourseWithContent,
+	GET_COURSE_STATS,
 	GET_COURSE_WITH_CONTENT,
 	GET_MY_COURSES,
+	StudentCourseStat,
 } from './types';
 import {
+	getCourseStatsErrorAction,
+	getCourseStatsSuccessAction,
 	getCourseWithContentErrorAction,
 	getCourseWithContentSuccessAction,
 	getMyCoursesErrorAction,
 	getMyCoursesSuccessAction,
 } from './slice';
-import {getCourseWithContentFx, getMyCoursesFx} from '@/api';
+import {
+	getCourseWithContentFx,
+	getMyCoursesFx,
+	getStudentCourseStatsFx,
+} from '@/api';
 import {PayloadAction} from '@reduxjs/toolkit';
+import {CourseWithContent} from '@/redux/features/course/types';
 
 function* getMyCoursesSaga(action: PayloadAction<number>) {
 	try {
-		const response: CourseWithContent[] = yield call(
-			getMyCoursesFx,
-			action.payload
-		);
+		const response: CourseWithContent[] = yield call(getMyCoursesFx);
 		yield put(getMyCoursesSuccessAction(response));
 	} catch (error) {
 		yield put(getMyCoursesErrorAction(error));
@@ -35,6 +40,14 @@ function* getCourseWithContentSaga(action: PayloadAction<number>) {
 		yield put(getCourseWithContentErrorAction(error));
 	}
 }
+function* getCourseStatsSaga() {
+	try {
+		const response: StudentCourseStat[] = yield call(getStudentCourseStatsFx);
+		yield put(getCourseStatsSuccessAction(response));
+	} catch (error) {
+		yield put(getCourseStatsErrorAction(error));
+	}
+}
 
 // watch saga
 export function* watchgetMyCoursesSaga() {
@@ -43,4 +56,7 @@ export function* watchgetMyCoursesSaga() {
 
 export function* watchgetCourseWithContentSaga() {
 	yield takeLatest(GET_COURSE_WITH_CONTENT, getCourseWithContentSaga);
+}
+export function* watchGetCourseStatsSaga() {
+	yield takeLatest(GET_COURSE_STATS, getCourseStatsSaga);
 }

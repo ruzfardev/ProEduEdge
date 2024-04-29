@@ -5,7 +5,7 @@ import {
 	getAllMeetingsFx,
 	getCategoriesFx,
 	getCourseByIdFx,
-	getMeetingRecordingsFx,
+	getStudentMeetingsFx,
 	uploadCourseBannerFx,
 	uploadCourseRecoursesFx,
 	uploadCourseRecoursesMultipleFx,
@@ -194,8 +194,16 @@ function* getCourseById(action: PayloadAction<string>) {
 
 function* getMeetings() {
 	try {
-		const response: Meeting[] = yield call(getAllMeetingsFx);
-		yield put(getMeetingsSuccessAction(response));
+		const userRole: string = yield select(
+			(state) => state.users.user.data?.role
+		);
+		if (userRole === 'student') {
+			const response: Meeting[] = yield call(getStudentMeetingsFx);
+			yield put(getMeetingsSuccessAction(response));
+		} else {
+			const response: Meeting[] = yield call(getAllMeetingsFx);
+			yield put(getMeetingsSuccessAction(response));
+		}
 	} catch (error: any) {
 		yield put(getMeetingsErrorAction(error.message));
 	}

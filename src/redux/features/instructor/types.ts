@@ -18,6 +18,11 @@ export type ICourse = {
 	isLoading: boolean;
 	errors: string;
 };
+export type InstructorDashboardStat = {
+	totalCourses: number;
+	totalEnrolledStudents: number;
+	totalBalance: number;
+};
 
 export type CourseContent = {
 	id: string;
@@ -48,10 +53,16 @@ export interface ISelectedCourse {
 	isLoading: boolean;
 	errors: string;
 }
+export interface IInstructorDashboard {
+	data: InstructorDashboardStat | null;
+	isLoading: boolean;
+	errors: string;
+}
 // The users global state
 export type InstructorDashboardState = {
 	myCourses: ICourse;
 	selectedCourse: ISelectedCourse;
+	instructorDashboard: IInstructorDashboard;
 	pending: boolean;
 };
 
@@ -59,4 +70,5 @@ export const INSTRUCTOR = 'instructor';
 export type INSTRUCTOR = typeof INSTRUCTOR;
 
 export const GET_MY_COURSES = `${INSTRUCTOR}/getInstructorCoursesAction`;
+export const GET_INSTRUCTOR_DASHBOARD = `${INSTRUCTOR}/getInstructorDashboardAction`;
 export const GET_COURSE_WITH_CONTENT = `${INSTRUCTOR}/getCourseWithContentAction`;

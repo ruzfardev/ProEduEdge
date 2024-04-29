@@ -14,6 +14,9 @@ import {ChevronDownIcon} from '@radix-ui/react-icons';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {columns} from '@/pages/dashboard/dashboard/students';
 import {getStudentsAction} from '@/redux/features/users/slice';
+import {EChart} from '@/lib/chart/Echart';
+import {getInstructorDashboardAction} from '@/redux/features/instructor/slice';
+import {SubscribeDialog} from '@/pages/dashboard/student/dashboard/subscribe-dialog';
 // @ts-ignore
 export const IconWrapper = ({children, className}) => (
 	<div
@@ -31,12 +34,15 @@ export default function Dashboard() {
 	const {
 		students: {data, errors, isLoading},
 	} = useAppSelector((state) => state.users);
-
+	const {
+		instructorDashboard: {data: stat, isLoading: statIsLoading},
+	} = useAppSelector((state) => state.instructor);
 	useEffect(() => {
 		dispatch(getStudentsAction());
+		dispatch(getInstructorDashboardAction());
 	}, []);
 	return (
-		<div className="flex  flex-col flex-grow">
+		<div className="flex  flex-col flex-grow h-full">
 			<div className="grid dashboard-cards  grid-cols-3 gap-4 ">
 				<Card className="p-5 bg-white/10 backdrop-blur-lg cursor-pointer shadow">
 					<div className="grid justify-between grid-cols-2">
@@ -52,7 +58,9 @@ export default function Dashboard() {
 							<p className="text-sm text-left text-gray-400">
 								Enrolled Students
 							</p>
-							<h1 className="text-2xl text-gray-500">1000</h1>
+							<h1 className="text-2xl text-gray-500">
+								{statIsLoading ? 'Loading...' : stat?.totalEnrolledStudents}
+							</h1>
 						</div>
 					</div>
 				</Card>
@@ -68,7 +76,9 @@ export default function Dashboard() {
 						</div>
 						<div className="col-span-1 flex flex-col justify-center items-end">
 							<p className="text-sm text-left text-gray-400">Total Courses</p>
-							<h1 className="text-2xl text-gray-500">56</h1>
+							<h1 className="text-2xl text-gray-500">
+								{statIsLoading ? 'Loading...' : stat?.totalCourses}
+							</h1>
 						</div>
 					</div>
 				</Card>
@@ -84,42 +94,23 @@ export default function Dashboard() {
 						</div>
 						<div className="col-span-1 flex flex-col justify-center items-end">
 							<p className="text-sm text-left text-gray-400">Total Balance</p>
-							<h1 className="text-2xl text-gray-500">$402</h1>
+							<h1 className="text-2xl text-gray-500">
+								$
+								{statIsLoading ? (
+									<span className="loader"></span>
+								) : (
+									stat?.totalBalance
+								)}
+							</h1>
 						</div>
 					</div>
 				</Card>
 			</div>
-			<div className="dashboard-table mt-5">
-				<div className="flex items-center py-4">
-					<Input placeholder="Filter emails..." className="max-w-sm" />
-				</div>
-				<div className="w-full rounded-md no-scrollbar max-h-[calc(100vh-440px)] overflow-scroll border">
+			<div className="dashboard-table mt-5 flex gap-4 h-full">
+				<div className="w-8/12 rounded-md no-scrollbar overflow-scroll border">
 					<CustomTable data={data} loading={isLoading} columns={columns} />
 				</div>
-				<div className="flex items-center justify-end space-x-2 py-4">
-					<div className="flex-1 text-sm text-muted-foreground">
-						{/* {table.getFilteredSelectedRowModel().rows.length} of{' '}
-					{table.getFilteredRowModel().rows.length} row(s) selected. */}
-					</div>
-					<div className="space-x-2">
-						<Button
-							variant="outline"
-							size="sm"
-							// onClick={() => table.previousPage()}
-							// disabled={!table.getCanPreviousPage()}
-						>
-							Previous
-						</Button>
-						<Button
-							variant="outline"
-							size="sm"
-							// onClick={() => table.nextPage()}
-							// disabled={!table.getCanNextPage()}
-						>
-							Next
-						</Button>
-					</div>
-				</div>
+				<SubscribeDialog />
 			</div>
 		</div>
 	);

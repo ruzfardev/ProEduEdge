@@ -68,13 +68,6 @@ const sidebarItems = [
 		color: 'warning',
 	},
 	{
-		name: 'Categories',
-		user: 'teacher',
-		icon: <CardStackIcon />,
-		href: '/dashboard/categories',
-		color: 'warning',
-	},
-	{
 		name: 'Settings',
 		user: '',
 		icon: <GearIcon />,

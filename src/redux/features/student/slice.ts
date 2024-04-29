@@ -12,6 +12,11 @@ const studentDashboardInitialState: StudentDashboardState = {
 		isLoading: false,
 		errors: '',
 	},
+	courseStats: {
+		data: null,
+		isStatLoading: false,
+		errors: '',
+	},
 	pending: false,
 };
 
@@ -19,7 +24,7 @@ export const studentDashboardSlice = createSlice({
 	name: STUDENT,
 	initialState: studentDashboardInitialState,
 	reducers: {
-		getMyCoursesAction: (state, action: PayloadAction<number>) => {
+		getMyCoursesAction: (state) => {
 			state.myCourses.isLoading = true;
 		},
 		getMyCoursesSuccessAction: (state, action) => {
@@ -44,6 +49,17 @@ export const studentDashboardSlice = createSlice({
 			state.selectedCourse.isLoading = false;
 			state.selectedCourse.errors = action.payload;
 		},
+		getCourseStatsAction: (state) => {
+			state.courseStats.isStatLoading = true;
+		},
+		getCourseStatsSuccessAction: (state, action) => {
+			state.courseStats.isStatLoading = false;
+			state.courseStats.data = action.payload;
+		},
+		getCourseStatsErrorAction: (state, action) => {
+			state.courseStats.isStatLoading = false;
+			state.courseStats.errors = action.payload;
+		},
 	},
 });
 
@@ -54,5 +70,8 @@ export const {
 	getCourseWithContentAction,
 	getCourseWithContentSuccessAction,
 	getCourseWithContentErrorAction,
+	getCourseStatsAction,
+	getCourseStatsSuccessAction,
+	getCourseStatsErrorAction,
 } = studentDashboardSlice.actions;
 export default studentDashboardSlice.reducer;

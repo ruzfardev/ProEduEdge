@@ -41,6 +41,11 @@ export const Login: FC = () => {
 	};
 	useEffect(() => {
 		if (!errors && data) {
+			if (data.role === 'student') {
+				navigate('/dashboard/me');
+				console.log(data);
+				return;
+			}
 			navigate('/dashboard');
 		}
 		if (errors) {

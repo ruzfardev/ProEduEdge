@@ -7,6 +7,13 @@ export interface IUser {
 	avatarUrl: string;
 }
 
+export interface IUpdateUser {
+	firstName: string;
+	lastName: string;
+	email: string;
+	avatarUrl: string;
+}
+
 export interface ILogin {
 	email: string;
 	password: string;

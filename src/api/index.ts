@@ -8,6 +8,7 @@ import {
 	Enrollment,
 	IChangePassword,
 	ILogin,
+	IUpdateUser,
 	IUser,
 	Payment,
 } from '@/redux/models';
@@ -116,7 +117,8 @@ export const register = async (user: IUser) => {
 		toast.dismiss();
 		toast.success('Registration successful');
 		window.location.href = '/';
-		return response.data;
+		localStorage.setItem('token', JSON.stringify(response.data.token));
+		return response.data.newUser;
 	} catch (error: any) {
 		let errorMessage = 'An error occurred during registration';
 		if (error.response && error.response.data && error.response.data.message) {
@@ -276,10 +278,9 @@ export const updateCourseSectionFx = async (
 	}
 };
 // Handling Student Actions
-export const getMyCoursesFx = async (id: number) => {
+export const getMyCoursesFx = async () => {
 	try {
-		console.log(id, 'ID');
-		const response = await api.get(`student-courses/${id}`);
+		const response = await api.get(`student-courses`);
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);
@@ -334,6 +335,14 @@ export const getAllMeetingsFx = async () => {
 		handleApiError(error);
 	}
 };
+export const getStudentMeetingsFx = async () => {
+	try {
+		const response = await api.get('student-meetings');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
 export const getMeetingRecordingsFx = async (roomId: string) => {
 	try {
 		const response = await videoApi.get(`recordings?roomId=${roomId}`);
@@ -349,6 +358,24 @@ export const getMeetingRecordingsFx = async (roomId: string) => {
 export const updateMeetingFx = async (data: Meeting) => {
 	try {
 		const response = await api.put('update-meeting', data);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
+export const getInstructorDashboardStatsFx = async () => {
+	try {
+		const response = await api.get('get-instructor-dashboard-stats');
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
+export const getStudentCourseStatsFx = async () => {
+	try {
+		const response = await api.get('student-stats');
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);
@@ -380,6 +407,15 @@ export const deleteFileFx = async (id: string) => {
 export const deleteSectionFx = async (id: string, courseId: number) => {
 	try {
 		const response = await api.delete(`delete-section/${id}/${courseId}`);
+		return response.data;
+	} catch (error: any) {
+		handleApiError(error);
+	}
+};
+
+export const updateProfileFx = async (data: IUpdateUser) => {
+	try {
+		const response = await api.put('update-profile', data);
 		return response.data;
 	} catch (error: any) {
 		handleApiError(error);

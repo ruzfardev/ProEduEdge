@@ -12,6 +12,11 @@ const instructorDashboardInitialState: InstructorDashboardState = {
 		isLoading: false,
 		errors: '',
 	},
+	instructorDashboard: {
+		data: null,
+		isLoading: false,
+		errors: '',
+	},
 	pending: false,
 };
 
@@ -44,6 +49,17 @@ export const instructorDashboardSlice = createSlice({
 			state.selectedCourse.isLoading = false;
 			state.selectedCourse.errors = action.payload;
 		},
+		getInstructorDashboardAction: (state) => {
+			state.instructorDashboard.isLoading = true;
+		},
+		getInstructorDashboardSuccessAction: (state, action) => {
+			state.instructorDashboard.isLoading = false;
+			state.instructorDashboard.data = action.payload;
+		},
+		getInstructorDashboardErrorAction: (state, action) => {
+			state.instructorDashboard.isLoading = false;
+			state.instructorDashboard.errors = action.payload;
+		},
 	},
 });
 
@@ -54,5 +70,8 @@ export const {
 	getCourseWithContentAction,
 	getCourseWithContentSuccessAction,
 	getCourseWithContentErrorAction,
+	getInstructorDashboardAction,
+	getInstructorDashboardSuccessAction,
+	getInstructorDashboardErrorAction,
 } = instructorDashboardSlice.actions;
 export default instructorDashboardSlice.reducer;
